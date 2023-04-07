@@ -36,3 +36,34 @@
     transform: rotate(360deg);
   }
 }
+
+.active {
+  @apply bg-primary text-white;
+}
+.active:hover {
+  @apply bg-primary
+}
+.active.filter-svg svg {
+  fill: white;
+}
+
+@font-face {
+  font-family: InterLight;
+  src: url("/src/assets/fonts/Inter-Light.ttf");
+}
+@font-face {
+  font-family: InterMedium;
+  src: url("/src/assets/fonts/Inter-Medium.ttf");
+}
+@font-face {
+  font-family: InterRegular;
+  src: url("/src/assets/fonts/Inter-Regular.ttf");
+}
+
+* {
+  font-family: "InterRegular";
+}
+
+[data-testid="flowbite-avatar"] img {
+  @apply ring-0
+}

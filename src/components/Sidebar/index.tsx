@@ -3,7 +3,9 @@ import useMediaQuery from "../../hooks/useMediaQuery";
 import { useEffect, useState } from "react";
 import menu from "./menu";
 import { Link, useLocation } from "react-router-dom";
-
+import { DarkModeSwitch } from "react-toggle-dark-mode";
+import { useAppDispatch, useAppSelector } from "../../store";
+import { toggleTheme } from "../../store/slices/theme.slice";
 
 export default function CustomSidebar({
   collapsed,
@@ -14,6 +16,8 @@ export default function CustomSidebar({
 }) {
   const matches = useMediaQuery("(max-width: 768px)");
   const location = useLocation();
+  const dispatch = useAppDispatch();
+  const themeMode = useAppSelector((state) => state.theme.value);
 
   const [collapseBehavior, setCollapseBehavior] = useState<"hide" | "collapse">(
     "hide"
@@ -24,10 +28,10 @@ export default function CustomSidebar({
   }, [matches]);
 
   return (
-    <div className="w-fit">
+    <div className="w-fit z-20">
       <Sidebar
         aria-label="Sidebar with logo branding example"
-        className="fixed top-0 left-0 z-50 w-[245px] h-screen rounded-none"
+        className={`${matches ? 'fixed top-0 left-0' : ''} z-10 w-[320px] h-screen rounded-none p-3 pt-5 bg-white dark:bg-gray-800`}
         id="logo-sidebar"
         collapsed={collapsed}
         collapseBehavior={collapseBehavior}
@@ -37,8 +41,8 @@ export default function CustomSidebar({
           img="/imgs/brand_logo.png"
           imgAlt="Flowbite logo"
         />
-        <Sidebar.Items>
-          <Sidebar.ItemGroup className="space-y-5">
+        <Sidebar.Items className="mt-[50px]">
+          <Sidebar.ItemGroup className="space-y-8">
             {menu.map((menuItem) => (
               <Sidebar.Item
                 icon={menuItem.icon}
@@ -46,22 +50,36 @@ export default function CustomSidebar({
                 active={location.pathname === menuItem.href}
                 as={Link}
                 to={menuItem.href}
+                className={(location.pathname === menuItem.href ? 'active filter-svg' : '') + ' py-3 text-[14px] md:text-[18px] hover:bg-hoverColor'}
               >
                 {menuItem.title}
               </Sidebar.Item>
             ))}
           </Sidebar.ItemGroup>
           <Sidebar.ItemGroup>
-            <Sidebar.Item>
-              {" "}
-            </Sidebar.Item>
+            <Sidebar.Item> </Sidebar.Item>
           </Sidebar.ItemGroup>
         </Sidebar.Items>
+        <div
+          className="mx-3 items-center mb-0 flex md:hidden"
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            dispatch(toggleTheme());
+          }}
+        >
+          <DarkModeSwitch
+            checked={themeMode === "dark"}
+            onChange={() => dispatch(toggleTheme())}
+            size={22}
+          />
+          <div className="dark:text-white ml-2">Theme</div>
+        </div>
       </Sidebar>
       {matches && !collapsed && (
         <div
           drawer-backdrop="logo-sidebar"
-          className={`bg-gray-900 bg-opacity-50 dark:bg-opacity-80 fixed inset-0 z-30`}
+          className={`bg-gray-900 bg-opacity-50 dark:bg-opacity-80 fixed inset-0 z-8`}
           onClick={() => {
             console.log("backdrop clicked");
             hide();

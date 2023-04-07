@@ -13,6 +13,8 @@ import trustModule from "@web3-onboard/trust";
 import frontierModule from "@web3-onboard/frontier";
 import { chains } from "./chains";
 
+import logo from '../assets/imgs/logo.svg';
+
 const wInjected = injectedModule();
 const wCoinbase = coinbaseModule();
 const wDcent = dcentModule();
@@ -43,7 +45,7 @@ const wallets = [
 
 const appMetadata = {
   name: "Connect Wallet",
-  icon: "<svg>Dexify</svg>",
+  icon: logo,
   description: "Connect Wallet Modal",
   recommendedInjectedWallets: [
     { name: "MetaMask", url: "https://metamask.io" },
@@ -57,7 +59,8 @@ const web3Onboard = init({
   wallets,
   chains,
   appMetadata,
-  accountCenter: { desktop: { enabled: false }, mobile: { enabled: false } },
+  connect: { autoConnectLastWallet: true },
+  accountCenter: { desktop: { enabled: false }, mobile: { enabled: false } }
 });
 function Web3Context({ children }: { children: React.ReactNode }) {
   return (

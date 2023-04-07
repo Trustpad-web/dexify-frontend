@@ -1,0 +1,29 @@
+.top-funds-carousel > div > div {
+    width: fit-content !important;
+}
+.top-funds-carousel > div {
+    gap: 20px;
+}
+
+.all-funds-pagination button {
+    border: 1px solid #7B7588;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+.all-funds-pagination ul {
+    gap: 8px;
+}
+
+.all-funds-pagination li[aria-current="page"] button {
+    @apply bg-primary text-white;
+    border: none
+}
+
+.fund-details div[aria-label="Default tabs"] {
+    display: none;
+}

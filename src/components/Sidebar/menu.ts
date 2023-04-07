@@ -1,5 +1,5 @@
 import {
-  HiOutlineHome,
+  HiHome,
   HiCurrencyDollar,
   HiUserAdd,
   HiOutlineLightBulb,
@@ -9,7 +9,7 @@ const menu = [
   {
     title: "Home",
     href: "/",
-    icon: HiOutlineHome,
+    icon: HiHome,
   },
   {
     title: "Portfolio",
