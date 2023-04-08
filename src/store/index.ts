@@ -3,6 +3,8 @@ import themeReducer  from './slices/theme.slice'
 import topDexfundsReducer  from './slices/top_dexfunds.slice';
 import allFundsReducer from './slices/all_dexfunds.slice';
 import monthlyEthPricesReducer from './slices/ethPrices.slice';
+import assetsReducer from './slices/assets.slice';
+import currencyReducer from './slices/currency.slice';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 
 export const store = configureStore({
@@ -10,7 +12,9 @@ export const store = configureStore({
     theme: themeReducer,
     topDexfunds: topDexfundsReducer,
     allFunds: allFundsReducer,
-    monthlyEthPrices: monthlyEthPricesReducer
+    monthlyEthPrices: monthlyEthPricesReducer,
+    assets: assetsReducer,
+    currency: currencyReducer
   },
 })
 

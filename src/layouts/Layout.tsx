@@ -14,9 +14,9 @@ const Layout = ({ children }: { children: ReactNode }) => {
     setCollapsed(!collapsed);
   };
   return (
-    <div className="flex">
+    <div className="flex bg-[#F5F5F5]">
       <CustomSidebar collapsed={collapsed} hide={() => setCollapsed(true)} />
-      <div className="app-layout border-2 flex flex-col flex-1 border-none bg-white dark:bg-gray-800 overflow-y-auto h-screen">
+      <div className="app-layout border-2 flex flex-col flex-1 border-none dark:bg-gray-800 overflow-y-auto h-screen">
         <CustomNavbar onClickToggle={onClickToggle} />
         <div className="page-layout mt-0 md:mt-5 w-full flex-1 pb-5 px-[10px] md:px-[20px]">
           {children}

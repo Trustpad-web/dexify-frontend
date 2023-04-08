@@ -51,7 +51,7 @@ export class FundOverviewWithHistoryResponse {
   sharePriceHistory?: number[];
   timeHistory?: number[];
 
-  monthlyStates?: Monthly[]
+  monthlyStates?: Monthly[];
 }
 
 

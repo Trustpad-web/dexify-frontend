@@ -4,13 +4,13 @@ import useFundDetails from "../hooks/useFundDetails";
 import SingleSkeleton from "../components/Skeleton/SingleSkeleton";
 import { Button, Tabs, TabsRef } from "flowbite-react";
 import {
-  HiOutlineChartPie,
-  HiOutlineChartSquareBar,
-  HiOutlineClock,
   HiOutlineViewGrid,
-  HiUsers,
 } from "react-icons/hi";
 import FundOverview from "../components/FundOverview";
+import FundPortfolio from "../components/FundPortfolio";
+import FundFee from "../components/FundFee/FundFee";
+import { useConnectWallet } from "@web3-onboard/react";
+import useFundActivitiesPerInvestor from "../hooks/useFundActivitiesPerInvestor";
 
 export default function Fund() {
   const { fund, loading } = useFundDetails("1W");
@@ -18,6 +18,9 @@ export default function Fund() {
 
   const [activeTab, setActiveTab] = useState<number>(0);
   const tabsRef = useRef<TabsRef>(null);
+  const [{ wallet, connecting }, connect, disconnect] = useConnectWallet();
+
+  useFundActivitiesPerInvestor(fund?.id || "0x", wallet?.accounts?.[0].address || "0x", fund?.accessor?.denominationAsset?.id || "0x");
 
   useEffect(() => {
     if (fund) {
@@ -56,7 +59,9 @@ export default function Fund() {
                   color="gray"
                   className={
                     `focus:ring-transparent focus:text-white hover:text-primary focus:bg-primary ` +
-                    (activeTab === index ? "!bg-primary !text-white" : "!bg-white")
+                    (activeTab === index
+                      ? "!bg-primary !text-white"
+                      : "!bg-white")
                   }
                   onClick={() => tabsRef.current?.setActiveTab(index)}
                 >
@@ -77,8 +82,12 @@ export default function Fund() {
         <Tabs.Item active title="">
           <FundOverview fundDetail={fund} loading={loading} />
         </Tabs.Item>
-        <Tabs.Item title="">Dashboard content</Tabs.Item>
-        <Tabs.Item title="">Settings content</Tabs.Item>
+        <Tabs.Item title="">
+          <FundPortfolio fundDetail={fund} loading={loading} />
+        </Tabs.Item>
+        <Tabs.Item title="">
+          <FundFee id={fund?.id || "0x0"} />
+        </Tabs.Item>
         <Tabs.Item title="">Contacts content</Tabs.Item>
         <Tabs.Item title="">Chart content</Tabs.Item>
       </Tabs.Group>

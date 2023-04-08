@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { FundOverview } from "../../@types";
-import { backendInstance } from "../../api/axios";
 import { getAllFunds } from "../../api";
 
 const initialState: {

@@ -2,13 +2,18 @@ import { Avatar } from "flowbite-react";
 import { FundOverview } from "../../@types";
 import { getTokenInfo } from "../../helpers";
 import { formatNumber } from "../../helpers/number";
+import { useNavigate } from "react-router-dom";
 
 const FundOverviewCard = ({ data }: { data: FundOverview }) => {
   const num = Math.ceil(Math.random() * 1000) % 3;
   const defaultImg = `/imgs/fund/${num}.png`;
+  const navigate = useNavigate();
 
   return (
-    <div className="flex flex-col items-center w-[calc(100vw_-_20px)] md:w-[320px]">
+    <div
+      className="flex flex-col items-center w-[calc(100vw_-_20px)] md:w-[320px]"
+      onClick={() => navigate(`/fund/${data.id}`)}
+    >
       <img
         src={defaultImg}
         alt="fund-img"
@@ -45,7 +50,8 @@ const FundOverviewCard = ({ data }: { data: FundOverview }) => {
                 (data.aum > data.aum1WAgo ? "text-success" : "text-danger")
               }
             >
-              {formatNumber(((data.aum - data.aum1WAgo) * 100) / data.aum1WAgo)}%
+              {formatNumber(((data.aum - data.aum1WAgo) * 100) / data.aum1WAgo)}
+              %
             </span>
             <span className="text-description">(1W)</span>
           </div>

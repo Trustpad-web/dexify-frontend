@@ -7,11 +7,16 @@ import useAllDexfunds from "./hooks/useAllDexfunds";
 import AllFunds from "./pages/AllFunds";
 import Fund from "./pages/Fund";
 import useMonthlyEthPrices from "./hooks/useMonthlyEthPrices";
+import useAssets from "./hooks/useAssets";
+import useCurrency from "./hooks/useCurrency";
 
 export default function App() {
   useTopDexfunds();
   useAllDexfunds();
   useMonthlyEthPrices();
+  useAssets();
+  useCurrency("ETH");
+
   return (
     <BrowserRouter>
       <Layout>

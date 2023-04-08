@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Card } from "flowbite-react";
+import { Avatar, Button, Card } from "flowbite-react";
 import { FundOverviewWithHistoryResponse } from "../../@types";
 import FundSkeleton from "../Skeleton/FundSkeleton";
 import MonthlyPerformance from "./MonthlyPerformance";
@@ -37,14 +37,14 @@ export default function FundOverview({
   return (
     <div className="mt-3 gap-3 w-full">
       <div className="flex gap-10 flex-col md:flex-row">
-        <div className="performance flex w-full md:w-[60%]">
+        <div className="performance flex w-full md:w-[60%] order-2 md:order-1">
           {loading ? (
             <FundSkeleton />
           ) : (
             <MonthlyPerformance data={fundDetail?.monthlyStates} />
           )}
         </div>
-        <div className="flex flex-col flex-1 gap-6">
+        <div className="flex flex-col flex-1 gap-6 order-1 md:order-2">
           <div className="btn-actions flex justify-between">
             <Button
               pill={true}
@@ -90,11 +90,43 @@ export default function FundOverview({
           </div>
         </div>
       </div>
-      <div className="flex gap-10 flex-col md:flex-row">
-        <div className="w-full md:w-[60%]">
+      <div className="flex gap-10 flex-col md:flex-row mt-5">
+        <div className="w-full md:w-[60%] order-2 md:order-1">
           <Strategy fundDetail={fundDetail} loading={loading} />
         </div>
-        <div className="flex flex-col flex-1 gap-6"></div>
+        <div className="flex flex-col flex-1 gap-6 order-1 md:order-2">
+          <div className="my-5 ">
+            <h4 className="text-title text-[20px] font-bold">Manager</h4>
+            <div className="mt-3 bg-primary_light rounded-[12px] p-5 w-full flex flex-wrap items-center gap-6">
+              <div className="flex items-center space-x-4">
+                <img
+                  className="w-10 h-10 rounded-full"
+                  src="/imgs/logo.png"
+                  alt=""
+                />
+                <div className="font-medium dark:text-white">
+                  <div className="text-title text-[16px] md:text-[20px]">
+                    Dexify Team
+                  </div>
+                  <div className="text-[12px] text-description dark:text-gray-400">
+                    Lorem Ipsum is simply dummy text of the printing and
+                    typesetting industry. Lorem Ipsum has been the industry's
+                    standard dummy text ever since the 1500s
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-5">
+            <h4 className="text-title text-[20px] font-bold">
+              Rebalancing Period
+            </h4>
+            <span className="text-description rounded-[12px] bg-white border-[1px] py-3 px-5 w-full">
+              Monthly
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   );

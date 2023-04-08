@@ -1,6 +1,9 @@
 export type CurrencyDto = {
     id: string;
     price?: CurrencyPriceDto,
+    daily?: {
+        open: string
+    },
     priceHistory?: CurrencyPriceDto[]
 }
 

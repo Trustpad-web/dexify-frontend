@@ -6,16 +6,26 @@ import reportWebVitals from "./reportWebVitals";
 import Web3Context from "./web3/web3Context";
 import { store } from "./store";
 import { Provider } from "react-redux";
+import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
+import { SUBGRAPH_SERVER } from "./constants";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
+
+const client = new ApolloClient({
+  uri: SUBGRAPH_SERVER,
+  cache: new InMemoryCache(),
+});
+
 root.render(
   <React.StrictMode>
     <Web3Context>
-      <Provider store={store}>
-        <App />
-      </Provider>
+      <ApolloProvider client={client}>
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </ApolloProvider>
     </Web3Context>
   </React.StrictMode>
 );

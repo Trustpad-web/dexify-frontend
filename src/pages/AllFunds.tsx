@@ -99,7 +99,7 @@ export default function AllFunds() {
   };
 
   return (
-    <div className="relative overflow-x-auto w-full max-w-[85vw]">
+    <div className="relative overflow-x-auto w-full">
       <CustomBreadcrumbs path={pathData} />
       <Table hoverable={true} className="whitespace-nowrap">
         <Table.Head>

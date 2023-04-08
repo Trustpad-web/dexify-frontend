@@ -6,5 +6,8 @@ export type AssetDto = {
     name: string,
     decimals: number,
     price?: AssetPriceDto,
-    priceHistory?: [AssetPriceDto]!
+    priceHistory?: AssetPriceDto[],
+    daily?: {
+        open: string
+    }
 }
