@@ -1,8 +1,7 @@
 import { DocumentNode, gql } from "@apollo/client/core";
 
-export const fundActivitiesPerInvestor = (
+export const fundActivities = (
   fund: string,
-  investor: string,
   denominationAsset: string
 ): DocumentNode => {
   return gql`
@@ -13,10 +12,12 @@ export const fundActivitiesPerInvestor = (
         orderDirection: asc
         where: {
           fund: "${fund}"
-          investor: "${investor}"
         }
       ) {
         timestamp
+        investor {
+          id
+        }
         investmentAmount
         shares
         fundState {
@@ -37,6 +38,9 @@ export const fundActivitiesPerInvestor = (
             }
           }
         }
+        transaction {
+          id
+        }
       }
 
         #   Withdrawal
@@ -45,10 +49,12 @@ export const fundActivitiesPerInvestor = (
             orderDirection: asc
             where: {
             fund: "${fund}"
-            investor: "${investor}"
             }
         ) {
             timestamp
+            investor {
+              id
+            }
             shares
             payoutAssetAmounts {
                 amount
@@ -67,6 +73,9 @@ export const fundActivitiesPerInvestor = (
                     timestamp
                     price
                 }
+            }
+            transaction {
+              id
             }
         }
     }

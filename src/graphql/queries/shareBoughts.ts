@@ -36,6 +36,9 @@ export const sharesBoughtsQuery = (
             }
           }
         }
+        transaction {
+          id
+        }
       }
     }
   `;

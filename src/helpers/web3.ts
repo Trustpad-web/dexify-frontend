@@ -27,3 +27,11 @@ export const decodeFeeConfigData = (configData: string) => {
 
   return {entryFee, performanceFee};
 }
+
+export const isValidAddress = (addr: string | undefined | null) => {
+  if (!addr) return false;
+  if (addr === '0x' || addr === '0x0') {
+    return false
+  }
+  return true
+}

@@ -1,6 +1,6 @@
 import { HoldingDto } from "./holding"
 
 export type PortfolioDto = {
-    timestamp: string,
+    timestamp?: string,
     holdings: HoldingDto[]
 }

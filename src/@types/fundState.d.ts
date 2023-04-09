@@ -1,7 +1,8 @@
-import { CurrencyDto } from "./currency"
-import { HoldingDto } from "./holding"
+import { CurrencyDto, CurrencyPriceDto } from "./currency";
+import { HoldingDto } from "./holding";
+import { PortfolioDto } from "./portfolio";
 
 export type FundStateDto = {
-    currencyPricies: CurrencyDto[],
-    portfolio?: HoldingDto[]
-}
+  currencyPrices: CurrencyPriceDto[];
+  portfolio?: PortfolioDto;
+};

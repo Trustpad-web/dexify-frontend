@@ -3,14 +3,13 @@ import CustomBreadcrumbs, { BreadCrumbPath } from "../components/Breadcrumbs";
 import useFundDetails from "../hooks/useFundDetails";
 import SingleSkeleton from "../components/Skeleton/SingleSkeleton";
 import { Button, Tabs, TabsRef } from "flowbite-react";
-import {
-  HiOutlineViewGrid,
-} from "react-icons/hi";
+import { HiOutlineViewGrid } from "react-icons/hi";
 import FundOverview from "../components/FundOverview";
 import FundPortfolio from "../components/FundPortfolio";
-import FundFee from "../components/FundFee/FundFee";
+import FundFee from "../components/FundFee";
 import { useConnectWallet } from "@web3-onboard/react";
-import useFundActivitiesPerInvestor from "../hooks/useFundActivitiesPerInvestor";
+import useFundActivities from "../hooks/useFundActivities";
+import FundSocial from "../components/FundSocial";
 
 export default function Fund() {
   const { fund, loading } = useFundDetails("1W");
@@ -20,7 +19,10 @@ export default function Fund() {
   const tabsRef = useRef<TabsRef>(null);
   const [{ wallet, connecting }, connect, disconnect] = useConnectWallet();
 
-  useFundActivitiesPerInvestor(fund?.id || "0x", wallet?.accounts?.[0].address || "0x", fund?.accessor?.denominationAsset?.id || "0x");
+  const { activities, loading: activityLoading } = useFundActivities(
+    fund?.id || "0x",
+    fund?.accessor?.denominationAsset
+  );
 
   useEffect(() => {
     if (fund) {
@@ -80,7 +82,16 @@ export default function Fund() {
         onActiveTabChange={(tab) => setActiveTab(tab)}
       >
         <Tabs.Item active title="">
-          <FundOverview fundDetail={fund} loading={loading} />
+          <FundOverview
+            fundDetail={fund}
+            loading={loading}
+            userActivities={
+              activities?.filter(
+                (activity) =>
+                  activity.investor === wallet?.accounts?.[0].address
+              ) || []
+            }
+          />
         </Tabs.Item>
         <Tabs.Item title="">
           <FundPortfolio fundDetail={fund} loading={loading} />
@@ -88,7 +99,13 @@ export default function Fund() {
         <Tabs.Item title="">
           <FundFee id={fund?.id || "0x0"} />
         </Tabs.Item>
-        <Tabs.Item title="">Contacts content</Tabs.Item>
+        <Tabs.Item title="">
+          <FundSocial
+            manager={fund?.manager?.id || '0x'}
+            activities={activities || []}
+            activityLoading={activityLoading}
+          />
+        </Tabs.Item>
         <Tabs.Item title="">Chart content</Tabs.Item>
       </Tabs.Group>
     </div>

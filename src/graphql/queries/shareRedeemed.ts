@@ -34,6 +34,9 @@ export const shareRedeemedQuery = (
             price
           }
         }
+        transaction {
+          id
+        }
       }
     }
   `;

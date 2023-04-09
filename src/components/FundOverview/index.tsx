@@ -3,23 +3,27 @@ import { Avatar, Button, Card } from "flowbite-react";
 import { FundOverviewWithHistoryResponse } from "../../@types";
 import FundSkeleton from "../Skeleton/FundSkeleton";
 import MonthlyPerformance from "./MonthlyPerformance";
-import { formatCurrency } from "../../helpers";
+import { formatCurrency, formatNumber } from "../../helpers";
 import useERC20 from "../../hooks/useERC20";
 import { useConnectWallet } from "@web3-onboard/react";
 import { BigNumber, BigNumberish, utils } from "ethers";
 import Strategy from "./Strategy";
+import { FundActivity } from "../../hooks/useFundActivities";
 
 export default function FundOverview({
   fundDetail,
   loading,
+  userActivities,
 }: {
   fundDetail: FundOverviewWithHistoryResponse | undefined;
   loading: boolean;
+  userActivities: FundActivity[];
 }) {
   const [myDeposits, setMyDeposits] = useState<BigNumber>(BigNumber.from(0));
   const [{ wallet, connecting }] = useConnectWallet();
 
   const { getBalance } = useERC20(fundDetail?.id || "");
+  const [returns, setReturns] = useState<number>();
 
   useEffect(() => {
     (async function () {
@@ -34,6 +38,21 @@ export default function FundOverview({
       }
     })();
   }, [fundDetail, wallet, getBalance]);
+
+  useEffect(() => {
+    let invests = 0,
+      redeems = 0;
+    userActivities.map((activity) => {
+      if (activity.type === "Invest") {
+        invests += activity.amount;
+      } else {
+        redeems += activity.amount;
+      }
+    });
+    const profits = Number(utils.formatEther(myDeposits)) + redeems - invests;
+    setReturns(invests > 0 ? profits / invests : 0);
+  }, [userActivities, myDeposits]);
+
   return (
     <div className="mt-3 gap-3 w-full">
       <div className="flex gap-10 flex-col md:flex-row">
@@ -55,7 +74,7 @@ export default function FundOverview({
             </Button>
             <Button
               pill={true}
-              className="w-[45%] bg-primary hover:bg-white dark:hover:bg-gray-500 hover:text-primary border-primary"
+              className="w-[45%] bg-primary hover:bg-white dark:hover:bg-gray-500 hover:text-primary border-primary hover:border-primary border-2"
             >
               Withdraw
             </Button>
@@ -82,9 +101,11 @@ export default function FundOverview({
                 Return
               </span>
               <span
-                className={`bg-success text-white text-md font-bold mr-2 px-2.5 py-0.5 rounded dark:bg-yellow-900`}
+                className={`${
+                  (returns || 0) > 0 ? "bg-success" : "bg-danger"
+                }  text-white text-md font-bold mr-2 px-2.5 py-0.5 rounded-[20px] dark:bg-yellow-900`}
               >
-                17%
+                {formatNumber((returns || 0) * 100)}%
               </span>
             </div>
           </div>

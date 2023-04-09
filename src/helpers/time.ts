@@ -15,3 +15,17 @@ export function secondsToHms(d: number) {
     return value;
   }
 }
+
+export function formatTime(timestamp: number) {
+  const date = new Date(timestamp * 1000);
+  const options: Intl.DateTimeFormatOptions = {
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    hour12: true,
+  };
+
+  return new Intl.DateTimeFormat("en-US", options).format(date);
+}
