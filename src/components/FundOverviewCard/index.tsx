@@ -47,10 +47,17 @@ const FundOverviewCard = ({ data }: { data: FundOverview }) => {
             <span
               className={
                 "font-extrabold " +
-                (data.aum > data.aum1WAgo ? "text-success" : "text-danger")
+                (data.sharePrice >= data.sharePrice1WAgo
+                  ? "text-success"
+                  : "text-danger")
               }
             >
-              {formatNumber(((data.aum - data.aum1WAgo) * 100) / data.aum1WAgo)}
+              {formatNumber(
+                data.sharePrice1WAgo > 0
+                  ? ((data.sharePrice - data.sharePrice1WAgo) * 100) /
+                      data.sharePrice1WAgo
+                  : 100
+              )}
               %
             </span>
             <span className="text-description">(1W)</span>

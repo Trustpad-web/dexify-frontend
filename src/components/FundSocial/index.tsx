@@ -28,11 +28,11 @@ export default function FundSocial({
           Share Fund
         </Button>
       </div>
-      <div className="flex gap-2 w-full flex-col md:flex-row">
-        <div className="flex-1 order-2 md:order-1">
+      <div className="flex gap-10 md:gap-2 w-full flex-col md:flex-row">
+        <div className="flex-1">
           <Feeds activities={activities} loading={activityLoading} />
         </div>
-        <div className="md:w-[430px] w-full h-[300px] order-1 md:order-2">
+        <div className="md:w-[430px] w-full h-[300px]">
           <Tweets manager={manager} />
         </div>
       </div>

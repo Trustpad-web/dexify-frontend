@@ -10,12 +10,12 @@ export type Tweet = {
 };
 export default function TweetCard({ tweet }: { tweet: Tweet }) {
   return (
-    <div className="w-full">
-      <Avatar img={tweet.avatar} rounded={true} className="justify-start">
+    <div className="w-full rounded-md bg-white px-4 py-3 border-b-2">
+      <Avatar img={tweet.avatar} rounded={true} className="!justify-start">
         <div className="space-y-[3px] font-medium dark:text-white">
-          <div>{tweet.name}</div>
+          <div>{tweet.twitterName}</div>
           <div className="text-sm text-gray-500 dark:text-gray-400">
-            {tweet.twitterName}
+            @{tweet.name}
           </div>
         </div>
       </Avatar>

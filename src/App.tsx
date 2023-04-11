@@ -9,6 +9,7 @@ import Fund from "./pages/Fund";
 import useMonthlyEthPrices from "./hooks/useMonthlyEthPrices";
 import useAssets from "./hooks/useAssets";
 import useCurrency from "./hooks/useCurrency";
+import Portfolio from "./pages/Portfolio";
 
 export default function App() {
   useTopDexfunds();
@@ -22,6 +23,7 @@ export default function App() {
       <Layout>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/portfolio" element={<Portfolio />}/>
           <Route path="/all-funds" element={<AllFunds />} />
           <Route path="/fund/:id" element={<Fund />}/>
         </Routes>

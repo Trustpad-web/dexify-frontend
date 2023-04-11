@@ -16,16 +16,21 @@ export function secondsToHms(d: number) {
   }
 }
 
-export function formatTime(timestamp: number) {
+export function formatTime(
+  timestamp: number,
+  options?: Intl.DateTimeFormatOptions
+) {
   const date = new Date(timestamp * 1000);
-  const options: Intl.DateTimeFormatOptions = {
-    year: "numeric",
-    month: "numeric",
-    day: "numeric",
-    hour: "numeric",
-    minute: "numeric",
-    hour12: true,
-  };
+  if (!options) {
+    options = {
+      year: "numeric",
+      month: "numeric",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true,
+    };
+  }
 
   return new Intl.DateTimeFormat("en-US", options).format(date);
 }

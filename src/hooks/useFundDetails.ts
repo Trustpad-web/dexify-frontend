@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getFundOverviewWithHistory } from "../api";
 import { FundOverviewWithHistoryResponse } from "../@types";
+import { TimeRange } from "../@types/timeRange";
 
-export default function useFundDetails(timeRange: string) {
+export default function useFundDetails(timeRange: TimeRange) {
   const { id } = useParams();
   const [fund, setFund] = useState<FundOverviewWithHistoryResponse>();
   const [loading, setLoading] = useState<boolean>(false);

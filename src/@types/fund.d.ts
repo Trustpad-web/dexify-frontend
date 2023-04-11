@@ -65,5 +65,9 @@ export class FundOverview {
   inception: string;
   aum: number;
   aum1WAgo: number;
+  totalShareSupply: number;
+  totalShareSupply1WAgo: number;
+  sharePrice: number;
+  sharePrice1WAgo: number;
   assets: (AssetDto & {aum: number})[];
 }

@@ -26,7 +26,6 @@ export default function useFundActivities(
 
   // TODO Pagination or merged result
   useEffect(() => {
-    console.log("fundActivities: ", data);
     if (data) {
       const { sharesBoughtEvents, sharesRedeemedEvents } = data;
       const invests: FundActivity[] = sharesBoughtEvents.map((boughtEvent) => {

@@ -12,7 +12,7 @@ export default function Select({
 }: {
   items: ItemType[];
   value: string | number;
-  onChange: (value: string | number) => void;
+  onChange: (value: any) => void;
 }) {
   const [open, setOpen] = useState<boolean>(false);
   const handleTriggerClick = () => {
@@ -100,7 +100,7 @@ export default function Select({
                 <input
                   id={`filter-radio-${item.value}`}
                   type="radio"
-                  value={selected?.value === item.value ? "on" : "off"}
+                  value={(selected?.value === item.value) ? "true" : "off"}
                   name="filter-radio"
                   className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-transparent dark:focus:ring-transparent dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                 />

@@ -10,9 +10,11 @@ import FundFee from "../components/FundFee";
 import { useConnectWallet } from "@web3-onboard/react";
 import useFundActivities from "../hooks/useFundActivities";
 import FundSocial from "../components/FundSocial";
+import { TimeRange } from "../@types/timeRange";
+import FundChart from "../components/FundChart";
 
 export default function Fund() {
-  const { fund, loading } = useFundDetails("1W");
+  const { fund, loading } = useFundDetails(TimeRange["1W"]);
   const [path, setPath] = useState<BreadCrumbPath[]>();
 
   const [activeTab, setActiveTab] = useState<number>(0);
@@ -106,7 +108,7 @@ export default function Fund() {
             activityLoading={activityLoading}
           />
         </Tabs.Item>
-        <Tabs.Item title="">Chart content</Tabs.Item>
+        <Tabs.Item title=""><FundChart fundId={fund?.id || "0x"} /></Tabs.Item>
       </Tabs.Group>
     </div>
   );

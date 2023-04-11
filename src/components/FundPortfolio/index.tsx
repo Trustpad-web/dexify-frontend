@@ -250,13 +250,15 @@ export default function FundPortfolio({
         <h4 className="text-title text-[18px] md:text-[24px] font-bold">
           Portfolio
         </h4>
-        <PortfolioChart
-          data={assets.map((asset) => ({
-            value: Number(asset.amount.toFixed(2)),
-            name: asset.symbol,
-            id: asset.id,
-          }))}
-        />
+        <div className="rounded-[12px] bg-white w-full h-full">
+          <PortfolioChart
+            data={assets.map((asset) => ({
+              value: Number(asset.amount.toFixed(2)),
+              name: asset.symbol,
+              id: asset.id,
+            }))}
+          />
+        </div>
       </div>
     </div>
   );

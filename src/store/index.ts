@@ -5,6 +5,8 @@ import allFundsReducer from './slices/all_dexfunds.slice';
 import monthlyEthPricesReducer from './slices/ethPrices.slice';
 import assetsReducer from './slices/assets.slice';
 import currencyReducer from './slices/currency.slice';
+import portfolioReducer from './slices/portfolio.slice';
+
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 
 export const store = configureStore({
@@ -14,7 +16,8 @@ export const store = configureStore({
     allFunds: allFundsReducer,
     monthlyEthPrices: monthlyEthPricesReducer,
     assets: assetsReducer,
-    currency: currencyReducer
+    currency: currencyReducer,
+    portfolio: portfolioReducer,
   },
 })
 

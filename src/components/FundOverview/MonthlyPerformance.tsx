@@ -126,14 +126,14 @@ export default function MonthlyPerformance({
               {MONTHS.slice(0, 6).map((_, month) => (
                 <td
                   className={`px-6 py-4 font-bold ${
-                    (monthlyPerformanceData?.[month].aumChangeBips || 0) > 0
+                    (monthlyPerformanceData?.[month].sharePriceChangeBips || 0) > 0
                       ? "text-success"
                       : "text-danger"
                   }`}
                 >
-                  {monthlyPerformanceData?.[month].aumChangeBips !== undefined
+                  {monthlyPerformanceData?.[month].sharePriceChangeBips !== undefined
                     ? `${formatNumber(
-                        (monthlyPerformanceData?.[month].aumChangeBips || 0) *
+                        (monthlyPerformanceData?.[month].sharePriceChangeBips || 0) *
                           100
                       )} %`
                     : "--"}
@@ -155,15 +155,15 @@ export default function MonthlyPerformance({
               {MONTHS.slice(6).map((_, month) => (
                 <td
                   className={`px-6 py-4 font-bold ${
-                    (monthlyPerformanceData?.[month + 6].aumChangeBips || 0) > 0
+                    (monthlyPerformanceData?.[month + 6].sharePriceChangeBips || 0) > 0
                       ? "text-success"
                       : "text-danger"
                   }`}
                 >
-                  {monthlyPerformanceData?.[month + 6].aumChangeBips !==
+                  {monthlyPerformanceData?.[month + 6].sharePriceChangeBips !==
                   undefined
                     ? `${formatNumber(
-                        (monthlyPerformanceData?.[month + 6].aumChangeBips ||
+                        (monthlyPerformanceData?.[month + 6].sharePriceChangeBips ||
                           0) * 100
                       )} %`
                     : "--"}

@@ -1,5 +1,7 @@
 import { FundOverview, FundOverviewWithHistoryResponse } from "../@types";
 import { MonthlyEthPrice } from "../@types/monthly_eth_price";
+import { TimeRange } from "../@types/timeRange";
+import { ChartData } from "../hooks/useFundChartData";
 import { backendInstance } from "./axios";
 
 export const getTopFunds = async () => {
@@ -17,7 +19,7 @@ export const getFundOverview = async (id: string) => {
     return response.data as FundOverview;
 }
 
-export const getFundOverviewWithHistory = async (id: string, timeRange: string) => {
+export const getFundOverviewWithHistory = async (id: string, timeRange: TimeRange) => {
     const response = await backendInstance.get(`/fund/${id}/history`, {
         params: {
             timeRange
@@ -29,4 +31,13 @@ export const getFundOverviewWithHistory = async (id: string, timeRange: string) 
 export const getMonthlyEthPrices = async () => {
     const response = await backendInstance.get(`/currency/monthly-eth-prices`);
     return response.data as MonthlyEthPrice[]
+}
+
+export const getFundChartData = async (id: string, timeRange: TimeRange) => {
+    const response = await backendInstance.get(`/fund/${id}/chart`, {
+        params: {
+            timeRange
+        }
+    })
+    return response.data as ChartData;
 }
