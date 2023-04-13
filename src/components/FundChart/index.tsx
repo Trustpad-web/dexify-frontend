@@ -15,10 +15,12 @@ import Select from "../Select";
 import { chartTimeRange } from "./timeRange";
 import { formatCurrency } from "../../helpers";
 import ChartSkeleton from "../Skeleton/ChartSkeleton";
+import useMediaQuery from "../../hooks/useMediaQuery";
 
 export default function FundChart({ fundId }: { fundId: string }) {
   const [timeRange, setTimeRange] = useState<TimeRange>(TimeRange["1W"]);
   const { chartData, loading } = useFundChartData(fundId, timeRange);
+  const matches = useMediaQuery("(max-width: 768px)");
 
   const handleTimeRangeChanged = (value: TimeRange) => {
     setTimeRange(value);
@@ -120,11 +122,11 @@ export default function FundChart({ fundId }: { fundId: string }) {
           onChange={handleTimeRangeChanged}
         />
       </div>
-      <div className="w-full h-[500px] rounded-[12px] bg-white mt-4">
+      <div className="w-full h-[300px] md:h-[500px] rounded-[12px] bg-white mt-4 overflow-x-auto">
         {loading ? (
           <ChartSkeleton />
         ) : (
-          <ResponsiveContainer width="100%" height="100%">
+          <ResponsiveContainer width="100%" minWidth={360} height="100%">
             <AreaChart
               width={500}
               height={400}
@@ -151,9 +153,9 @@ export default function FundChart({ fundId }: { fundId: string }) {
                 angle={-30}
                 tickFormatter={tickFormatter}
                 fontSize={10}
-                padding={{ right: 10 }}
+                padding={{ right: matches? 0 : 10 }}
               />
-              <YAxis />
+              <YAxis fontSize={matches ? 10 : 14} width={matches ? 20 : 30}/>
               {/* @ts-ignore */}
               <Tooltip content={<CustomTooltip />} />
               <Area

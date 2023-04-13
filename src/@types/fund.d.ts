@@ -4,15 +4,7 @@ import { FundUserDto } from './fundUser';
 import { PortfolioDto } from './portfolio';
 import { ShareStateDto } from './share';
 
-export interface FundDto {
-  id: string;
-  name: string;
-  accessor: ComptrollerDto;
-  creator: FundUserDto;
-  manager: FundUserDto;
-  portfolio: PortfolioDto;
-  inception: string;
-
+export class FundDto extends FundOverview {
   portfolioHistory?: PortfolioDto[];
   lastPortfolio?: PortfolioDto[];
   sharesHistory?: ShareStateDto[];
@@ -30,15 +22,7 @@ type Monthly = {
   sharePriceChangeBips: number
 }
 
-export class FundOverviewWithHistoryResponse {
-  id: string;
-  name?: string;
-  inception: string;
-  accessor?: ComptrollerDto;
-  creator?: FundUserDto;
-  manager?: FundUserDto;
-  assets?: (AssetDto & {aum: number})[];
-  aum?: number;
+export class FundOverviewWithHistoryResponse extends FundOverview {
   totalShares?: number;
 
   sparkline?: string;
@@ -58,16 +42,17 @@ export class FundOverviewWithHistoryResponse {
 export class FundOverview {
   id: string;
   name: string;
-  accessor: ComptrollerDto;
-  creator: FundUserDto;
-  manager: FundUserDto;
-  portfolio: PortfolioDto;
-  inception: string;
-  aum: number;
-  aum1WAgo: number;
-  totalShareSupply: number;
-  totalShareSupply1WAgo: number;
-  sharePrice: number;
-  sharePrice1WAgo: number;
-  assets: (AssetDto & {aum: number})[];
+  accessor?: ComptrollerDto;
+  creator?: FundUserDto;
+  manager?: FundUserDto;
+  portfolio?: PortfolioDto;
+  inception?: string;
+  aum?: number;
+  aum1WAgo?: number;
+  shares?: ShareStateDto;
+  totalShareSupply?: number;
+  totalShareSupply1WAgo?: number;
+  sharePrice?: number;
+  sharePrice1WAgo?: number;
+  assets?: (AssetDto & {aum: number})[];
 }

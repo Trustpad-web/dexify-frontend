@@ -15,11 +15,13 @@ const menu = [
     title: "Portfolio",
     href: "/portfolio",
     icon: HiCurrencyDollar,
+    isProtected: true,
   },
   {
     title: "Manage",
     href: "/manage",
     icon: HiUserAdd,
+    isProtected: true
   },
   {
     title: "Learn",

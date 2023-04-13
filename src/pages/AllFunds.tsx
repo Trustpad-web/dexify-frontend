@@ -50,13 +50,13 @@ export default function AllFunds() {
             return sortData.direction === "desc" ? -1 : 1;
           }
         case "aum":
-          return sortData.direction === "desc" ? b.aum - a.aum : a.aum - b.aum;
+          return sortData.direction === "desc" ? (b.aum || 0) - (a.aum || 0) : (a.aum || 0) - (b.aum || 0);
         case "changes":
           return sortData.direction === "desc"
-            ? calcChanges(b.aum, b.aum1WAgo) - calcChanges(a.aum, a.aum1WAgo)
-            : calcChanges(a.aum, a.aum1WAgo) - calcChanges(b.aum, b.aum1WAgo);
+            ? calcChanges(b.aum || 0, b.aum1WAgo || 0) - calcChanges(a.aum || 0, a.aum1WAgo || 0)
+            : calcChanges(a.aum || 0, a.aum1WAgo || 0) - calcChanges(b.aum || 0, b.aum1WAgo || 0);
         default:
-          return sortData.direction === "desc" ? b.aum - a.aum : a.aum - b.aum;
+          return sortData.direction === "desc" ? (b.aum || 0) - (a.aum || 0) : (a.aum || 0) - (b.aum || 0);
       }
     },
     [sortData]
@@ -152,24 +152,24 @@ export default function AllFunds() {
                     {new Intl.NumberFormat("en-US", {
                       style: "currency",
                       currency: "USD",
-                    }).format(fund.aum)}
+                    }).format(fund?.aum || 0)}
                   </span>
                 </Table.Cell>
                 <Table.Cell>
                   <span
                     className={
                       "font-extrabold " +
-                      (fund.aum > fund.aum1WAgo
+                      ((fund?.aum || 0) > (fund?.aum1WAgo || 0)
                         ? "text-success"
                         : "text-danger")
                     }
                   >
-                    {formatNumber(calcChanges(fund.aum, fund.aum1WAgo))}%
+                    {formatNumber(calcChanges(fund?.aum|| 0, fund?.aum1WAgo || 0))}%
                   </span>
                 </Table.Cell>
                 <Table.Cell>
                   <Avatar.Group className="-space-x-2 min-w-[150px] md:min-w-fit">
-                    {fund.assets.slice(0, 4).map((asset, index) => (
+                    {fund?.assets?.slice(0, 4).map((asset, index) => (
                       <Avatar
                         img={
                           getTokenInfo(asset.id)?.logoURI || "/imgs/logo.png"
@@ -180,9 +180,9 @@ export default function AllFunds() {
                         size={matches ? "xs" : "sm"}
                       />
                     ))}
-                    {fund.assets.length > 4 && (
+                    {(fund?.assets?.length || 0) > 4 && (
                       <Avatar.Counter
-                        total={fund.assets.length - 4}
+                        total={(fund?.assets?.length || 0) - 4}
                         href="#"
                         className="md:w-[32px] md:h-[32px] w-[24px] h-[24px]"
                       />

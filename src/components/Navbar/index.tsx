@@ -43,13 +43,13 @@ export default function CustomNavbar({
       </Navbar.Brand>
 
       <div className="flex md:order-2 ml-auto mr-3">
-        <div className="mr-5 items-center mb-0 flex hidden md:flex">
+        {/* <div className="mr-5 items-center mb-0 flex hidden md:flex">
           <DarkModeSwitch
             checked={themeMode.value === "dark"}
             onChange={() => dispatch(toggleTheme())}
             size={22}
           />
-        </div>
+        </div> */}
         {wallet ? (
           <Dropdown
             arrowIcon={false}

@@ -26,7 +26,7 @@ const FundOverviewCard = ({ data }: { data: FundOverview }) => {
         </span>
         <div className="fund-detail mt-auto flex justify-between items-center">
           <Avatar.Group className="-space-x-2">
-            {data.assets.slice(0, 4).map((asset, index) => (
+            {data.assets?.slice(0, 4).map((asset, index) => (
               <Avatar
                 img={getTokenInfo(asset.id)?.logoURI || "/imgs/logo.png"}
                 rounded={true}
@@ -35,9 +35,9 @@ const FundOverviewCard = ({ data }: { data: FundOverview }) => {
                 size={"sm"}
               />
             ))}
-            {data.assets.length > 4 && (
+            {(data.assets?.length || 0) > 4 && (
               <Avatar.Counter
-                total={data.assets.length - 4}
+                total={(data.assets?.length || 0) - 4}
                 href="#"
                 className="w-[32px] h-[32px]"
               />
@@ -47,15 +47,15 @@ const FundOverviewCard = ({ data }: { data: FundOverview }) => {
             <span
               className={
                 "font-extrabold " +
-                (data.sharePrice >= data.sharePrice1WAgo
+                ((data?.sharePrice || 0) >= (data?.sharePrice1WAgo || 0)
                   ? "text-success"
                   : "text-danger")
               }
             >
               {formatNumber(
-                data.sharePrice1WAgo > 0
-                  ? ((data.sharePrice - data.sharePrice1WAgo) * 100) /
-                      data.sharePrice1WAgo
+                (data.sharePrice1WAgo || 0) > 0
+                  ? (((data.sharePrice || 0) - (data.sharePrice1WAgo || 0)) * 100) /
+                      (data.sharePrice1WAgo || 0)
                   : 100
               )}
               %

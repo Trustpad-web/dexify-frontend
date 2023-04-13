@@ -2,55 +2,56 @@ import { useQuery } from "@apollo/client";
 import { useEffect, useState } from "react";
 import { fundActivities } from "../graphql/queries/fundActivities";
 import { FundActivityDto } from "../@types/fundActivity";
-import { AssetDto } from "../@types";
+import { AssetDto, FundDto } from "../@types";
 import { BigNumber } from "ethers";
 import { TransactionDto } from "../@types/transaction";
+import { userActivities } from "../graphql/queries/userActivities";
 
-export type FundActivity = {
+export type UserActivity = {
   timestamp: number;
-  investor: string;
+  fundAddress: string;
+  fundName: string;
   assets: (AssetDto | undefined)[];
   amount: number;
   type: "Withdraw" | "Invest";
   transaction: TransactionDto;
 };
 
-export default function useFundActivities(
-  fundId: string,
-  denominationAsset?: AssetDto
+export default function useUserActivities(
+  userAddress: string
 ) {
-  const [activities, setActivities] = useState<FundActivity[]>();
+  const [activities, setActivities] = useState<UserActivity[]>();
   const { loading, error, data } = useQuery<FundActivityDto>(
-    fundActivities(fundId, denominationAsset?.id || "0x")
+    userActivities(userAddress || "0x")
   );
 
   // TODO Pagination or merged result
   useEffect(() => {
     if (data) {
       const { sharesBoughtEvents, sharesRedeemedEvents } = data;
-      const invests: FundActivity[] = sharesBoughtEvents.map((boughtEvent) => {
-        const investor = boughtEvent?.investor?.id || "0x";
+      const invests: UserActivity[] = sharesBoughtEvents.map((boughtEvent) => {
         const timestamp = Number(boughtEvent.timestamp);
-        const assets = [denominationAsset];
+        const denominationAsset = boughtEvent.fund?.accessor.denominationAsset;
+        const denominationAssetPrice = boughtEvent?.fundState?.portfolio?.holdings?.find(holding => holding.asset.id === denominationAsset?.id)?.price?.price;
         const amount =
           Number(boughtEvent.investmentAmount) *
-          Number(boughtEvent?.fundState?.portfolio?.holdings?.[0].price?.price) *
+          Number(denominationAssetPrice || 0) *
           Number(boughtEvent?.fundState?.currencyPrices?.[0]?.price);
         const type = "Invest";
         const transaction = boughtEvent.transaction;
         return {
-          investor,
+          fundName: boughtEvent.fund?.name || "",
+          fundAddress: boughtEvent.fund?.id || "0x",
           timestamp,
-          assets,
+          assets: [denominationAsset],
           amount,
           type,
           transaction
         };
       });
 
-      const redeems: FundActivity[] = sharesRedeemedEvents.map(
+      const redeems: UserActivity[] = sharesRedeemedEvents.map(
         (redeemEvent) => {
-          const investor = redeemEvent?.investor?.id || "0x";
           const timestamp = Number(redeemEvent.timestamp);
           const assets = redeemEvent.payoutAssetAmounts.map(
             (holding) => holding.asset
@@ -66,7 +67,8 @@ export default function useFundActivities(
           const transaction = redeemEvent.transaction;
 
           return {
-            investor,
+            fundName: redeemEvent.fund?.name || "",
+            fundAddress: redeemEvent.fund?.id || "0x",
             timestamp,
             assets,
             amount,
@@ -76,7 +78,7 @@ export default function useFundActivities(
         }
       );
 
-      const _activities: FundActivity[] = invests.concat(redeems);
+      const _activities: UserActivity[] = invests.concat(redeems);
       _activities.sort((a, b) => a.timestamp - b.timestamp);
       setActivities(_activities);
     }

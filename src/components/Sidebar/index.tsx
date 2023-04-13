@@ -6,6 +6,7 @@ import { Link, useLocation } from "react-router-dom";
 import { DarkModeSwitch } from "react-toggle-dark-mode";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { toggleTheme } from "../../store/slices/theme.slice";
+import { useConnectWallet } from "@web3-onboard/react";
 
 export default function CustomSidebar({
   collapsed,
@@ -22,6 +23,7 @@ export default function CustomSidebar({
   const [collapseBehavior, setCollapseBehavior] = useState<"hide" | "collapse">(
     "hide"
   );
+  const [{wallet, connecting}] = useConnectWallet();
 
   useEffect(() => {
     setCollapseBehavior(matches ? "hide" : "collapse");
@@ -50,7 +52,7 @@ export default function CustomSidebar({
                 active={location.pathname === menuItem.href}
                 as={Link}
                 to={menuItem.href}
-                className={(location.pathname === menuItem.href ? 'active filter-svg' : '') + ' py-3 text-[14px] md:text-[18px] hover:bg-hoverColor'}
+                className={(location.pathname === menuItem.href ? 'active filter-svg' : '') + ' py-3 text-[14px] md:text-[18px] hover:bg-hoverColor' + (menuItem.isProtected && !wallet?.accounts?.[0]?.address ? ` hidden` : ' block')}
               >
                 {menuItem.title}
               </Sidebar.Item>
@@ -60,7 +62,7 @@ export default function CustomSidebar({
             <Sidebar.Item> </Sidebar.Item>
           </Sidebar.ItemGroup>
         </Sidebar.Items>
-        <div
+        {/* <div
           className="mx-3 items-center mb-0 flex md:hidden"
           onClick={(e) => {
             e.preventDefault();
@@ -74,7 +76,7 @@ export default function CustomSidebar({
             size={22}
           />
           <div className="dark:text-white ml-2">Theme</div>
-        </div>
+        </div> */}
       </Sidebar>
       {matches && !collapsed && (
         <div

@@ -27,7 +27,7 @@ export default function Select({
   useEffect(() => {
     const selectedItem = items.find(item => item.value === value);
     setSelected(selectedItem);
-  }, [value])
+  }, [value, items])
 
   const handleChanged = (item: ItemType) => {
     onChange(item.value);
