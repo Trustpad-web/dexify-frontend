@@ -1,13 +1,9 @@
-import { Avatar } from "flowbite-react";
-import { FundOverview } from "../../@types";
-import { getTokenInfo } from "../../helpers";
 import { formatCurrency, formatNumber } from "../../helpers/number";
 import { useNavigate } from "react-router-dom";
 
 export type InvestedFund = {
-  investedAmount: number,
   holdingAmount: number;
-  redeemedAmount: number;
+  returns: number;
   name: string,
   id: string
 }
@@ -15,12 +11,7 @@ const FundInvestedCard = ({ data }: { data: InvestedFund }) => {
   const num = Math.ceil(Math.random() * 1000) % 3;
   const defaultImg = `/imgs/fund/${num}.png`;
   const navigate = useNavigate();
-  const returns = data?.investedAmount
-    ? ((data?.holdingAmount || 0) +
-        (data?.redeemedAmount || 0) -
-        data?.investedAmount) /
-      data.investedAmount
-    : 0;
+  
   return (
     <div
       className="flex flex-col items-center w-[calc(100vw_-_20px)] md:w-[320px]"
@@ -47,10 +38,10 @@ const FundInvestedCard = ({ data }: { data: InvestedFund }) => {
             <span className="text-description text-[12px] font-bold">Return</span>
             <span
               className={`text-[12px] font-bold ${
-                returns > 0 ? "text-success" : "text-danger"
+                data.returns > 0 ? "text-success" : "text-danger"
               }`}
             >
-              {formatNumber(returns * 100 || 0)}%
+              {formatNumber(data.returns * 100 || 0)}%
             </span>
           </div>
         </div>

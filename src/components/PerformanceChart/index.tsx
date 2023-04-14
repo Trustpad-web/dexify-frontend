@@ -10,18 +10,22 @@ import {
 } from "recharts";
 import { MONTHS } from "../../constants";
 import useMediaQuery from "../../hooks/useMediaQuery";
-import { formatNumber } from "../../helpers";
+import { formatCurrency, formatNumber } from "../../helpers";
 
 export type PerformanceData = {
-  year: number,
-  month: number,
-  performanceBips: number
-}
+  year: number;
+  month: number;
+  performanceBips: number;
+};
 
 export default function PerformanceChart({
   data,
+  tooltipPrefix,
+  isPercent,
 }: {
   data: PerformanceData[];
+  tooltipPrefix: string;
+  isPercent: boolean;
 }) {
   const matches = useMediaQuery("(max-width: 768px)");
 
@@ -42,7 +46,10 @@ export default function PerformanceChart({
         <div className="custom-tooltip rounded-md p-3 bg-white">
           <p className="label text-[12px]">{`${MONTHS[Number(label)]}`}</p>
           <p className="desc text-[12px]">
-            ROI: {formatNumber(payload[0].value)}%
+            {tooltipPrefix}:{" "}
+            {isPercent
+              ? `${formatNumber(payload[0].value)}%`
+              : `${formatCurrency(payload[0].value)}`}
           </p>
         </div>
       );
@@ -78,9 +85,13 @@ export default function PerformanceChart({
           />
           <YAxis width={matches ? 20 : 30} fontSize={matches ? 8 : 12} />
           {/* @ts-ignore */}
-          <Tooltip content={<CustomTooltip />}/>
+          <Tooltip content={<CustomTooltip />} />
           <ReferenceLine y={0} stroke="#8C52FF00" />
-          <Bar dataKey="performanceBips" fill="url(#colorUv)" barSize={matches ? 10 : 24} />
+          <Bar
+            dataKey="performanceBips"
+            fill="url(#colorUv)"
+            barSize={matches ? 10 : 24}
+          />
         </BarChart>
       </ResponsiveContainer>
     </div>

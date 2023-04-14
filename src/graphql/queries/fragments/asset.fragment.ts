@@ -14,3 +14,21 @@ export const AssetFragment = gql`
     }
   }
 `;
+
+
+export const AssetAmountFragment = gql`
+  fragment assetAmountFragment on AssetAmount {
+    amount
+    price {
+      price
+    }
+    asset {
+      id
+      symbol
+      decimals
+      price {
+        price
+      }
+    }
+  }
+`

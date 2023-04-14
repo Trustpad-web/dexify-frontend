@@ -8,5 +8,6 @@ export type FundStateDto = {
   currencyPrices: CurrencyPriceDto[];
   portfolio?: PortfolioDto;
   shares?: ShareStateDto;
-  fund?: FundDto
+  fund?: FundDto,
+  timestamp?: string,
 };

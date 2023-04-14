@@ -10,6 +10,7 @@ export const userInvestments = (investorId: string): DocumentNode => {
       account(id: "${investorId}") {
         firstSeen
         investorSince
+        investor
         investments {
           stateHistory {
             timestamp

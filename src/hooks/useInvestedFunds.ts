@@ -16,7 +16,6 @@ export default function useInvestedFunds(investor: string) {
   const { loading, error, data } = useQuery<{ account: AccountDto }>(
     userInvestments(investor || "0x")
   );
-  const [investedFunds, setInvestedFunds] = useState<InvestedFund>();
   const currentEthPrice = useAppSelector(
     (state) => state.currency.data.price?.price
   );
@@ -74,7 +73,7 @@ export default function useInvestedFunds(investor: string) {
 
   useEffect(() => {
     if (data) {
-      const investments = data?.account.investments;
+      const investments = data?.account?.investments;
       const _holdings: {
         fundAddress: string;
         fundName: string;
@@ -99,5 +98,5 @@ export default function useInvestedFunds(investor: string) {
     }
   }, [data, currentEthPrice]);
 
-  return { holdingsPerFund, investorSince: Number(data?.account.investorSince) };
+  return { holdingsPerFund, investorSince: Number(data?.account?.investorSince), investor: data?.account?.investor };
 }

@@ -24,7 +24,7 @@ export default function usePortfolio() {
     wallet?.accounts?.[0].address || "0x"
   );
   const [roiLoading, setROILoading] = useState<boolean>(false);
-  const { holdingsPerFund, investorSince } = useInvestedFunds(
+  const { holdingsPerFund, investorSince, investor } = useInvestedFunds(
     wallet?.accounts?.[0].address || "0x"
   );
 
@@ -37,6 +37,7 @@ export default function usePortfolio() {
   );
 
   useEffect(() => {
+    let _totalAUM = 0, _totalInvested = 0, _totalRedeemed = 0;
     const _investedFunds: InvestedFund[] =
       holdingsPerFund?.map((fund) => {
         const fundAddress = fund.fundAddress;
@@ -52,26 +53,23 @@ export default function usePortfolio() {
             ?.filter((activity) => activity.type === "Withdraw")
             ?.reduce((curr, cur) => curr + cur.amount, 0) || 0;
 
+        const returns = investedAmount
+          ? ((fund?.userHoldingAmount || 0) +
+              (redeemedAmount || 0) -
+              investedAmount) /
+            investedAmount
+          : 0;
+        _totalAUM += fund.userHoldingAmount;
+        _totalInvested += investedAmount;
+        _totalRedeemed += redeemedAmount;
+
         return {
           holdingAmount: fund.userHoldingAmount,
           id: fund.fundAddress,
           name: fund.fundName,
-          investedAmount,
-          redeemedAmount,
+          returns,
         };
       }) || [];
-    const _totalAUM = _investedFunds.reduce(
-      (curr, cur) => curr + cur.holdingAmount,
-      0
-    );
-    const _totalInvested = _investedFunds.reduce(
-      (curr, cur) => curr + cur.investedAmount,
-      0
-    );
-    const _totalRedeemed = _investedFunds.reduce(
-      (curr, cur) => curr + cur.redeemedAmount,
-      0
-    );
 
     setTotalAUM(_totalAUM);
     setROI(
@@ -243,6 +241,7 @@ export default function usePortfolio() {
     roiHistory,
     roiLoading,
     loading: activityLoading,
-    investorSince
+    investorSince,
+    investor
   };
 }
