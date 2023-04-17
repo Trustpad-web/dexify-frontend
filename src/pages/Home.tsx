@@ -40,8 +40,8 @@ export default function Home() {
           slideInterval={5000}
           indicators={false}
           className="top-funds-carousel"
-          leftControl={<LeftControl />}
-          rightControl={<RightControl />}
+          leftControl={funds.length > 0 ? <LeftControl /> : <></>}
+          rightControl={funds.length > 0 ? <RightControl /> : <></>}
         >
           {loading
             ? [1, 2, 3, 4].map((item) => <FundSkeleton key={item} />)

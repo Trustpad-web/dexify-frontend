@@ -12,6 +12,7 @@ import useCurrency from "./hooks/useCurrency";
 import Portfolio from "./pages/Portfolio";
 import { useConnectWallet } from "@web3-onboard/react";
 import Manage from "./pages/Manage";
+import CreateVault from "./pages/CreateVault";
 
 export default function App() {
   useTopDexfunds();
@@ -32,6 +33,7 @@ export default function App() {
               <>
                 <Route path="/portfolio" element={<Portfolio />} />
                 <Route path="/manage" element={<Manage />} />
+                <Route path="/create-vault" element={<CreateVault/>} />
               </>
             )
           }

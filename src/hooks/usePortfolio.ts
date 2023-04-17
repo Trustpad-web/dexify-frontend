@@ -28,10 +28,10 @@ export default function usePortfolio() {
     wallet?.accounts?.[0].address || "0x"
   );
 
-  const [investedFunds, setInvestedFunds] = useState<InvestedFund[]>();
+  const [investedFunds, setInvestedFunds] = useState<InvestedFund[]>([]);
   const [totalAUM, setTotalAUM] = useState<number>(0);
   const [roi, setROI] = useState<number>(0);
-  const [roiHistory, setRoiHistory] = useState<PerformanceData[]>();
+  const [roiHistory, setRoiHistory] = useState<PerformanceData[]>([]);
   const monthlyEthPrices = useAppSelector(
     (state) => state.monthlyEthPrices.data
   );

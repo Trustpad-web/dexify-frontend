@@ -11,7 +11,7 @@ export default function useManagementFunds(manager: string) {
     userManagements(manager || "0x")
   );
 
-  const [managedFunds, setManagedFunds] = useState<InvestedFund[]>();
+  const [managedFunds, setManagedFunds] = useState<InvestedFund[]>([]);
   const currentEthPrice = useAppSelector(
     (state) => state.currency.data.price?.price
   );

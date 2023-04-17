@@ -2,6 +2,7 @@ import { useConnectWallet } from "@web3-onboard/react";
 import { BigNumber, ethers } from "ethers";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { ERC20, ERC20__factory } from "../web3/abi/types";
+import { isValidAddress } from "../helpers/web3";
 
 export default function useERC20(address: string) {
   const [{ wallet, connecting }, connect, disconnect] = useConnectWallet();
@@ -24,7 +25,7 @@ export default function useERC20(address: string) {
 
   const getBalance = useCallback(
     async (walletAddress: string) => {
-      if (contract) {
+      if (contract && isValidAddress(walletAddress)) {
         return await contract.balanceOf(walletAddress);
       } else {
         return BigNumber.from(0);

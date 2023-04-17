@@ -123,8 +123,8 @@ export default function Portfolio() {
                 slideInterval={5000}
                 indicators={false}
                 className="top-funds-carousel"
-                leftControl={<LeftControl />}
-                rightControl={<RightControl />}
+                leftControl={investedFunds?.length > 0 ? <LeftControl /> : <></>}
+                rightControl={investedFunds?.length > 0 ? <RightControl /> : <></>}
               >
                 {activityLoading
                   ? [1, 2, 3, 4].map((item) => <FundSkeleton key={item} />)

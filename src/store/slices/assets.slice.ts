@@ -3,6 +3,7 @@ import { AssetDto } from "../../@types";
 import { getAllFunds } from "../../api";
 import { ApolloClient } from "@apollo/client";
 import { assetsQuery } from "../../graphql/queries/assets";
+import { RootState } from "..";
 
 const initialState: {
     data: AssetDto[],
@@ -50,5 +51,10 @@ export const assetsSlice = createSlice({
     )
   },
 });
+
+export const getAsset = (state: RootState, id: string) => {
+  const asset = state.assets.data.find(item => item.id.toLowerCase() === id.toLowerCase());
+  return asset;
+}
 
 export default assetsSlice.reducer;

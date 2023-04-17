@@ -1,14 +1,21 @@
 import { useEffect, useState } from "react";
-import { Avatar, Button, Card } from "flowbite-react";
+import { Avatar, Button, Card, Spinner } from "flowbite-react";
 import { FundOverviewWithHistoryResponse } from "../../@types";
 import FundSkeleton from "../Skeleton/FundSkeleton";
 import MonthlyPerformance from "./MonthlyPerformance";
-import { formatCurrency, formatNumber } from "../../helpers";
+import { formatCurrency, formatNumber, getTokenInfo } from "../../helpers";
 import useERC20 from "../../hooks/useERC20";
 import { useConnectWallet } from "@web3-onboard/react";
 import { BigNumber, BigNumberish, utils } from "ethers";
 import Strategy from "./Strategy";
 import { FundActivity } from "../../hooks/useFundActivities";
+import InvestModal from "./InvestModal";
+import { Token } from "../../@types/token";
+import { formatEther, formatUnits } from "ethers/lib/utils";
+import notification from "../../helpers/notification";
+import { useInvest } from "../../hooks/useInvest";
+import WithdrawModal from "./WithdrawModal";
+import { useWithdraw } from "../../hooks/useWithdraw";
 
 export default function FundOverview({
   fundDetail,
@@ -24,6 +31,32 @@ export default function FundOverview({
 
   const { getBalance } = useERC20(fundDetail?.id || "");
   const [returns, setReturns] = useState<number>();
+  const [denominationAssetBalance, setDenominationAssetBalance] =
+    useState<BigNumber>(BigNumber.from(0));
+  const [shareBalance, setShareBalance] = useState<BigNumber>(
+    BigNumber.from(0)
+  );
+
+  const [investModalShow, setInvestModalShow] = useState<boolean>(false);
+  const [withdrawModalShow, setWithdrawModalShow] = useState<boolean>(false);
+  const [denominationToken, setDenominationToken] = useState<Token>();
+  const [shareToken, setShareToken] = useState<Token>();
+  const { getBalance: getDenominationAssetBalance } = useERC20(
+    fundDetail?.accessor?.denominationAsset?.id || "0x"
+  );
+  const {
+    investFundDenomination,
+    loading: investLoading,
+    disabled: investDisabled,
+  } = useInvest(fundDetail?.id || "0x");
+
+  const {
+    redeemSharesDetailed,
+    loading: withdrawLoading,
+    disabled: withdrawDisabled,
+  } = useWithdraw(fundDetail?.id || "0x");
+
+  const [sharePrice, setSharePrice] = useState<number>(0);
 
   useEffect(() => {
     (async function () {
@@ -34,10 +67,51 @@ export default function FundOverview({
             .mul(utils.parseEther((fundDetail.aum || 0).toString()))
             .div(utils.parseEther(fundDetail.totalShares.toString()));
           setMyDeposits(deposits);
+          setSharePrice((fundDetail.aum || 0) / fundDetail.totalShares);
+
+          setShareBalance(balance);
+          setShareToken({
+            address: fundDetail.id,
+            decimals: 18,
+            name: fundDetail.name,
+            symbol: "DXDY",
+            amount: Number(formatEther(balance)),
+            logoURI: "/imgs/logo.png",
+          });
         }
       }
     })();
   }, [fundDetail, wallet, getBalance]);
+
+  useEffect(() => {
+    if (fundDetail) {
+      const denominatinoAsset = fundDetail?.accessor?.denominationAsset;
+      if (denominatinoAsset) {
+        setDenominationToken({
+          address: denominatinoAsset.id,
+          decimals: Number(denominatinoAsset.decimals),
+          logoURI:
+            getTokenInfo(denominatinoAsset.id)?.logoURI || "/imgs/logo.png",
+          name: denominatinoAsset.name,
+          symbol: denominatinoAsset.symbol,
+          amount: Number(
+            formatUnits(denominationAssetBalance, denominatinoAsset.decimals)
+          ),
+        });
+      }
+    }
+  }, [fundDetail, denominationAssetBalance]);
+
+  useEffect(() => {
+    if (wallet) {
+      (async function () {
+        const balance = await getDenominationAssetBalance(
+          wallet?.accounts?.[0]?.address
+        );
+        setDenominationAssetBalance(balance);
+      })();
+    }
+  }, [getDenominationAssetBalance, wallet]);
 
   useEffect(() => {
     let invests = 0,
@@ -52,6 +126,24 @@ export default function FundOverview({
     const profits = Number(utils.formatEther(myDeposits)) + redeems - invests;
     setReturns(invests > 0 ? profits / invests : 0);
   }, [userActivities, myDeposits]);
+
+  const onInvest = async (amount: BigNumber) => {
+    if (amount.eq(0)) {
+      notification.warning("Error", "Amount should be greater than 0");
+      return;
+    }
+    await investFundDenomination(amount);
+    setInvestModalShow(false);
+  };
+
+  const onWithdraw = async (amount: BigNumber) => {
+    if (amount.eq(0)) {
+      notification.warning("Error", "Amount should be greater than 0");
+      return;
+    }
+    await redeemSharesDetailed(amount);
+    setWithdrawModalShow(false);
+  };
 
   return (
     <div className="mt-3 gap-3 w-full">
@@ -69,12 +161,16 @@ export default function FundOverview({
               pill={true}
               outline={true}
               className="w-[45%] bg-primary hover:bg-primary"
+              onClick={() => setInvestModalShow(true)}
+              disabled={investDisabled}
             >
               Invest
             </Button>
+
             <Button
               pill={true}
               className="w-[45%] bg-primary hover:bg-white dark:hover:bg-gray-500 hover:text-primary border-primary hover:border-primary border-2"
+              onClick={() => setWithdrawModalShow(true)}
             >
               Withdraw
             </Button>
@@ -149,6 +245,27 @@ export default function FundOverview({
           </div>
         </div>
       </div>
+
+      <InvestModal
+        show={investModalShow}
+        onClose={() => setInvestModalShow(false)}
+        onConfirm={onInvest}
+        denominationAsset={denominationToken}
+        balance={denominationAssetBalance}
+        loading={investLoading}
+        disabled={investDisabled}
+      />
+
+      <WithdrawModal
+        show={withdrawModalShow}
+        onClose={() => setWithdrawModalShow(false)}
+        onConfirm={onWithdraw}
+        balance={shareBalance}
+        loading={withdrawLoading}
+        disabled={withdrawDisabled}
+        shareToken={shareToken}
+        sharePrice={sharePrice}
+      />
     </div>
   );
 }

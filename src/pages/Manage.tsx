@@ -131,15 +131,15 @@ export default function Manage() {
         <>
           <div className="mt-8">
             <h5 className="text-title text-[16px] md:text-[20px] font-bold">
-              Funds Invested
+              Funds Managed
             </h5>
             <div className="w-[calc(100vw_-_20px)] md:w-[calc(100vw_-_320px_-_60px)] mt-5 md:pl-[20px]">
               <Carousel
                 slideInterval={5000}
                 indicators={false}
                 className="top-funds-carousel"
-                leftControl={<LeftControl />}
-                rightControl={<RightControl />}
+                leftControl={managedFunds.length > 0 ? <LeftControl /> : <></>}
+                rightControl={managedFunds.length > 0 ? <RightControl /> : <></>}
               >
                 {fundLoading
                   ? [1, 2, 3, 4].map((item) => <FundSkeleton key={item} />)

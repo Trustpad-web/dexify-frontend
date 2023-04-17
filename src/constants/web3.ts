@@ -13,4 +13,5 @@ export const UniswapV2AdapterAddress =
 export const NULL_ADDRESS = '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee';
 export const WBNB = '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c';
 
+export const DESIRED_NEWWORK = 56;
 export const EXPLORER_URL = 'https://bscscan.com';

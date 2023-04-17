@@ -1,8 +1,8 @@
-export const formatNumber = (value: number) => {
+export const formatNumber = (value: number, decimals: number = 2) => {
   if (!value) {
     return 0;
   }
-  return new Intl.NumberFormat("en-US", { maximumFractionDigits: 2 }).format(
+  return new Intl.NumberFormat("en-US", { maximumFractionDigits: decimals }).format(
     value
   );
 };

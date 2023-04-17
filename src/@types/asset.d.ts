@@ -10,4 +10,5 @@ export type AssetDto = {
     daily?: {
         open: string
     }
+    amount?: number
 }

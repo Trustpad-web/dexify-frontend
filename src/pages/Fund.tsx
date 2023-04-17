@@ -12,12 +12,13 @@ import useFundActivities from "../hooks/useFundActivities";
 import FundSocial from "../components/FundSocial";
 import { TimeRange } from "../@types/timeRange";
 import FundChart from "../components/FundChart";
+import { FUND_MENU } from "../constants/fund_menu";
+import FundManage from "../components/FundManage";
 
 export default function Fund() {
   const { fund, loading } = useFundDetails(TimeRange["1W"]);
   const [path, setPath] = useState<BreadCrumbPath[]>();
 
-  const [activeTab, setActiveTab] = useState<number>(0);
   const tabsRef = useRef<TabsRef>(null);
   const [{ wallet, connecting }, connect, disconnect] = useConnectWallet();
 
@@ -25,6 +26,9 @@ export default function Fund() {
     fund?.id || "0x",
     fund?.accessor?.denominationAsset
   );
+
+  const isManager = fund?.manager?.id === wallet?.accounts?.[0]?.address;
+  const [activeTab, setActiveTab] = useState<number>(1);
 
   useEffect(() => {
     if (fund) {
@@ -57,23 +61,22 @@ export default function Fund() {
         </div>
         <div className="w-full md:w-fit overflow-auto">
           <Button.Group className="w-full">
-            {["Overview", "Portfolio", "Fees", "Social", "Chart"].map(
-              (item, index) => (
-                <Button
-                  color="gray"
-                  className={
-                    `focus:ring-transparent focus:text-white hover:text-primary focus:bg-primary ` +
-                    (activeTab === index
-                      ? "!bg-primary !text-white"
-                      : "!bg-white")
-                  }
-                  onClick={() => tabsRef.current?.setActiveTab(index)}
-                >
-                  <HiOutlineViewGrid className="mr-3 h-4 w-4" />
-                  {item}
-                </Button>
-              )
-            )}
+            {FUND_MENU.map((item, index) => (
+              <Button
+                color="gray"
+                className={
+                  `focus:ring-transparent focus:text-white hover:text-primary focus:bg-primary ` +
+                  (activeTab === index
+                    ? "!bg-primary !text-white"
+                    : "!bg-white") +
+                  (!isManager && index === 0 ? " hidden" : "")
+                }
+                onClick={() => tabsRef.current?.setActiveTab(index)}
+              >
+                <HiOutlineViewGrid className="mr-3 h-4 w-4" />
+                {item}
+              </Button>
+            ))}
           </Button.Group>
         </div>
       </div>
@@ -83,6 +86,9 @@ export default function Fund() {
         ref={tabsRef}
         onActiveTabChange={(tab) => setActiveTab(tab)}
       >
+        <Tabs.Item title="" hidden={!isManager}>
+          {isManager && <FundManage fundDetail={fund} loading={loading} />}
+        </Tabs.Item>
         <Tabs.Item active title="">
           <FundOverview
             fundDetail={fund}
@@ -103,12 +109,14 @@ export default function Fund() {
         </Tabs.Item>
         <Tabs.Item title="">
           <FundSocial
-            manager={fund?.manager?.id || '0x'}
+            manager={fund?.manager?.id || "0x"}
             activities={activities || []}
             activityLoading={activityLoading}
           />
         </Tabs.Item>
-        <Tabs.Item title=""><FundChart fundId={fund?.id || "0x"} /></Tabs.Item>
+        <Tabs.Item title="">
+          <FundChart fundId={fund?.id || "0x"} />
+        </Tabs.Item>
       </Tabs.Group>
     </div>
   );

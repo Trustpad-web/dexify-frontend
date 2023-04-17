@@ -27,3 +27,8 @@
 .fund-details div[aria-label="Default tabs"] {
     display: none;
 }
+
+div[data-testid="flowbite-tooltip"] {
+    max-height: 400px;
+    overflow: auto;
+}
