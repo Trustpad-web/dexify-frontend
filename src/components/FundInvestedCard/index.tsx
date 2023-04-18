@@ -1,11 +1,14 @@
 import { formatCurrency, formatNumber } from "../../helpers/number";
 import { useNavigate } from "react-router-dom";
+import { FundCategoryType } from "../CreateVaultBasics/categories";
 
 export type InvestedFund = {
   holdingAmount: number;
   returns: number;
   name: string,
-  id: string
+  id: string,
+  image?: string,
+  category: FundCategoryType
 }
 const FundInvestedCard = ({ data }: { data: InvestedFund }) => {
   const num = Math.ceil(Math.random() * 1000) % 3;
@@ -18,7 +21,7 @@ const FundInvestedCard = ({ data }: { data: InvestedFund }) => {
       onClick={() => navigate(`/fund/${data.id}`)}
     >
       <img
-        src={defaultImg}
+        src={data.image || defaultImg}
         alt="fund-img"
         className="fund-img w-full rounded-[12px] h-[200px]"
       />

@@ -23,11 +23,13 @@ export default function MonthlyPerformance({
   >();
 
   useEffect(() => {
-    if (data && monthlyEthPrices) {
-      const startYear = data[0].year;
-      const startMonth = data[0].month;
-      const currnetYear = new Date().getUTCFullYear();
+    if (data  && data.length > 0 && monthlyEthPrices) {
+      const currentYear = new Date().getUTCFullYear();
       const currentMonth = new Date().getUTCMonth();
+
+      const startYear = data?.[0]?.year || currentYear;
+      const startMonth = data?.[0]?.month || currentMonth;
+
       const _monthlyPerformanceData = [];
 
       for (let j = 0; j < 12; j++) {
@@ -36,7 +38,7 @@ export default function MonthlyPerformance({
             aumChangeBips: undefined,
             sharePriceChangeBips: undefined,
           });
-        } else if (selectedYear === currnetYear && j > currentMonth) {
+        } else if (selectedYear === currentYear && j > currentMonth) {
           _monthlyPerformanceData?.push({
             aumChangeBips: undefined,
             sharePriceChangeBips: undefined,
@@ -78,9 +80,9 @@ export default function MonthlyPerformance({
   useEffect(() => {
     if (data) {
       const _years: ItemType[] = [];
-      const startYear = data[0].year;
-      const currnetYear = new Date().getUTCFullYear();
-      for (let i = startYear; i <= currnetYear; i++) {
+      const currentYear = new Date().getUTCFullYear();
+      const startYear = data?.[0]?.year || currentYear;
+      for (let i = startYear; i <= currentYear; i++) {
         _years.push({
           label: i.toString(),
           value: i,
@@ -98,7 +100,9 @@ export default function MonthlyPerformance({
   return (
     <div className="w-full">
       <div className="flex justify-between items-center w-full">
-        <h3 className="text-title text-[24px] dark:text-white font-bold">Performance</h3>
+        <h3 className="text-title text-[24px] dark:text-white font-bold">
+          Performance
+        </h3>
         <Select
           items={years}
           value={selectedYear}
@@ -126,15 +130,17 @@ export default function MonthlyPerformance({
               {MONTHS.slice(0, 6).map((_, month) => (
                 <td
                   className={`px-6 py-4 font-bold ${
-                    (monthlyPerformanceData?.[month].sharePriceChangeBips || 0) > 0
+                    (monthlyPerformanceData?.[month].sharePriceChangeBips ||
+                      0) > 0
                       ? "text-success"
                       : "text-danger"
                   }`}
                 >
-                  {monthlyPerformanceData?.[month].sharePriceChangeBips !== undefined
+                  {monthlyPerformanceData?.[month].sharePriceChangeBips !==
+                  undefined
                     ? `${formatNumber(
-                        (monthlyPerformanceData?.[month].sharePriceChangeBips || 0) *
-                          100
+                        (monthlyPerformanceData?.[month].sharePriceChangeBips ||
+                          0) * 100
                       )} %`
                     : "--"}
                 </td>
@@ -155,7 +161,8 @@ export default function MonthlyPerformance({
               {MONTHS.slice(6).map((_, month) => (
                 <td
                   className={`px-6 py-4 font-bold ${
-                    (monthlyPerformanceData?.[month + 6].sharePriceChangeBips || 0) > 0
+                    (monthlyPerformanceData?.[month + 6].sharePriceChangeBips ||
+                      0) > 0
                       ? "text-success"
                       : "text-danger"
                   }`}
@@ -163,8 +170,8 @@ export default function MonthlyPerformance({
                   {monthlyPerformanceData?.[month + 6].sharePriceChangeBips !==
                   undefined
                     ? `${formatNumber(
-                        (monthlyPerformanceData?.[month + 6].sharePriceChangeBips ||
-                          0) * 100
+                        (monthlyPerformanceData?.[month + 6]
+                          .sharePriceChangeBips || 0) * 100
                       )} %`
                     : "--"}
                 </td>

@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { Button } from "flowbite-react";
 import { NewVaultContext } from "../../pages/CreateVault";
 import { HiOutlineChevronLeft, HiOutlineChevronRight } from "react-icons/hi";
+import notification from "../../helpers/notification";
 
 export default function VaultCreationFinancials() {
   const { setCurrentStep, setVaultMeta, vaultMeta, currentStep } =
@@ -22,6 +23,15 @@ export default function VaultCreationFinancials() {
   }, [vaultMeta]);
 
   const onNextClick = () => {
+    if (!entryFee || !performanceFee) {
+      notification.warning("Validation Error", "Fee should be greater than 0");
+      return;
+    }
+    if (maxDepositAmount < minDepositAmount || !maxDepositAmount) {
+      notification.warning("Validation Error", "MAX value is not correct");
+      return;
+    }
+    
     setVaultMeta({
       ...vaultMeta,
       entryFee,
@@ -34,6 +44,14 @@ export default function VaultCreationFinancials() {
   };
 
   const onPrevClick = () => {
+    if (!entryFee || !performanceFee) {
+      notification.warning("Validation Error", "Fee should be greater than 0");
+      return;
+    }
+    if (maxDepositAmount < minDepositAmount || !maxDepositAmount) {
+      notification.warning("Validation Error", "MAX value is not correct");
+      return;
+    }
     setVaultMeta({
       ...vaultMeta,
       entryFee,
@@ -50,35 +68,37 @@ export default function VaultCreationFinancials() {
         Financials
       </h3>
       <div className="flex mt-5 gap-5 flex-col">
-        <div className="flex flex-col gap-2 flex-1">
-          <label
-            htmlFor=""
-            className="text-[10px] md:text-[12px] text-description"
-          >
-            Entry Fee
-          </label>
-          <input
-            className="text-title font-bold md:text-[16px] text-[14px] focus:border-[#333002] outline-none rounded-[12px] bg-white border-2 py-3 px-5 w-full"
-            value={entryFee}
-            type="number"
-            placeholder="0.025%"
-            onChange={(e) => setEntryFee(Number(e.target.value))}
-          />
-        </div>
-        <div className="flex flex-col gap-2 flex-1">
-          <label
-            htmlFor=""
-            className="text-[10px] md:text-[12px] text-description"
-          >
-            Performance Fee
-          </label>
-          <input
-            className="text-title font-bold md:text-[16px] text-[14px] focus:border-[#333002] outline-none rounded-[12px] bg-white border-2 py-3 px-5 w-full"
-            value={performanceFee}
-            type="number"
-            placeholder="0.25%"
-            onChange={(e) => setPerformanceFee(Number(e.target.value))}
-          />
+        <div className="flex w-full flex-col md:flex-row gap-4">
+          <div className="flex flex-col gap-2 flex-1">
+            <label
+              htmlFor=""
+              className="text-[10px] md:text-[12px] text-description"
+            >
+              Entry Fee
+            </label>
+            <input
+              className="text-title font-bold md:text-[16px] text-[14px] focus:border-[#333002] outline-none rounded-[12px] bg-white border-2 py-3 px-5 w-full"
+              value={entryFee}
+              type="number"
+              placeholder="0.025%"
+              onChange={(e) => setEntryFee(Number(e.target.value))}
+            />
+          </div>
+          <div className="flex flex-col gap-2 flex-1">
+            <label
+              htmlFor=""
+              className="text-[10px] md:text-[12px] text-description"
+            >
+              Performance Fee
+            </label>
+            <input
+              className="text-title font-bold md:text-[16px] text-[14px] focus:border-[#333002] outline-none rounded-[12px] bg-white border-2 py-3 px-5 w-full"
+              value={performanceFee}
+              type="number"
+              placeholder="0.25%"
+              onChange={(e) => setPerformanceFee(Number(e.target.value))}
+            />
+          </div>
         </div>
         <div className="flex w-full flex-col md:flex-row gap-4">
           <div className="flex flex-col gap-2 flex-1">

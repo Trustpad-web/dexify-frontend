@@ -74,7 +74,7 @@ export default function FundOverview({
             address: fundDetail.id,
             decimals: 18,
             name: fundDetail.name,
-            symbol: "DXDY",
+            symbol: "DXFY",
             amount: Number(formatEther(balance)),
             logoURI: "/imgs/logo.png",
           });

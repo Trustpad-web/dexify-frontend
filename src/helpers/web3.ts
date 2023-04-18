@@ -35,3 +35,11 @@ export const isValidAddress = (addr: string | undefined | null) => {
   }
   return true
 }
+
+export const signMessage = async (
+  signer: ethers.Signer
+) => {
+  const address = await signer.getAddress();
+  const signature = await signer.signMessage(address);
+  return { signature, address };
+};

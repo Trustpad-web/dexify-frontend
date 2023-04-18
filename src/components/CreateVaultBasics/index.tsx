@@ -4,6 +4,8 @@ import { HiOutlineChevronRight, HiX } from "react-icons/hi";
 import ImageCropModal from "../ImageCropModal/ImageCropModal";
 import { Button } from "flowbite-react";
 import notification from "../../helpers/notification";
+import Select from "../Select";
+import categories, { FundCategoryType } from "./categories";
 export default function CreateVaultBasics() {
   const { setCurrentStep, setVaultMeta, vaultMeta, currentStep } =
     useContext(NewVaultContext);
@@ -14,11 +16,13 @@ export default function CreateVaultBasics() {
   const [originImageUrl, setOriginImageUrl] = useState<string>("");
   const [imageFile, setImageFile] = useState<File | undefined>();
   const [imageUrl, setImageUrl] = useState<string>("");
+  const [fundType, setFundType] = useState<FundCategoryType>(FundCategoryType.ICON);
   const imageFileRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     setFundName(vaultMeta.name);
     setImageUrl(vaultMeta.image);
+    setFundType(vaultMeta.category);
   }, [vaultMeta]);
 
   const handleDrag = function (e: React.DragEvent<HTMLDivElement>) {
@@ -80,7 +84,9 @@ export default function CreateVaultBasics() {
     setVaultMeta({
       ...vaultMeta,
       image: imageUrl,
+      imageFile,
       name: fundName,
+      category: fundType
     });
     setCurrentStep(currentStep + 1);
   };
@@ -90,6 +96,19 @@ export default function CreateVaultBasics() {
       <h3 className="text-title font-bold text-[16px] md:text-[20px]">
         Basic Details
       </h3>
+      <div className="flex flex-col gap-2 flex-1 mt-5">
+        <label
+          htmlFor=""
+          className="text-[10px] md:text-[12px] text-description"
+        >
+          Fund Category
+        </label>
+        <Select
+          items={categories}
+          onChange={(value: FundCategoryType) => setFundType(value)}
+          value={Number(fundType)}
+        />
+      </div>
       <div className="flex mt-5 gap-5 flex-col md:flex-row">
         <div className="flex flex-col gap-2 flex-1">
           <label
@@ -140,7 +159,7 @@ export default function CreateVaultBasics() {
               </button>
             )}
             <div
-              className="w-full h-[200px] account-avatar overflow-hidden rounded-[12px] border-dashed border-2 justify-center items-center flex"
+              className="w-full h-[350px] account-avatar overflow-hidden rounded-[12px] border-dashed border-2 justify-center items-center flex"
               onClick={() => {
                 imageFileRef.current?.click();
               }}

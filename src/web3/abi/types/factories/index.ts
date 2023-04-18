@@ -3,5 +3,8 @@
 /* eslint-disable */
 export { ComptrollerLib__factory } from "./ComptrollerLib__factory";
 export { ERC20__factory } from "./ERC20__factory";
+export { EntranceRateDirectFee__factory } from "./EntranceRateDirectFee__factory";
 export { FundDeployer__factory } from "./FundDeployer__factory";
+export { MinMaxInvestment__factory } from "./MinMaxInvestment__factory";
+export { PerformanceFee__factory } from "./PerformanceFee__factory";
 export { VaultLib__factory } from "./VaultLib__factory";

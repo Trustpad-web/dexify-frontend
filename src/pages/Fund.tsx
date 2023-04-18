@@ -51,7 +51,7 @@ export default function Fund() {
       <div className="my-5 bg-primary_light rounded-[12px] p-3 w-full flex flex-wrap gap-3 justify-between items-center">
         <div className="flex flex-col md:flex-row items-center gap-3 w-full md:w-fit">
           <img
-            src="/imgs/fund/0.png"
+            src={fund?.image || "/imgs/fund/0.png"}
             alt=""
             className="w-full h-auto md:w-[100px] md:h-[80px] rounded-[12px]"
           />

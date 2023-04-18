@@ -3,10 +3,16 @@
 /* eslint-disable */
 export type { ComptrollerLib } from "./ComptrollerLib";
 export type { ERC20 } from "./ERC20";
+export type { EntranceRateDirectFee } from "./EntranceRateDirectFee";
 export type { FundDeployer } from "./FundDeployer";
+export type { MinMaxInvestment } from "./MinMaxInvestment";
+export type { PerformanceFee } from "./PerformanceFee";
 export type { VaultLib } from "./VaultLib";
 export * as factories from "./factories";
 export { ComptrollerLib__factory } from "./factories/ComptrollerLib__factory";
+export { EntranceRateDirectFee__factory } from "./factories/EntranceRateDirectFee__factory";
 export { ERC20__factory } from "./factories/ERC20__factory";
 export { FundDeployer__factory } from "./factories/FundDeployer__factory";
+export { MinMaxInvestment__factory } from "./factories/MinMaxInvestment__factory";
+export { PerformanceFee__factory } from "./factories/PerformanceFee__factory";
 export { VaultLib__factory } from "./factories/VaultLib__factory";

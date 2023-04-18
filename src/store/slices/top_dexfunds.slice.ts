@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { FundOverview } from "../../@types";
 import { backendInstance } from "../../api/axios";
-import { getTopFunds } from "../../api";
+import backendAPI from "../../api";
 
 const initialState: {
     data: FundOverview[],
@@ -14,7 +14,7 @@ const initialState: {
 export const loadTopDexfunds = createAsyncThunk(
   "topDexfunds/loadTopDexfunds",
   async () => {
-    const funds = await getTopFunds();
+    const funds = await backendAPI.fund.getTopFunds();
     return funds;
   }
 );

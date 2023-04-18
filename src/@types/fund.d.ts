@@ -42,6 +42,7 @@ export class FundOverviewWithHistoryResponse extends FundOverview {
 export class FundOverview {
   id: string;
   name: string;
+  image?: string;
   accessor?: ComptrollerDto;
   creator?: FundUserDto;
   manager?: FundUserDto;
@@ -55,4 +56,10 @@ export class FundOverview {
   sharePrice?: number;
   sharePrice1WAgo?: number;
   assets?: (AssetDto & {aum: number})[];
+}
+
+export class FundMeta {
+  addres: string;
+  image?: string;
+  category: number;
 }

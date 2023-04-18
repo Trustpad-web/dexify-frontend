@@ -139,7 +139,7 @@ export default function AllFunds() {
               >
                 <Table.Cell className="flex items-center gap-3">
                   <Avatar
-                    img="/imgs/fund/0.png"
+                    img={fund.image || "/imgs/fund/0.png"}
                     rounded={true}
                     className="min-w-fit"
                   />

@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { InvestedFund } from "../components/FundInvestedCard";
 import { useAppSelector } from "../store";
 import { MONTH } from "../constants";
+import { FundCategoryType } from "../components/CreateVaultBasics/categories";
 
 export default function useManagementFunds(manager: string) {
   const { loading, error, data } = useQuery<{ account: AccountDto }>(
@@ -12,6 +13,7 @@ export default function useManagementFunds(manager: string) {
   );
 
   const [managedFunds, setManagedFunds] = useState<InvestedFund[]>([]);
+  const meta = useAppSelector(state => state.allFunds.meta);
   const currentEthPrice = useAppSelector(
     (state) => state.currency.data.price?.price
   );
@@ -122,6 +124,7 @@ export default function useManagementFunds(manager: string) {
             }
           });
 
+          const _metadata = meta.find(item => item.addres === fund.id);
           return {
             holdingAmount: aum,
             id: fund.id,
@@ -131,6 +134,8 @@ export default function useManagementFunds(manager: string) {
                 ? (sharePrice - initialSharePrice) / initialSharePrice
                 : 0
               : 0,
+            image: _metadata?.image,
+            category: _metadata?.category || FundCategoryType.ICON
           };
         }) || [];
       setManagedFunds(_managedFunds);

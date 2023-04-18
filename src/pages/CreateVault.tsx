@@ -4,12 +4,14 @@ import CreateVaultBasics from "../components/CreateVaultBasics";
 import VaultCreationFinancials from "../components/VaultCreationFinancials";
 import VaultCreationAssets from "../components/VaultCreationAssets";
 import VaultCreationReview from "../components/VaultCreationReview";
-import { Token } from "../@types/token";
+import { FundCategoryType } from "../components/CreateVaultBasics/categories";
 
 export type VaultMetaData = {
+  category: FundCategoryType,
   name: string;
   symbol: string;
   image: string;
+  imageFile: File | undefined;
   entryFee: number;
   performanceFee: number;
   minDepositAmount: number;
@@ -19,9 +21,11 @@ export type VaultMetaData = {
 };
 
 const initialVaultMetaData = {
+  category: FundCategoryType.ICON,
   name: "",
-  symbol: "DXDY",
+  symbol: "DXFY",
   image: "",
+  imageFile: undefined,
   entryFee: 0,
   performanceFee: 0,
   minDepositAmount: 0,
@@ -60,7 +64,7 @@ export default function CreateVault() {
       <div className="flex w-full items-center flex-col">
         <div className="flex flex-col w-full rounded-[12px] bg-secondary text-white gap-5 pt-8 pb-20 items-center px-5 items-center">
           <label htmlFor="" className="text-[16px] md:text-[20px] text-center">
-            Create a Fund! 5 Quick Steps.
+            Create a Fund! 4 Quick Steps.
           </label>
           <p className="text-[14px] md:text-[16px] text-center">
             Ready to share your alpha to anyone with an internet connection?

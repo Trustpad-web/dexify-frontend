@@ -35,7 +35,7 @@ const ImageCropModal = ({ image, isOpen, onClose, onCrop }: Props) => {
   useEffect(() => {
     setAspect(1.5);
     setTimeout(() => {
-      setAspect(1);
+      setAspect(1.7);
     }, 500);
   }, [image]);
 

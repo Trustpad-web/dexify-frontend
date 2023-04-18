@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getFundChartData } from "../api";
+import backendAPI from "../api";
 import { TimeRange } from "../@types/timeRange";
 import { isValidAddress } from "../helpers/web3";
 
@@ -15,7 +15,7 @@ export default function useFundChartData(fundId: string, timeRange: TimeRange) {
   useEffect(() => {
     if (isValidAddress(fundId) && timeRange) {
         setLoading(true);
-      getFundChartData(fundId, timeRange)
+      backendAPI.fund.getFundChartData(fundId, timeRange)
         .then((data) => {
           setChartData(data);
         })

@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { FundOverview } from "../../@types";
 import { backendInstance } from "../../api/axios";
-import { getMonthlyEthPrices, getTopFunds } from "../../api";
+import backendAPI from "../../api";
 import { MonthlyEthPrice } from "../../@types/monthly_eth_price";
 
 const initialState: {
@@ -15,7 +15,7 @@ const initialState: {
 export const loadMonthlyEthPrices = createAsyncThunk(
   "monthlyEthPrices/loadMonthlyEthPrices",
   async () => {
-    const ethPrices = await getMonthlyEthPrices();
+    const ethPrices = await backendAPI.fund.getMonthlyEthPrices();
     return ethPrices;
   }
 );

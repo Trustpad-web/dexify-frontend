@@ -7,6 +7,7 @@ import { PerformanceData } from "../components/PerformanceChart";
 import { MONTH } from "../constants";
 import { InvestmentDto } from "../@types/investment";
 import { useAppSelector } from "../store";
+import { FundCategoryType } from "../components/CreateVaultBasics/categories";
 
 export type FundHolding = {
   fundAddress: string;
@@ -35,6 +36,7 @@ export default function usePortfolio() {
   const monthlyEthPrices = useAppSelector(
     (state) => state.monthlyEthPrices.data
   );
+  const meta = useAppSelector(state => state.allFunds.meta);
 
   useEffect(() => {
     let _totalAUM = 0, _totalInvested = 0, _totalRedeemed = 0;
@@ -62,12 +64,15 @@ export default function usePortfolio() {
         _totalAUM += fund.userHoldingAmount;
         _totalInvested += investedAmount;
         _totalRedeemed += redeemedAmount;
+        const _metaData = meta.find(item => item.addres === fund.fundAddress);
 
         return {
           holdingAmount: fund.userHoldingAmount,
           id: fund.fundAddress,
           name: fund.fundName,
           returns,
+          image: _metaData?.image,
+          category: _metaData?.category || FundCategoryType.ICON
         };
       }) || [];
 

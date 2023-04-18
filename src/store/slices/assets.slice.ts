@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AssetDto } from "../../@types";
-import { getAllFunds } from "../../api";
 import { ApolloClient } from "@apollo/client";
 import { assetsQuery } from "../../graphql/queries/assets";
 import { RootState } from "..";

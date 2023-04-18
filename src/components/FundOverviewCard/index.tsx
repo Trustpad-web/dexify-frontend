@@ -15,7 +15,7 @@ const FundOverviewCard = ({ data }: { data: FundOverview }) => {
       onClick={() => navigate(`/fund/${data.id}`)}
     >
       <img
-        src={defaultImg}
+        src={data.image || defaultImg}
         alt="fund-img"
         className="fund-img w-full rounded-[12px] h-[200px]"
       />

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getFundOverviewWithHistory } from "../api";
+import backendAPI from "../api";
 import { FundOverviewWithHistoryResponse } from "../@types";
 import { TimeRange } from "../@types/timeRange";
 
@@ -12,7 +12,7 @@ export default function useFundDetails(timeRange: TimeRange) {
   useEffect(() => {
     if (id) {
       setLoading(true);
-      getFundOverviewWithHistory(id, timeRange)
+      backendAPI.fund.getFundOverviewWithHistory(id, timeRange)
         .then((res) => setFund(res))
         .catch((err) => {
           setLoading(false);
