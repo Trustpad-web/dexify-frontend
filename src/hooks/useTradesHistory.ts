@@ -13,7 +13,7 @@ export default function useTradesHistory(
   const query = filterByManager
     ? tradesQuery(manager || "0x")
     : tradesQuery(fund || "0x");
-  const { loading, error, data } = useQuery<TradeHistoryDto>(query);
+  const { loading, data } = useQuery<TradeHistoryDto>(query);
   const trades = data?.tokenSwapTrades;
   const [tradeHistory, setTradeHistory] = useState<TradeActivity[]>([]);
 

@@ -2,7 +2,6 @@ import { useState, useCallback, useEffect } from "react";
 import { Avatar, Pagination, Table } from "flowbite-react";
 import { formatCurrency, getTokenInfo } from "../../helpers";
 import { USER_ACTION_PAGE_SIZE } from "../../constants";
-import { feed_table_fields } from "../../constants/feed_table_fields";
 import { HiChevronDown, HiChevronUp } from "react-icons/hi";
 import TableRowSkeleton from "../Skeleton/TableRowSkeleton";
 import { formatTime } from "../../helpers/time";
@@ -20,7 +19,6 @@ export default function UserActionTable({
   loading: boolean;
 }) {
   const matches = useMediaQuery("(max-width: 768px)");
-  const navigate = useNavigate();
   const [pageNumber, setPageNumber] = useState<number>(1);
   const [sortData, setSortData] = useState<{
     field: string;

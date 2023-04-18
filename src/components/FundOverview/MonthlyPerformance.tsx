@@ -75,7 +75,7 @@ export default function MonthlyPerformance({
       }
       setMonthlyPerformanceData(_monthlyPerformanceData);
     }
-  }, [monthlyEthPrices, selectedYear]);
+  }, [monthlyEthPrices, selectedYear, data]);
 
   useEffect(() => {
     if (data) {

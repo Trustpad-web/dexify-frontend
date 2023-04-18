@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useState, useRef } from "react";
 import { Button, Tabs, TabsRef } from "flowbite-react";
 import { FundOverviewWithHistoryResponse } from "../../@types";
 import { MANAGE_MENU } from "../../constants/fund_menu";

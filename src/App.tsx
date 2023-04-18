@@ -56,7 +56,7 @@ export default function App() {
         navigate(`/${twitterLocation}`);
       }
     }
-  }, [oauth_token, oauth_verifier, wallet, provider]);
+  }, [oauth_token, oauth_verifier, wallet, provider, dispatch, navigate]);
 
   return (
       <Layout>

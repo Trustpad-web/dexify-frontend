@@ -1,4 +1,3 @@
-import { useState, useEffect, useRef } from "react";
 import TokenSelector from "../../TokenSelector";
 import { formatCurrency, formatNumber } from "../../../helpers";
 import { Token } from "../../../@types/token";

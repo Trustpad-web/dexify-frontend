@@ -2,7 +2,7 @@ import { useConnectWallet } from "@web3-onboard/react";
 import { Button } from "flowbite-react";
 
 const ConnectButton = () => {
-  const [{ wallet, connecting }, connect, disconnect] = useConnectWallet();
+  const [{ connecting }, connect ] = useConnectWallet();
 
   const handleConnect = async () => {
     await connect();

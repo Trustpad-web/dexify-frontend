@@ -1,6 +1,4 @@
-import { ethers } from "ethers";
 import React, { useState, useEffect, useRef } from "react";
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { ReactComponent as TwitterIcon } from "../assets/imgs/twitter-icon.svg";
 import { useAppDispatch, useAppSelector } from "../store";

@@ -4,7 +4,7 @@ import { feeQuery } from "../../graphql/queries/fee";
 import TableRowSkeleton from "../Skeleton/TableRowSkeleton";
 import { AssetDto } from "../../@types";
 import { formatNumber, getTokenInfo } from "../../helpers";
-import { BigNumber, ethers, utils } from "ethers";
+import { BigNumber, utils } from "ethers";
 import {
   decodeFeeConfigData,
   decodePolicyConfigData,
@@ -12,7 +12,7 @@ import {
 import { secondsToHms } from "../../helpers/time";
 
 export default function FundFee({ id }: { id: string }) {
-  const { loading, error, data } = useQuery(feeQuery(id));
+  const { loading, data } = useQuery(feeQuery(id));
 
   const [entryFee, setEntryFee] = useState<BigNumber>(BigNumber.from(0));
   const [performanceFee, setPerformanceFee] = useState<BigNumber>(

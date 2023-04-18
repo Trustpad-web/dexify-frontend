@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useCallback } from "react";
 import { BigNumber } from "ethers";
 import { Button, Spinner } from "flowbite-react";
 import CurrencyInput from "../FundManage/FundTrade/CurrencyInput";

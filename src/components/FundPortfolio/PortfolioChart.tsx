@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { PieChart, Pie, Sector, ResponsiveContainer, Cell } from "recharts";
-import { TableAsset } from ".";
-import { formatCurrency, getTokenInfo } from "../../helpers";
+import { formatCurrency } from "../../helpers";
 import { stringToColour } from "../../helpers/color";
 
 const renderActiveShape = (props: any) => {

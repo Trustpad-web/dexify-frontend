@@ -10,7 +10,7 @@ import { ReactComponent as TwitterIcon } from "../../assets/imgs/twitter-icon.sv
 export default function Tweets({ manager }: { manager: string }) {
   const { tweets, loading, user } = useTweets(manager);
   const [data, setData] = useState<Tweet[]>();
-  const [{ wallet, connecting }] = useConnectWallet();
+  const [{ wallet }] = useConnectWallet();
 
   useEffect(() => {
     if (user && tweets) {
@@ -46,7 +46,7 @@ export default function Tweets({ manager }: { manager: string }) {
             ))}
           </ul>
         )}
-        {!loading && (!tweets || tweets.length == 0) && (
+        {!loading && (!tweets || tweets.length === 0) && (
           <div className="relative w-full h-full flex flex-col gap-3 items-center justify-center mt-16">
             <div className="relative">
               <TwitterIcon fill="gray" width={64} height={64} opacity={0.35} />

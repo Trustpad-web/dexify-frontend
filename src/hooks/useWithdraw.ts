@@ -1,4 +1,4 @@
-import { BigNumber, ethers } from 'ethers';
+import { BigNumber } from 'ethers';
 import { useCallback, useState } from 'react';
 import { useCheckNetwork } from './contracts/useCheckNetwork';
 import { useComptrollerLib } from './contracts/useComptrollerContract';

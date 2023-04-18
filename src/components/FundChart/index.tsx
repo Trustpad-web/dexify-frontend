@@ -3,7 +3,6 @@ import useFundChartData from "../../hooks/useFundChartData";
 import { TimeRange } from "../../@types/timeRange";
 import {
   AreaChart,
-  CartesianGrid,
   ResponsiveContainer,
   XAxis,
   YAxis,

@@ -1,4 +1,3 @@
-import { Card } from "flowbite-react";
 import { FundOverviewWithHistoryResponse } from "../../@types";
 
 export default function Strategy({

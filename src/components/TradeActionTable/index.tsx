@@ -6,7 +6,6 @@ import { HiChevronDown, HiChevronUp } from "react-icons/hi";
 import TableRowSkeleton from "../Skeleton/TableRowSkeleton";
 import { formatTime } from "../../helpers/time";
 import useMediaQuery from "../../hooks/useMediaQuery";
-import { useNavigate } from "react-router-dom";
 import { EXPLORER_URL } from "../../constants/web3";
 import { AssetDto } from "../../@types";
 import { trade_action_table_fields } from "../../constants/trade_action_table_fields";

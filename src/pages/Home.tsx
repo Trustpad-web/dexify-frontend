@@ -1,5 +1,4 @@
 import { Button, Carousel } from "flowbite-react";
-import useMediaQuery from "../hooks/useMediaQuery";
 import FundOverviewCard from "../components/FundOverviewCard";
 import "../assets/css/home.css";
 import { HiOutlineChevronLeft, HiOutlineChevronRight } from "react-icons/hi";

@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { BigNumber } from 'ethers';
 import { Token } from '../@types/token';
-import { parseUnits } from 'ethers/lib/utils';
 
 export type PriceRoute = {
   fromToken: Token;
@@ -47,7 +46,7 @@ export const useSwapData = (from: Token | undefined, to: Token | undefined, amou
       const _swapData = await getPriceRoute(from, to, amount);
       setSwapData(_swapData);
     }
-  }, [from?.address, to?.address, amount]);
+  }, [from, to, amount]);
 
   return swapData;
 };

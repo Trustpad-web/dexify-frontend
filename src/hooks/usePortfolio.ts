@@ -5,7 +5,6 @@ import useInvestedFunds from "./useInvestedFunds";
 import { InvestedFund } from "../components/FundInvestedCard";
 import { PerformanceData } from "../components/PerformanceChart";
 import { MONTH } from "../constants";
-import { InvestmentDto } from "../@types/investment";
 import { useAppSelector } from "../store";
 import { FundCategoryType } from "../components/CreateVaultBasics/categories";
 
@@ -235,7 +234,7 @@ export default function usePortfolio() {
         setROILoading(false);
       });
     }
-  }, [activities, holdingsPerFund, investorSince, totalAUM]);
+  }, [activities, holdingsPerFund, investorSince, totalAUM, monthlyEthPrices]);
 
   return {
     activities,

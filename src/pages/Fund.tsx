@@ -23,7 +23,7 @@ export default function Fund() {
   const [path, setPath] = useState<BreadCrumbPath[]>();
 
   const tabsRef = useRef<TabsRef>(null);
-  const [{ wallet, connecting }, connect, disconnect] = useConnectWallet();
+  const [{ wallet }] = useConnectWallet();
 
   const { activities, loading: activityLoading } = useFundActivities(
     fund?.id || "0x",

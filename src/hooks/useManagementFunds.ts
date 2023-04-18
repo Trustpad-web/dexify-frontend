@@ -8,7 +8,7 @@ import { MONTH } from "../constants";
 import { FundCategoryType } from "../components/CreateVaultBasics/categories";
 
 export default function useManagementFunds(manager: string) {
-  const { loading, error, data } = useQuery<{ account: AccountDto }>(
+  const { loading, data } = useQuery<{ account: AccountDto }>(
     userManagements(manager || "0x")
   );
 

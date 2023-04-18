@@ -19,7 +19,6 @@ export default function Feeds({
   loading: boolean;
 }) {
   const matches = useMediaQuery("(max-width: 768px)");
-  const navigate = useNavigate();
   const [pageNumber, setPageNumber] = useState<number>(1);
   const [sortData, setSortData] = useState<{
     field: string;

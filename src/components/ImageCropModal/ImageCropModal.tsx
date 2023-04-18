@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect } from "react";
 import Cropper, { Point, Area } from "react-easy-crop";
 import getCroppedImg from "./cropImage";
 import ReactModal from "react-modal";

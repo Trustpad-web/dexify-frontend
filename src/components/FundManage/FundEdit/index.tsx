@@ -1,10 +1,8 @@
 import { useEffect, useState, useRef } from "react";
-import { Avatar, Button, Spinner } from "flowbite-react";
+import { Button, Spinner } from "flowbite-react";
 import { FundOverviewWithHistoryResponse } from "../../../@types";
 import {
-  HiDocumentRemove,
   HiOutlineChevronRight,
-  HiOutlinePencil,
   HiX,
 } from "react-icons/hi";
 import ImageCropModal from "../../ImageCropModal/ImageCropModal";

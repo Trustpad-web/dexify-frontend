@@ -3,9 +3,7 @@ import useMediaQuery from "../../hooks/useMediaQuery";
 import { useEffect, useState } from "react";
 import menu from "./menu";
 import { Link, useLocation } from "react-router-dom";
-import { DarkModeSwitch } from "react-toggle-dark-mode";
 import { useAppDispatch, useAppSelector } from "../../store";
-import { toggleTheme } from "../../store/slices/theme.slice";
 import { useConnectWallet } from "@web3-onboard/react";
 
 export default function CustomSidebar({
@@ -17,13 +15,13 @@ export default function CustomSidebar({
 }) {
   const matches = useMediaQuery("(max-width: 768px)");
   const location = useLocation();
-  const dispatch = useAppDispatch();
-  const themeMode = useAppSelector((state) => state.theme.value);
+  // const dispatch = useAppDispatch();
+  // const themeMode = useAppSelector((state) => state.theme.value);
 
   const [collapseBehavior, setCollapseBehavior] = useState<"hide" | "collapse">(
     "hide"
   );
-  const [{wallet, connecting}] = useConnectWallet();
+  const [{wallet}] = useConnectWallet();
 
   useEffect(() => {
     setCollapseBehavior(matches ? "hide" : "collapse");

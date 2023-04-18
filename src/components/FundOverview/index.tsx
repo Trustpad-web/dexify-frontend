@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { Avatar, Button, Card, Spinner } from "flowbite-react";
+import { Button } from "flowbite-react";
 import { FundOverviewWithHistoryResponse } from "../../@types";
 import FundSkeleton from "../Skeleton/FundSkeleton";
 import MonthlyPerformance from "./MonthlyPerformance";
 import { formatCurrency, formatNumber, getTokenInfo } from "../../helpers";
 import useERC20 from "../../hooks/useERC20";
 import { useConnectWallet } from "@web3-onboard/react";
-import { BigNumber, BigNumberish, utils } from "ethers";
+import { BigNumber, utils } from "ethers";
 import Strategy from "./Strategy";
 import { FundActivity } from "../../hooks/useFundActivities";
 import InvestModal from "./InvestModal";
@@ -27,7 +27,7 @@ export default function FundOverview({
   userActivities: FundActivity[];
 }) {
   const [myDeposits, setMyDeposits] = useState<BigNumber>(BigNumber.from(0));
-  const [{ wallet, connecting }] = useConnectWallet();
+  const [{ wallet }] = useConnectWallet();
 
   const { getBalance } = useERC20(fundDetail?.id || "");
   const [returns, setReturns] = useState<number>();

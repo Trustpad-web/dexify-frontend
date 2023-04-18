@@ -1,7 +1,6 @@
 import {
   Bar,
   BarChart,
-  Legend,
   ReferenceLine,
   ResponsiveContainer,
   Tooltip,

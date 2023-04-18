@@ -1,9 +1,7 @@
 import { useQuery } from "@apollo/client";
 import { useEffect, useState } from "react";
-import { fundActivities } from "../graphql/queries/fundActivities";
 import { FundActivityDto } from "../@types/fundActivity";
-import { AssetDto, FundDto } from "../@types";
-import { BigNumber } from "ethers";
+import { AssetDto } from "../@types";
 import { TransactionDto } from "../@types/transaction";
 import { userActivities } from "../graphql/queries/userActivities";
 

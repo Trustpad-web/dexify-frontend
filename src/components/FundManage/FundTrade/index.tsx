@@ -5,7 +5,7 @@ import { Token } from "../../../@types/token";
 import { formatCurrency, getTokenInfo } from "../../../helpers";
 import CurrencyInput from "./CurrencyInput";
 import { useSwapData } from "../../../hooks/useSwapData";
-import { formatUnits, parseUnits } from "ethers/lib/utils";
+import { formatUnits } from "ethers/lib/utils";
 import { useAppSelector } from "../../../store";
 import { Button, Spinner } from "flowbite-react";
 import { useSwap } from "../../../hooks/useSwap";
@@ -37,7 +37,7 @@ export default function FundTrade({
       const _srcTokenMaxBalance = await getBalance(fundDetail?.id || "0x");
       setSrcTokenMaxBalance(_srcTokenMaxBalance);
     })();
-  }, [srcToken, getBalance]);
+  }, [srcToken, getBalance, fundDetail?.id]);
 
   const onSrcTokenChanged = useCallback(
     (token: Token | undefined) => {
@@ -47,7 +47,7 @@ export default function FundTrade({
         setSrcToken(token);
       }
     },
-    [srcTokens]
+    [srcTokens, destToken?.address]
   );
 
   const onDestTokenChanged = useCallback(
