@@ -32,6 +32,7 @@ export default function FundManage({
                     : "!bg-white")
                 }
                 onClick={() => tabsRef.current?.setActiveTab(index)}
+                key={`fund-tab-${index}`}
               >
                 {item}
               </Button>

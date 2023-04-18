@@ -72,7 +72,6 @@ export default function VaultCreationReview() {
         name: vaultMeta.name,
       };
       setNewFundAddress(newFundAddr);
-      setShowSuccessModal(true);
 
       // upload fund image
       if (provider) {
@@ -87,6 +86,7 @@ export default function VaultCreationReview() {
           vaultMeta.category,
           vaultMeta.imageFile
         );
+        setShowSuccessModal(true);
 
         console.log("res: ", res);
       }

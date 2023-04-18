@@ -8,8 +8,9 @@ import { store } from "./store";
 import { Provider } from "react-redux";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import { SUBGRAPH_SERVER } from "./constants";
-import { ReactNotifications } from 'react-notifications-component';
-import 'react-notifications-component/dist/theme.css';
+import { ReactNotifications } from "react-notifications-component";
+import "react-notifications-component/dist/theme.css";
+import { BrowserRouter } from "react-router-dom";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -26,7 +27,9 @@ root.render(
       <ApolloProvider client={client}>
         <Provider store={store}>
           <ReactNotifications />
-          <App />
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
         </Provider>
       </ApolloProvider>
     </Web3Context>

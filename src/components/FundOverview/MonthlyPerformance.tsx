@@ -135,6 +135,7 @@ export default function MonthlyPerformance({
                       ? "text-success"
                       : "text-danger"
                   }`}
+                  key={`performance-table-body-tr-${month}`}
                 >
                   {monthlyPerformanceData?.[month].sharePriceChangeBips !==
                   undefined
@@ -166,6 +167,7 @@ export default function MonthlyPerformance({
                       ? "text-success"
                       : "text-danger"
                   }`}
+                  key={`performance-table-tr-${month}`}
                 >
                   {monthlyPerformanceData?.[month + 6].sharePriceChangeBips !==
                   undefined

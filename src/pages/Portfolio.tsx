@@ -1,17 +1,23 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, lazy, Suspense } from "react";
 import Select, { ItemType } from "../components/Select";
 import ChartSkeleton from "../components/Skeleton/ChartSkeleton";
 import { formatCurrency, formatNumber } from "../helpers";
-import { Button, Carousel } from "flowbite-react";
+import { Button, Carousel, Spinner } from "flowbite-react";
 import { HiOutlineChevronLeft, HiOutlineChevronRight } from "react-icons/hi";
 import FundSkeleton from "../components/Skeleton/FundSkeleton";
-import FundInvestedCard from "../components/FundInvestedCard";
-import UserActionTable from "../components/UserActionTable";
-import PerformanceChart, {
-  PerformanceData,
-} from "../components/PerformanceChart";
 import usePortfolio from "../hooks/usePortfolio";
 import { useNavigate } from "react-router-dom";
+import { PerformanceData } from "../components/PerformanceChart";
+import FundInvestedCard from "../components/FundInvestedCard";
+import TableRowSkeleton from "../components/Skeleton/TableRowSkeleton";
+import '../assets/css/home.css';
+
+const PerformanceChart = lazy(
+  async () => import("../components/PerformanceChart")
+);
+const UserActionTable = lazy(
+  async () => import("../components/UserActionTable")
+);
 
 export default function Portfolio() {
   const {
@@ -24,6 +30,7 @@ export default function Portfolio() {
     investorSince,
     loading: activityLoading,
     investor,
+    investmentLoading,
   } = usePortfolio();
 
   const [yearOptions, setYearOptions] = useState<ItemType[]>([]);
@@ -79,11 +86,13 @@ export default function Portfolio() {
               {roiLoading ? (
                 <ChartSkeleton />
               ) : (
-                <PerformanceChart
-                  isPercent={true}
-                  tooltipPrefix="ROI"
-                  data={chartData}
-                />
+                <Suspense fallback={<ChartSkeleton />}>
+                  <PerformanceChart
+                    isPercent={true}
+                    tooltipPrefix="ROI"
+                    data={chartData}
+                  />
+                </Suspense>
               )}
             </div>
           )}
@@ -123,8 +132,12 @@ export default function Portfolio() {
                 slideInterval={5000}
                 indicators={false}
                 className="top-funds-carousel"
-                leftControl={investedFunds?.length > 0 ? <LeftControl /> : <></>}
-                rightControl={investedFunds?.length > 0 ? <RightControl /> : <></>}
+                leftControl={
+                  investedFunds?.length > 0 ? <LeftControl /> : <></>
+                }
+                rightControl={
+                  investedFunds?.length > 0 ? <RightControl /> : <></>
+                }
               >
                 {activityLoading
                   ? [1, 2, 3, 4].map((item) => <FundSkeleton key={item} />)
@@ -142,14 +155,16 @@ export default function Portfolio() {
               Transaction History
             </h5>
             <div className="w-full mt-5">
-              <UserActionTable
-                activities={activities || []}
-                loading={activityLoading}
-              />
+              <Suspense fallback={<TableRowSkeleton />}>
+                <UserActionTable
+                  activities={activities || []}
+                  loading={activityLoading}
+                />
+              </Suspense>
             </div>
           </div>
         </>
-      ) : (
+      ) : !investmentLoading ? (
         <>
           <div className="flex flex-col items-center w-full max-w-[300px] mx-auto mt-20 gap-3">
             <h4 className="text-title font-bold border-b-2 border-[#D8D7D8] w-[90%] text-center py-3 border-dashed">
@@ -165,6 +180,10 @@ export default function Portfolio() {
             </Button>
           </div>
         </>
+      ) : (
+        <div className="flex w-full h-full min-h-[300px] justify-center items-center">
+          <Spinner className="w-[32px] h-[32px] fill-primary" />
+        </div>
       )}
     </div>
   );

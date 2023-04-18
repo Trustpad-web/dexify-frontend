@@ -16,8 +16,8 @@ export default function CreateVaultBasics() {
   const [originImageUrl, setOriginImageUrl] = useState<string>("");
   const [imageFile, setImageFile] = useState<File | undefined>();
   const [imageUrl, setImageUrl] = useState<string>("");
-  const [fundType, setFundType] = useState<FundCategoryType>(FundCategoryType.ICON);
   const imageFileRef = useRef<HTMLInputElement | null>(null);
+  const [fundType, setFundType] = useState<FundCategoryType>(FundCategoryType.ICON);
 
   useEffect(() => {
     setFundName(vaultMeta.name);

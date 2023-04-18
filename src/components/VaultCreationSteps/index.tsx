@@ -9,7 +9,7 @@ export default function VaultCreationSteps() {
     <div className="w-full py-6 bg-white rounded-[12px] shadow-md">
       <div className="flex">
         {items.map((item, index) => (
-          <div className="flex-1">
+          <div className="flex-1" key={`vault-creation-steps-${index}`}>
             <div className="relative mb-2">
               {index !== 0 && (
                 <div

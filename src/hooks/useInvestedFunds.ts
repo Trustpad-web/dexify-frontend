@@ -98,5 +98,5 @@ export default function useInvestedFunds(investor: string) {
     }
   }, [data, currentEthPrice]);
 
-  return { holdingsPerFund, investorSince: Number(data?.account?.investorSince), investor: data?.account?.investor };
+  return { holdingsPerFund, investorSince: Number(data?.account?.investorSince), investor: data?.account?.investor, loading };
 }

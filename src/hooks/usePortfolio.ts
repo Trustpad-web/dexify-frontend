@@ -25,7 +25,7 @@ export default function usePortfolio() {
     wallet?.accounts?.[0].address || "0x"
   );
   const [roiLoading, setROILoading] = useState<boolean>(false);
-  const { holdingsPerFund, investorSince, investor } = useInvestedFunds(
+  const { holdingsPerFund, investorSince, investor, loading: investmentLoading } = useInvestedFunds(
     wallet?.accounts?.[0].address || "0x"
   );
 
@@ -64,7 +64,7 @@ export default function usePortfolio() {
         _totalAUM += fund.userHoldingAmount;
         _totalInvested += investedAmount;
         _totalRedeemed += redeemedAmount;
-        const _metaData = meta.find(item => item.addres === fund.fundAddress);
+        const _metaData = meta.find(item => item.address === fund.fundAddress);
 
         return {
           holdingAmount: fund.userHoldingAmount,
@@ -83,7 +83,7 @@ export default function usePortfolio() {
         : 0
     );
     setInvestedFunds(_investedFunds);
-  }, [holdingsPerFund, activities]);
+  }, [holdingsPerFund, activities, meta]);
 
   // Prepare ROI chart data
   useEffect(() => {
@@ -246,6 +246,7 @@ export default function usePortfolio() {
     roiHistory,
     roiLoading,
     loading: activityLoading,
+    investmentLoading,
     investorSince,
     investor
   };

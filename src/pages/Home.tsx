@@ -8,11 +8,9 @@ import FundSkeleton from "../components/Skeleton/FundSkeleton";
 import { useNavigate } from "react-router-dom";
 
 export default function Home() {
-  const matches = useMediaQuery("(max-width: 768px)");
   const { data: funds, loading } = useAppSelector((state) => state.topDexfunds);
   const navigate = useNavigate();
 
-  console.log("funds: ", funds)
   return (
     <div className="">
       <div className="ad flex items-center gap-2 md:gap-5 px-2 md:px-[48px] rounded-[12px] bg-secondary py-3 md:py-0 h-fit md:h-[160px] overflow-hidden">

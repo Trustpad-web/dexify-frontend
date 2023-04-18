@@ -1,11 +1,9 @@
-import axios from "axios";
-
-const baseUri: string = process.env.REACT_APP_SERVER_URL as string;
+import { backendInstance } from "./axios";
 
 export const getUser = (address: string): Promise<User> =>
   new Promise(async (resolve, reject) => {
     try {
-      const res = await axios.get(`${baseUri}/user`, {
+      const res = await backendInstance.get(`/user`, {
         params: {
           address,
         },
@@ -63,7 +61,7 @@ export const postUser = (
         data.append("file", file);
       }
 
-      const res = await axios.post(`${baseUri}/user`, data);
+      const res = await backendInstance.post(`/user`, data);
       resolve(res.data as User);
     } catch (error) {
       reject(error);

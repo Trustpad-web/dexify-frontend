@@ -123,8 +123,7 @@ export default function useManagementFunds(manager: string) {
               });
             }
           });
-
-          const _metadata = meta.find(item => item.addres === fund.id);
+          const _metadata = meta.find(item => item.address === fund.id);
           return {
             holdingAmount: aum,
             id: fund.id,
@@ -214,7 +213,7 @@ export default function useManagementFunds(manager: string) {
 
       setHoldingHistory(_history);
     }
-  }, [data, monthlyEthPrices, currentEthPrice]);
+  }, [data, monthlyEthPrices, currentEthPrice, meta]);
   return {
     managementFunds: data?.account?.managements,
     managedFunds,

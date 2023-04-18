@@ -1,19 +1,22 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, Suspense, lazy } from "react";
 import CustomBreadcrumbs, { BreadCrumbPath } from "../components/Breadcrumbs";
 import useFundDetails from "../hooks/useFundDetails";
 import SingleSkeleton from "../components/Skeleton/SingleSkeleton";
 import { Button, Tabs, TabsRef } from "flowbite-react";
 import { HiOutlineViewGrid } from "react-icons/hi";
-import FundOverview from "../components/FundOverview";
-import FundPortfolio from "../components/FundPortfolio";
-import FundFee from "../components/FundFee";
 import { useConnectWallet } from "@web3-onboard/react";
 import useFundActivities from "../hooks/useFundActivities";
-import FundSocial from "../components/FundSocial";
 import { TimeRange } from "../@types/timeRange";
-import FundChart from "../components/FundChart";
 import { FUND_MENU } from "../constants/fund_menu";
-import FundManage from "../components/FundManage";
+import LoadingScreen from "../layouts/LoadingScreen";
+import '../assets/css/fund.css';
+
+const FundOverview = lazy(async () => import("../components/FundOverview"));
+const FundPortfolio = lazy(async () => import("../components/FundPortfolio"));
+const FundFee = lazy(async () => import("../components/FundFee"));
+const FundSocial = lazy(async () => import("../components/FundSocial"));
+const FundChart = lazy(async () => import("../components/FundChart"));
+const FundManage = lazy(async () => import("../components/FundManage"));
 
 export default function Fund() {
   const { fund, loading } = useFundDetails(TimeRange["1W"]);
@@ -53,7 +56,7 @@ export default function Fund() {
           <img
             src={fund?.image || "/imgs/fund/0.png"}
             alt=""
-            className="w-full h-auto md:w-[100px] md:h-[80px] rounded-[12px]"
+            className="w-full h-auto md:w-[100px] md:h-[70px] rounded-[12px]"
           />
           <h5 className="text-title dark:text-white text-[14px] md:text-[16px] font-bold p-3 h-fit bg-white dark:bg-gray-700 md:-ml-7 rounded-[12px] mb-0">
             {fund?.name}
@@ -72,6 +75,7 @@ export default function Fund() {
                   (!isManager && index === 0 ? " hidden" : "")
                 }
                 onClick={() => tabsRef.current?.setActiveTab(index)}
+                key={`fund-menu-${index}`}
               >
                 <HiOutlineViewGrid className="mr-3 h-4 w-4" />
                 {item}
@@ -87,35 +91,47 @@ export default function Fund() {
         onActiveTabChange={(tab) => setActiveTab(tab)}
       >
         <Tabs.Item title="" hidden={!isManager}>
-          {isManager && <FundManage fundDetail={fund} loading={loading} />}
+          <Suspense fallback={<LoadingScreen />}>
+            {isManager && <FundManage fundDetail={fund} loading={loading} />}
+          </Suspense>
         </Tabs.Item>
         <Tabs.Item active title="">
-          <FundOverview
-            fundDetail={fund}
-            loading={loading}
-            userActivities={
-              activities?.filter(
-                (activity) =>
-                  activity.investor === wallet?.accounts?.[0].address
-              ) || []
-            }
-          />
+          <Suspense fallback={<LoadingScreen />}>
+            <FundOverview
+              fundDetail={fund}
+              loading={loading}
+              userActivities={
+                activities?.filter(
+                  (activity) =>
+                    activity.investor === wallet?.accounts?.[0].address
+                ) || []
+              }
+            />
+          </Suspense>
         </Tabs.Item>
         <Tabs.Item title="">
-          <FundPortfolio fundDetail={fund} loading={loading} />
+          <Suspense fallback={<LoadingScreen />}>
+            <FundPortfolio fundDetail={fund} loading={loading} />
+          </Suspense>
         </Tabs.Item>
         <Tabs.Item title="">
-          <FundFee id={fund?.id || "0x0"} />
+          <Suspense fallback={<LoadingScreen />}>
+            <FundFee id={fund?.id || "0x0"} />
+          </Suspense>
         </Tabs.Item>
         <Tabs.Item title="">
-          <FundSocial
-            manager={fund?.manager?.id || "0x"}
-            activities={activities || []}
-            activityLoading={activityLoading}
-          />
+          <Suspense fallback={<LoadingScreen />}>
+            <FundSocial
+              manager={fund?.manager?.id || "0x"}
+              activities={activities || []}
+              activityLoading={activityLoading}
+            />
+          </Suspense>
         </Tabs.Item>
         <Tabs.Item title="">
-          <FundChart fundId={fund?.id || "0x"} />
+          <Suspense fallback={<LoadingScreen />}>
+            <FundChart fundId={fund?.id || "0x"} />
+          </Suspense>
         </Tabs.Item>
       </Tabs.Group>
     </div>

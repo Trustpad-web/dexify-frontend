@@ -1,3 +1,4 @@
+import { FundCategoryType } from '../components/CreateVaultBasics/categories';
 import { AssetDto } from './asset';
 import { ComptrollerDto } from './comptroller';
 import { FundUserDto } from './fundUser';
@@ -43,6 +44,7 @@ export class FundOverview {
   id: string;
   name: string;
   image?: string;
+  category?: FundCategoryType;
   accessor?: ComptrollerDto;
   creator?: FundUserDto;
   manager?: FundUserDto;
@@ -59,7 +61,7 @@ export class FundOverview {
 }
 
 export class FundMeta {
-  addres: string;
+  address: string;
   image?: string;
   category: number;
 }

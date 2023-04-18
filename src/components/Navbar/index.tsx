@@ -1,19 +1,24 @@
+import { useEffect } from "react";
 import { Navbar, Dropdown, Avatar } from "flowbite-react";
-import { DarkModeSwitch } from "react-toggle-dark-mode";
 import { useAppDispatch, useAppSelector } from "../../store";
-import { toggleTheme } from "../../store/slices/theme.slice";
 import { useConnectWallet } from "@web3-onboard/react";
 import ConnectButton from "../ConnectButton";
 import { shortenAddress } from "../../helpers";
+import { useLocation, useNavigate } from "react-router-dom";
+import {
+  getMyAccount,
+  setMyAccountAsDefault,
+} from "../../store/slices/accountSlice";
 
 export default function CustomNavbar({
   onClickToggle,
 }: {
   onClickToggle: () => void;
 }) {
-
   const themeMode = useAppSelector((state) => state.theme);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const myAccount = useAppSelector((state) => state.account.user);
   // Wallet connection
   const [{ wallet, connecting }, connect, disconnect] = useConnectWallet();
 
@@ -21,10 +26,28 @@ export default function CustomNavbar({
     if (wallet) {
       disconnect(wallet);
     }
-  }
+  };
 
   const handleCollapse = () => {
     onClickToggle();
+  };
+
+  const location = useLocation();
+
+  useEffect(() => {
+    if (wallet) {
+      initAccount(wallet.accounts?.[0]?.address);
+    } else {
+      dispatch(setMyAccountAsDefault());
+    }
+  }, [wallet]);
+
+  const initAccount = async (account: string) => {
+    try {
+      dispatch(getMyAccount(account));
+    } catch (error) {
+      throw error;
+    }
   };
 
   return (
@@ -54,30 +77,32 @@ export default function CustomNavbar({
           <Dropdown
             arrowIcon={false}
             inline={true}
+            className="w-fit min-w-[150px]"
             label={
-              <Avatar
-                alt="User settings"
-                img="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-                rounded={true}
-              >
+              <Avatar alt="User settings" img={myAccount.image} rounded={true}>
                 <div className="space-y-1 font-medium text-primary dark:text-white text-start">
-                  <div className="text-sm text-description dark:text-gray-400">
-                    New User
-                  </div>
-                  <div>{shortenAddress(wallet.accounts[0].address)}</div>
+                  {myAccount.title ||
+                    (myAccount.name && (
+                      <div className="text-sm text-description dark:text-gray-400">
+                        {myAccount.title || myAccount.name}
+                      </div>
+                    ))}
                 </div>
+                <div>{shortenAddress(wallet.accounts[0].address)}</div>
               </Avatar>
             }
           >
             <Dropdown.Header>
-              <span className="block text-sm">Bonnie Green</span>
-              <span className="block truncate text-sm font-medium">
-                name@flowbite.com
-              </span>
+              {myAccount.name && <span className="text-sm"></span>}
+              {myAccount.email && (
+                <span className="block truncate text-sm font-medium">
+                  {myAccount.email}
+                </span>
+              )}
             </Dropdown.Header>
-            <Dropdown.Item>Dashboard</Dropdown.Item>
-            <Dropdown.Item>Settings</Dropdown.Item>
-            <Dropdown.Item>Earnings</Dropdown.Item>
+            <Dropdown.Item onClick={() => navigate("/account")}>
+              Settings
+            </Dropdown.Item>
             <Dropdown.Divider />
             <Dropdown.Item onClick={handleSignout}>Sign out</Dropdown.Item>
           </Dropdown>

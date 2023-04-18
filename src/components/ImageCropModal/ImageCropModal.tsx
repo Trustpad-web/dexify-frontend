@@ -24,20 +24,31 @@ type Props = {
   isOpen: boolean;
   onClose: () => void;
   onCrop: (cropImage: string) => void;
+  aspect?: number;
 };
 
-const ImageCropModal = ({ image, isOpen, onClose, onCrop }: Props) => {
+const ImageCropModal = ({
+  image,
+  isOpen,
+  onClose,
+  onCrop,
+  aspect: aspectProp,
+}: Props) => {
   const [crop, setCrop] = useState<Point>({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [aspect, setAspect] = useState(0.2);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null);
 
   useEffect(() => {
-    setAspect(1.5);
-    setTimeout(() => {
-      setAspect(1.7);
-    }, 500);
-  }, [image]);
+    if (aspectProp) {
+      setAspect(aspectProp);
+    } else {
+      setAspect(1.5);
+      setTimeout(() => {
+        setAspect(1.7);
+      }, 500);
+    }
+  }, [image, aspectProp]);
 
   const onCropComplete = useCallback((_: Area, croppedAreaPixels: Area) => {
     setCroppedAreaPixels(croppedAreaPixels);

@@ -51,7 +51,6 @@ export default function CreateVault() {
   const [currentStep, setCurrentStep] = useState<number>(0);
   const [vaultMeta, setVaultMeta] =
     useState<VaultMetaData>(initialVaultMetaData);
-  console.log("vaultMeta: ", vaultMeta, currentStep);
   return (
     <NewVaultContext.Provider
       value={{

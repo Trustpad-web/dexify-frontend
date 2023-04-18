@@ -1,8 +1,5 @@
-import { useState, useEffect } from "react";
-import { Button, Carousel } from "flowbite-react";
-import PerformanceChart, {
-  PerformanceData,
-} from "../components/PerformanceChart";
+import { useState, useEffect, Suspense, lazy } from "react";
+import { Button, Carousel, Spinner } from "flowbite-react";
 import Select, { ItemType } from "../components/Select";
 import ChartSkeleton from "../components/Skeleton/ChartSkeleton";
 import { formatCurrency, formatNumber } from "../helpers";
@@ -10,8 +7,16 @@ import useManagements from "../hooks/useManagement";
 import { HiOutlineChevronLeft, HiOutlineChevronRight } from "react-icons/hi";
 import FundInvestedCard from "../components/FundInvestedCard";
 import FundSkeleton from "../components/Skeleton/FundSkeleton";
-import TradeActionTable from "../components/TradeActionTable";
 import { useNavigate } from "react-router-dom";
+import TableRowSkeleton from "../components/Skeleton/TableRowSkeleton";
+import '../assets/css/home.css';
+
+const TradeActionTable = lazy(
+  async () => import("../components/TradeActionTable")
+);
+const PerformanceChart = lazy(
+  async () => import("../components/PerformanceChart")
+);
 
 export default function Manage() {
   const {
@@ -25,9 +30,7 @@ export default function Manage() {
     chartData,
     manager,
   } = useManagements();
-  const [filteredChartData, setFilteredChartData] = useState<PerformanceData[]>(
-    []
-  );
+
   const [yearOptions, setYearOptions] = useState<ItemType[]>([]);
   const [selectedYear, setSelectedYear] = useState<number>(
     new Date().getUTCFullYear()
@@ -73,16 +76,18 @@ export default function Manage() {
               {fundLoading ? (
                 <ChartSkeleton />
               ) : (
-                <PerformanceChart
-                  tooltipPrefix="Share Price"
-                  isPercent={false}
-                  data={chartData
-                    ?.filter((item) => item.year === selectedYear)
-                    .map((item) => ({
-                      ...item,
-                      performanceBips: item.sharePrice,
-                    }))}
-                />
+                <Suspense fallback={<ChartSkeleton />}>
+                  <PerformanceChart
+                    tooltipPrefix="Share Price"
+                    isPercent={false}
+                    data={chartData
+                      ?.filter((item) => item.year === selectedYear)
+                      .map((item) => ({
+                        ...item,
+                        performanceBips: item.sharePrice,
+                      }))}
+                  />
+                </Suspense>
               )}
             </div>
           )}
@@ -139,7 +144,9 @@ export default function Manage() {
                 indicators={false}
                 className="top-funds-carousel"
                 leftControl={managedFunds.length > 0 ? <LeftControl /> : <></>}
-                rightControl={managedFunds.length > 0 ? <RightControl /> : <></>}
+                rightControl={
+                  managedFunds.length > 0 ? <RightControl /> : <></>
+                }
               >
                 {fundLoading
                   ? [1, 2, 3, 4].map((item) => <FundSkeleton key={item} />)
@@ -157,14 +164,16 @@ export default function Manage() {
               Trading History
             </h5>
             <div className="w-full mt-5">
-              <TradeActionTable
-                activities={tradeHistory}
-                loading={historyLoading}
-              />
+              <Suspense fallback={<TableRowSkeleton />}>
+                <TradeActionTable
+                  activities={tradeHistory}
+                  loading={historyLoading}
+                />
+              </Suspense>
             </div>
           </div>
         </>
-      ) : (
+      ) : !fundLoading ? (
         <div className="flex flex-col items-center w-full max-w-[300px] mx-auto mt-20 gap-3">
           <h4 className="text-title font-bold border-b-2 border-[#D8D7D8] w-[90%] text-center py-3 border-dashed">
             Manage a Fund
@@ -177,6 +186,10 @@ export default function Manage() {
           >
             Create New Vault {` `} <HiOutlineChevronRight color="white" />
           </Button>
+        </div>
+      ) : (
+        <div className="flex w-full h-full min-h-[300px] justify-center items-center">
+          <Spinner className="w-[32px] h-[32px] fill-primary" />
         </div>
       )}
     </div>

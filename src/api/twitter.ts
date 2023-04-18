@@ -1,12 +1,9 @@
-import axios from "axios";
-
-// const baseUri: string = process.env.REACT_APP_SERVER_URL as string;
-const baseUri: string = "https://api.dexify.finance";
+import { backendInstance } from "./axios";
 
 export const twitterLogin = () => {
   (async () => {
     try {
-      const { data } = await axios.get(`${baseUri}/twitter/auth_link`);
+      const { data } = await backendInstance.get(`/twitter/auth_link`);
       localStorage.setItem("oauth_token", data.oauth_token);
       localStorage.setItem("oauth_token_secret", data.oauth_token_secret);
       window.location.href = `https://api.twitter.com/oauth/authorize?oauth_token=${data.oauth_token}`;
@@ -22,7 +19,7 @@ export const saveTwitterUserInfo = async (
   oauth_verifier: string
 ) => {
   try {
-    const { data } = await axios.post(`${baseUri}/twitter/connect`, {
+    const { data } = await backendInstance.post(`/twitter/connect`, {
       address,
       signature,
       oauth_token: localStorage.getItem("oauth_token"),
@@ -37,7 +34,7 @@ export const saveTwitterUserInfo = async (
 
 export const logoutUser = async (address: string, signature: string) => {
   try {
-    const { data } = await axios.get(`${baseUri}/twitter/disconnect`, {
+    const { data } = await backendInstance.get(`/twitter/disconnect`, {
       params: {
         address,
         signature,
@@ -53,7 +50,7 @@ export const logoutUser = async (address: string, signature: string) => {
 
 export const getTweetsWithUserInfo = async (address: string) => {
   try {
-    const { data } = await axios.get(`${baseUri}/twitter/tweets`, {
+    const { data } = await backendInstance.get(`/twitter/tweets`, {
       params: {
         address,
       },

@@ -7,8 +7,8 @@ import notification from '../../helpers/notification';
 
 
 const initialUser: User = {
-  title: 'New User',
-  image: '/images/default-user.png',
+  title: '',
+  image: '',
   id: '',
   name: '',
   bio: '',
@@ -16,7 +16,7 @@ const initialUser: User = {
   email: '',
   twitterName: '',
   twitterScreenName: '',
-  twitterImage: '/images/default-user.png',
+  twitterImage: '',
 };
 
 const initialState: AccountState = {
@@ -144,12 +144,10 @@ export const myAccountSlice = createSlice({
       getMyAccount.fulfilled,
       (state, action: PayloadAction<User>) => {
         state.user = action.payload;
-        return state;
       },
     );
     builder.addCase(getMyAccount.rejected, (state) => {
       state.user = initialUser;
-      return state;
     });
 
     builder.addCase(createOrUpdateMyAccount.pending, (state) => {
@@ -158,11 +156,9 @@ export const myAccountSlice = createSlice({
     builder.addCase(createOrUpdateMyAccount.fulfilled, (state, action) => {
       state.user = action.payload;
       state.loading = false;
-      return state;
     });
     builder.addCase(createOrUpdateMyAccount.rejected, (state) => {
       state.loading = false;
-      return state;
     });
     builder.addCase(updateMyAccountWithTwitter.pending, (state) => {
       state.loading = true;
@@ -170,23 +166,19 @@ export const myAccountSlice = createSlice({
     builder.addCase(updateMyAccountWithTwitter.fulfilled, (state, action) => {
       state.user = action.payload;
       state.loading = false;
-      return state;
     });
     builder.addCase(updateMyAccountWithTwitter.rejected, (state) => {
       state.loading = false;
-      return state;
     });
     builder.addCase(logoutTwitterUser.pending, (state) => {
       state.loading = true;
     });
     builder.addCase(logoutTwitterUser.rejected, (state) => {
       state.loading = false;
-      return state;
     });
     builder.addCase(logoutTwitterUser.fulfilled, (state, action) => {
       state.user = action.payload;
       state.loading = false;
-      return state;
     });
   },
 });
