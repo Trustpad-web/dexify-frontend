@@ -68,7 +68,7 @@ export default function Fund() {
               <Button
                 color="gray"
                 className={
-                  `focus:ring-transparent focus:text-white hover:text-primary focus:bg-primary ` +
+                  `focus:ring-transparent focus:text-white hover:text-primary focus:bg-primary focus:!z-[5] ` +
                   (activeTab === index
                     ? "!bg-primary !text-white"
                     : "!bg-white") +

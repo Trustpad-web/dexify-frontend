@@ -31,7 +31,7 @@ export default function CustomSidebar({
     <div className="w-fit z-20">
       <Sidebar
         aria-label="Sidebar with logo branding example"
-        className={`${matches ? 'fixed top-0 left-0' : ''} z-10 w-[320px] h-screen rounded-none p-3 pt-5 bg-white dark:bg-gray-800`}
+        className={`${matches ? 'fixed top-0 left-0' : ''} z-10 w-[320px] h-screen rounded-none p-3 pt-5 bg-white dark:bg-gray-800 delay-75`}
         id="logo-sidebar"
         collapsed={collapsed}
         collapseBehavior={collapseBehavior}
@@ -49,6 +49,7 @@ export default function CustomSidebar({
                 key={menuItem.title}
                 active={location.pathname === menuItem.href}
                 as={Link}
+                onClick={() => matches ? hide() : {}}
                 to={menuItem.href}
                 className={(location.pathname === menuItem.href ? 'active filter-svg' : '') + ' py-3 text-[14px] md:text-[18px] hover:bg-hoverColor' + (menuItem.isProtected && !wallet?.accounts?.[0]?.address ? ` hidden` : ' block')}
               >

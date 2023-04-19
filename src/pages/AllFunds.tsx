@@ -177,14 +177,14 @@ export default function AllFunds() {
                         rounded={true}
                         stacked={true}
                         key={`asset-avatar-${index}`}
-                        size={matches ? "xs" : "sm"}
+                        size={"sm"}
                       />
                     ))}
                     {(fund?.assets?.length || 0) > 4 && (
                       <Avatar.Counter
                         total={(fund?.assets?.length || 0) - 4}
                         href="#"
-                        className="md:w-[32px] md:h-[32px] w-[24px] h-[24px]"
+                        className="w-[32px] h-[32px]"
                       />
                     )}
                   </Avatar.Group>

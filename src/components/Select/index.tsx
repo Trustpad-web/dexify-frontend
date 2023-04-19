@@ -76,7 +76,7 @@ export default function Select({
       </button>
       <div
         id="dropdownRadio"
-        className={`z-10 ${
+        className={`z-[5] ${
           open ? "block" : "hidden"
         } bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600 w-full`}
         data-popper-reference-hidden=""

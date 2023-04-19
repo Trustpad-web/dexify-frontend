@@ -140,7 +140,7 @@ export default function FundEdit({
           >
             {imageUrl !== "" && (
               <button
-                className="w-6 h-6 flex items-center justify-center rounded-full absolute right-[-10px] top-[-10px] z-20 bg-bg-1 dark:bg-bg-1-dark shadow-lg"
+                className="w-6 h-6 flex items-center justify-center rounded-full absolute right-[-10px] top-[-10px] z-[5] bg-bg-1 dark:bg-bg-1-dark shadow-lg"
                 onClick={() => {
                   setOriginImageUrl("");
                   setImageUrl("");
@@ -160,7 +160,7 @@ export default function FundEdit({
                 <img
                   src={imageUrl}
                   alt="avatar"
-                  className="w-full h-full z-10 left-0 top-0"
+                  className="w-full h-full z-[5] left-0 top-0"
                 />
               ) : (
                 "Click or Drag and Drop your image."
@@ -168,7 +168,7 @@ export default function FundEdit({
             </div>
             {dragActive && (
               <div
-                className="account-avatar absolute z-10 bg-gray-300 dark:bg-slate-800"
+                className="account-avatar absolute z-[5] bg-gray-300 dark:bg-slate-800"
                 onDragEnter={handleDrag}
                 onDragLeave={handleDrag}
                 onDragOver={handleDrag}

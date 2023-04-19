@@ -160,14 +160,14 @@ export default function Feeds({
                           rounded={true}
                           stacked={true}
                           key={`asset-avatar-${index}`}
-                          size={matches ? "xs" : "sm"}
+                          size={"sm"}
                         />
                       ))}
                       {item.assets.length > 4 && (
                         <Avatar.Counter
                           total={item.assets.length - 4}
                           href="#"
-                          className="md:w-[32px] md:h-[32px] w-[24px] h-[24px]"
+                          className="w-[32px] h-[32px]"
                         />
                       )}
                     </Avatar.Group>
