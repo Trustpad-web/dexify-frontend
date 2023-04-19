@@ -82,7 +82,6 @@ export default function CustomSidebar({
           drawer-backdrop="logo-sidebar"
           className={`bg-gray-900 bg-opacity-50 dark:bg-opacity-80 fixed inset-0 z-8`}
           onClick={() => {
-            console.log("backdrop clicked");
             hide();
           }}
         />

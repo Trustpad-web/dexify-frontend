@@ -78,7 +78,6 @@ export default function VaultCreationReview() {
         const { signature, address } = await signMessage(
           provider.getSigner(wallet?.accounts?.[0]?.address)
         );
-        console.log("signature: ", signature, address);
         const res = await backendAPI.fund.postFund(
           signature,
           newFundAddr.toLowerCase(),
@@ -88,7 +87,6 @@ export default function VaultCreationReview() {
         );
         setShowSuccessModal(true);
 
-        console.log("res: ", res);
       }
 
       dispatch(addFund(newFund));

@@ -28,7 +28,7 @@ export default function MonthlyPerformance({
       const currentMonth = new Date().getUTCMonth();
 
       const startYear = data?.[0]?.year || currentYear;
-      const startMonth = data?.[0]?.month || currentMonth;
+      const startMonth = (data?.[0]?.month !== undefined) ? data?.[0]?.month : currentMonth;
 
       const _monthlyPerformanceData = [];
 
