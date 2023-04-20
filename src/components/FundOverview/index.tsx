@@ -16,6 +16,7 @@ import notification from "../../helpers/notification";
 import { useInvest } from "../../hooks/useInvest";
 import WithdrawModal from "./WithdrawModal";
 import { useWithdraw } from "../../hooks/useWithdraw";
+import backendApi from "../../api";
 
 export default function FundOverview({
   fundDetail,
@@ -57,6 +58,21 @@ export default function FundOverview({
   } = useWithdraw(fundDetail?.id || "0x");
 
   const [sharePrice, setSharePrice] = useState<number>(0);
+
+  const [manager, setManager] = useState<User>();
+
+  useEffect(() => {
+    if (fundDetail?.manager?.id) {
+      backendApi.user
+        .getUser(fundDetail?.manager?.id)
+        .then((res) => {
+          setManager(res);
+        })
+        .catch((err) => {
+          console.log("err: ", err);
+        });
+    }
+  }, [fundDetail?.manager]);
 
   useEffect(() => {
     (async function () {
@@ -209,7 +225,7 @@ export default function FundOverview({
       </div>
       <div className="flex gap-10 flex-col md:flex-row mt-5">
         <div className="w-full md:w-[60%] order-2 md:order-1">
-          <Strategy fundDetail={fundDetail} loading={loading} />
+          {/* <Strategy fundDetail={fundDetail} loading={loading} /> */}
         </div>
         <div className="flex flex-col flex-1 gap-6 order-1 md:order-2">
           <div className="my-5 ">
@@ -218,31 +234,41 @@ export default function FundOverview({
               <div className="flex items-center space-x-4">
                 <img
                   className="w-10 h-10 rounded-full"
-                  src="/imgs/logo.png"
+                  src={
+                    manager?.image ||
+                    manager?.twitterImage ||
+                    "/imgs/default-user.png"
+                  }
                   alt=""
                 />
                 <div className="font-medium dark:text-white">
-                  <div className="text-title text-[16px] md:text-[20px]">
-                    Dexify Team
-                  </div>
-                  <div className="text-[12px] text-description dark:text-gray-400">
-                    Lorem Ipsum is simply dummy text of the printing and
-                    typesetting industry. Lorem Ipsum has been the industry's
-                    standard dummy text ever since the 1500s
-                  </div>
+                  {(manager?.title || manager?.name) ? (
+                    <div className="text-title text-[16px] md:text-[20px]">
+                      {manager?.title || manager?.name}
+                    </div>
+                  ) : (
+                    <div className="text-title text-[16px] md:text-[20px]">
+                      {manager?.id}
+                    </div>
+                  )}
+                  {manager?.bio && (
+                    <div className="text-[12px] text-description dark:text-gray-400">
+                      {manager?.bio}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="flex flex-col gap-5">
+          {/* <div className="flex flex-col gap-5">
             <h4 className="text-title text-[20px] font-bold">
               Rebalancing Period
             </h4>
             <span className="text-description rounded-[12px] bg-white border-[1px] py-3 px-5 w-full">
               Monthly
             </span>
-          </div>
+          </div> */}
         </div>
       </div>
 

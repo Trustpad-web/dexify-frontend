@@ -32,11 +32,13 @@ export default function FundFee({ id }: { id: string }) {
       const fund = data.fund;
       const comptrollerProxy = fund.comptrollerProxies?.[0];
       if (comptrollerProxy) {
-        const { feeManagerConfigData, policyManagerConfigData } =
+        try {
+          const { feeManagerConfigData, policyManagerConfigData } =
           comptrollerProxy;
         setDenominationAsset(comptrollerProxy.denominationAsset);
         setTimelock(comptrollerProxy.sharesActionTimelock);
 
+        
         // Decode policy config data
         const { min, max } = decodePolicyConfigData(policyManagerConfigData);
         setMinInvestAmount(min);
@@ -47,6 +49,9 @@ export default function FundFee({ id }: { id: string }) {
 
         setEntryFee(entryFee);
         setPerformanceFee(performanceFee);
+        } catch (err) {
+          console.log("fund fee parse error: ", err);
+        }
       }
     }
   }, [data]);
