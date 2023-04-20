@@ -30,7 +30,13 @@ export default function Fund() {
     fund?.accessor?.denominationAsset
   );
 
-  const isManager = fund?.manager?.id === wallet?.accounts?.[0]?.address;
+  const [isManager, setIsManager] = useState<boolean>(false);
+
+  useEffect(() => {
+    const _isManager = fund?.manager?.id?.toLowerCase() === wallet?.accounts?.[0]?.address?.toLowerCase();
+    setIsManager(_isManager);
+
+  }, [fund, wallet])
   const [activeTab, setActiveTab] = useState<number>(1);
 
   useEffect(() => {
