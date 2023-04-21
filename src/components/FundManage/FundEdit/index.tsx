@@ -74,7 +74,11 @@ export default function FundEdit({
   useEffect(() => {
     setFundName(fundDetail?.name || "");
     setImageUrl(fundDetail?.image || "");
-    setFundCategory(fundDetail?.category || FundCategoryType.ICON);
+    setFundCategory(
+      fundDetail?.category !== undefined
+        ? fundDetail.category
+        : FundCategoryType.ICON
+    );
     setFundDescription(fundDetail?.description || "");
   }, [fundDetail]);
 

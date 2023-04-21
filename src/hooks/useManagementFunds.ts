@@ -134,7 +134,7 @@ export default function useManagementFunds(manager: string) {
                 : 0
               : 0,
             image: _metadata?.image,
-            category: _metadata?.category || FundCategoryType.ICON
+            category: _metadata?.category !== undefined ? _metadata.category : FundCategoryType.ICON
           };
         }) || [];
       setManagedFunds(_managedFunds);

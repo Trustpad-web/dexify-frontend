@@ -71,7 +71,7 @@ export default function usePortfolio() {
           name: fund.fundName,
           returns,
           image: _metaData?.image,
-          category: _metaData?.category || FundCategoryType.ICON
+          category: _metaData?.category !== undefined ? _metaData.category : FundCategoryType.ICON
         };
       }) || [];
 
