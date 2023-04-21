@@ -24,7 +24,7 @@ export default function TweetCard({ tweet }: { tweet: Tweet }) {
         dangerouslySetInnerHTML={{ __html: tweet.content }}
       />
       <span className="text-description text-[10px]">
-        {formatTime(tweet.timestamp)}
+        {formatTime(tweet.timestamp / 1000)}
       </span>
     </div>
   );

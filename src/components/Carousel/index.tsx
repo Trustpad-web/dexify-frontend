@@ -15,7 +15,7 @@ export default function CustomCarousel({
     <div className="w-[calc(100%)] md:w-[calc(1536px_-_320px_-_20px)]">
       <Carousel
         slideInterval={5000}
-        slide={true}
+        slide={false}
         indicators={false}
         className="top-funds-carousel"
         leftControl={isLeftControlShow ? <LeftControl /> : <></>}
