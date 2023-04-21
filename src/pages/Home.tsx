@@ -40,8 +40,6 @@ export default function Home() {
     }
   }, [allfunds]);
 
-  console.log("topIndexFund: ", topIndexFund, loadingAllFunds, allfunds);
-
   const navigate = useNavigate();
 
   return (
