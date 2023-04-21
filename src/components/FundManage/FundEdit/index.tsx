@@ -1,10 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { Button, Spinner } from "flowbite-react";
 import { FundOverviewWithHistoryResponse } from "../../../@types";
-import {
-  HiOutlineChevronRight,
-  HiX,
-} from "react-icons/hi";
+import { HiOutlineChevronRight, HiX } from "react-icons/hi";
 import ImageCropModal from "../../ImageCropModal/ImageCropModal";
 import useProvider from "../../../hooks/useProvider";
 import { signMessage } from "../../../helpers/web3";
@@ -22,6 +19,9 @@ export default function FundEdit({
   fundDetail: FundOverviewWithHistoryResponse | undefined;
 }) {
   const [fundName, setFundName] = useState<string>(fundDetail?.name || "");
+  const [fundDescription, setFundDescription] = useState<string>(
+    fundDetail?.description || ""
+  );
   const [performanceFee, setPerformanceFee] = useState<number>(0);
   const [fundCategory, setFundCategory] = useState<FundCategoryType>(
     FundCategoryType.ICON
@@ -54,15 +54,16 @@ export default function FundEdit({
           fundDetail?.id.toLowerCase() || "",
           address,
           fundCategory,
-          imageFile
+          imageFile,
+          fundDescription
         );
         notification.success("Success", "");
       } catch (error: any) {
-        const err = error?.reason?.split(':');
+        const err = error?.reason?.split(":");
         const errorTitle = err ? err[0].toUpperCase() : error.message;
         notification.danger(
           errorTitle,
-          error?.reason?.slice(errorTitle.length + 1),
+          error?.reason?.slice(errorTitle.length + 1)
         );
       } finally {
         setLoading(false);
@@ -74,6 +75,7 @@ export default function FundEdit({
     setFundName(fundDetail?.name || "");
     setImageUrl(fundDetail?.image || "");
     setFundCategory(fundDetail?.category || FundCategoryType.ICON);
+    setFundDescription(fundDetail?.description || "");
   }, [fundDetail]);
 
   const handleDrag = function (e: React.DragEvent<HTMLDivElement>) {
@@ -135,7 +137,7 @@ export default function FundEdit({
             Fund Image
           </label>
           <div
-            className="account-avatar relative w-[250px] h-[150px]"
+            className="account-avatar relative w-full md:w-[250px] md:h-[150px] h-[200px] bg-white"
             onDragEnter={handleDrag}
           >
             {imageUrl !== "" && (
@@ -151,7 +153,7 @@ export default function FundEdit({
               </button>
             )}
             <div
-              className="w-full h-full account-avatar overflow-hidden rounded-[12px] border-dashed border-2 justify-center items-center flex"
+              className="w-full h-full account-avatar overflow-hidden rounded-[12px] border-dashed border-2 justify-center items-center flex text-center"
               onClick={() => {
                 imageFileRef.current?.click();
               }}
@@ -187,7 +189,9 @@ export default function FundEdit({
             ref={imageFileRef}
           />
         </div>
-        <div className="flex flex-col gap-2 flex-1 mt-5">
+      </div>
+      <div className="flex mt-5 items-start md:items-center md:flex-row flex-col gap-5">
+        <div className="flex flex-col gap-2 flex-1">
           <label
             htmlFor=""
             className="text-[10px] md:text-[12px] text-description"
@@ -198,6 +202,20 @@ export default function FundEdit({
             items={categories}
             onChange={(value: FundCategoryType) => setFundCategory(value)}
             value={Number(fundCategory)}
+          />
+        </div>
+        <div className="flex flex-col gap-2 flex-1">
+          <label
+            htmlFor=""
+            className="text-[10px] md:text-[12px] text-description"
+          >
+            Fund Description
+          </label>
+          <input
+            className="text-title font-bold md:text-[16px] text-[14px] focus:border-[#333002] outline-none rounded-[12px] bg-white border-2 py-3 px-5 w-full"
+            value={fundDescription}
+            type="text"
+            onChange={(e) => setFundDescription(e.target.value)}
           />
         </div>
       </div>

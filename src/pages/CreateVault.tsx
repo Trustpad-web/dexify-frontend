@@ -9,6 +9,7 @@ import { FundCategoryType } from "../components/CreateVaultBasics/categories";
 export type VaultMetaData = {
   category: FundCategoryType,
   name: string;
+  description: string;
   symbol: string;
   image: string;
   imageFile: File | undefined;
@@ -20,9 +21,10 @@ export type VaultMetaData = {
   denominationAsset: string;
 };
 
-const initialVaultMetaData = {
+const initialVaultMetaData: VaultMetaData = {
   category: FundCategoryType.ICON,
   name: "",
+  description: "",
   symbol: "DXFY",
   image: "",
   imageFile: undefined,

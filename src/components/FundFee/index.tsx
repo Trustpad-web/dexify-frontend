@@ -61,7 +61,7 @@ export default function FundFee({ id }: { id: string }) {
       {loading ? (
         <TableRowSkeleton />
       ) : (
-        <div className="w-full max-w-[500px]">
+        <div className="w-full">
           <h4 className="mb-5 text-title text-[18px] md:text-[24px] font-bold">
             Fees
           </h4>

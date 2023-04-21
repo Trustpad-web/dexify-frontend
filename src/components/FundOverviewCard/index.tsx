@@ -11,18 +11,18 @@ const FundOverviewCard = ({ data }: { data: FundOverview }) => {
 
   return (
     <div
-      className="flex flex-col items-center w-[calc(100vw_-_20px)] md:w-[320px]"
+      className="flex flex-col items-center w-[calc(100vw_-_30px)] md:w-[380px]"
       onClick={() => navigate(`/fund/${data.id}`)}
     >
       <img
         src={data.image || defaultImg}
         alt="fund-img"
-        className="fund-img w-full rounded-[12px] h-[200px]"
+        className="fund-img w-full rounded-[12px] h-[220px]"
       />
-      <div className="fund-info flex flex-col w-[80%] mt-[-30px] rounded-[12px] bg-white  p-[8px]  min-h-[130px]">
+      <div className="fund-info flex flex-col w-[80%] mt-[-60px] rounded-[12px] bg-white  p-[8px]  min-h-[130px]">
         <h4 className="text-title font-bold text-[16px] mb-0">{data.name}</h4>
         <span className="text-description font-medium text-[12px]">
-          {"The top 10 projects in crypto"}
+          {data.description}
         </span>
         <div className="fund-detail mt-auto flex justify-between items-center">
           <Avatar.Group className="-space-x-2">

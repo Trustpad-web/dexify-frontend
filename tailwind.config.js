@@ -15,6 +15,7 @@ module.exports = {
         hoverColor: '#CB6CE622',
         primary_light: '#EEE5FF',
         primary_50: '#DDCCFF',
+        shadow_color: '#5e17eb14',
       }
     },
   },

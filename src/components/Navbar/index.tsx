@@ -3,7 +3,7 @@ import { Navbar, Dropdown, Avatar } from "flowbite-react";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { useConnectWallet } from "@web3-onboard/react";
 import ConnectButton from "../ConnectButton";
-import { shortenAddress } from "../../helpers";
+import { formatNumber, shortenAddress } from "../../helpers";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
   getMyAccount,
@@ -21,7 +21,6 @@ export default function CustomNavbar({
   const myAccount = useAppSelector((state) => state.account.user);
   // Wallet connection
   const [{ wallet, connecting }, connect, disconnect] = useConnectWallet();
-
   const handleSignout = () => {
     if (wallet) {
       disconnect(wallet);
@@ -54,7 +53,7 @@ export default function CustomNavbar({
     <Navbar
       fluid={true}
       rounded={false}
-      className="sticky w-full px-5 py-5 md:pr-[50px] top-0 z-10"
+      className="sticky w-full px-5 py-5 md:pr-[50px] top-0 z-10 shadow-md shadow-shadow_color rounded-md"
     >
       <Navbar.Toggle onClick={handleCollapse} />
       <Navbar.Brand href="https://dexify.io/" className="flex md:hidden">
@@ -80,19 +79,28 @@ export default function CustomNavbar({
             className="w-fit min-w-[150px]"
             label={
               <Avatar alt="User settings" img={myAccount.image} rounded={true}>
-                <div className="space-y-1 font-medium text-primary dark:text-white text-start">
-                  {myAccount.title ||
-                    (myAccount.name && (
-                      <div className="text-sm text-description dark:text-gray-400">
-                        {myAccount.title || myAccount.name}
-                      </div>
-                    ))}
+                <div className="hidden md:flex flex-col">
+                  <div className="space-y-1 font-medium text-primary dark:text-white text-start">
+                    {myAccount.title ||
+                      (myAccount.name && (
+                        <div className="text-sm text-description dark:text-gray-400">
+                          {myAccount.title || myAccount.name}
+                        </div>
+                      ))}
+                  </div>
+                  <div>{shortenAddress(wallet.accounts[0].address)}</div>
                 </div>
-                <div>{shortenAddress(wallet.accounts[0].address)}</div>
               </Avatar>
             }
           >
             <Dropdown.Header>
+              {wallet && (
+                <span className="text-secondary font-bold">
+                  Balance: {formatNumber(
+                    Number(wallet?.accounts?.[0]?.balance?.BNB) || 0
+                  )} BNB
+                </span>
+              )}
               {myAccount.name && <span className="text-sm"></span>}
               {myAccount.email && (
                 <span className="block truncate text-sm font-medium">

@@ -111,7 +111,7 @@ export default function MonthlyPerformance({
       </div>
 
       <div className="overflow-x-auto w-full mt-3">
-        <table className="text-sm text-gray-500 dark:text-gray-400 whitespace-nowrap  text-center w-full">
+        <table className="text-sm text-gray-500 dark:text-gray-400 whitespace-nowrap  text-center w-full bg-white">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
               {MONTHS.slice(0, 6).map((month) => (
@@ -151,7 +151,7 @@ export default function MonthlyPerformance({
               {MONTHS.slice(6).map((month) => (
                 <th
                   scope="col"
-                  className="px-6 py-3"
+                  className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 py-3"
                   key={`performance-table-header-${month}`}
                 >
                   {month}

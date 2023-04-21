@@ -83,10 +83,10 @@ export default function VaultCreationReview() {
           newFundAddr.toLowerCase(),
           address,
           vaultMeta.category,
-          vaultMeta.imageFile
+          vaultMeta.imageFile,
+          vaultMeta.description
         );
         setShowSuccessModal(true);
-
       }
 
       dispatch(addFund(newFund));
@@ -125,6 +125,20 @@ export default function VaultCreationReview() {
           />
         </div>
         <div className="flex w-full flex-col mt-5 gap-4">
+          <div className="flex flex-col gap-2 flex-1">
+            <label
+              htmlFor=""
+              className="text-[10px] md:text-[12px] text-description"
+            >
+              Description
+            </label>
+            <input
+              className="text-title font-bold md:text-[16px] text-[14px] focus:border-[#333002] outline-none rounded-[12px] bg-white border-2 py-3 px-5 w-full"
+              value={vaultMeta.description}
+              type="text"
+              readOnly
+            />
+          </div>
           <div className="flex gap-3">
             <div className="flex flex-col gap-2 flex-1">
               <label

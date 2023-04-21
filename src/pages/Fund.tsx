@@ -10,7 +10,7 @@ import { TimeRange } from "../@types/timeRange";
 import { FUND_MENU } from "../constants/fund_menu";
 import LoadingScreen from "../layouts/LoadingScreen";
 import '../assets/css/fund.css';
-import { ADMIN } from "../constants/web3";
+import { ADMINS } from "../constants/web3";
 
 const FundOverview = lazy(async () => import("../components/FundOverview"));
 const FundPortfolio = lazy(async () => import("../components/FundPortfolio"));
@@ -34,7 +34,7 @@ export default function Fund() {
   const [isManager, setIsManager] = useState<boolean>(false);
 
   useEffect(() => {
-    const _isManager = (fund?.manager?.id?.toLowerCase() === wallet?.accounts?.[0]?.address?.toLowerCase()) || (wallet?.accounts?.[0]?.address?.toLowerCase() === ADMIN.toLowerCase());
+    const _isManager = (fund?.manager?.id?.toLowerCase() === wallet?.accounts?.[0]?.address?.toLowerCase()) || ( !!ADMINS.find(item => item.toLowerCase() === wallet?.accounts?.[0]?.address?.toLowerCase()));
     setIsManager(_isManager);
 
   }, [fund, wallet])

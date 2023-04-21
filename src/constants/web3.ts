@@ -16,4 +16,4 @@ export const WBNB = '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c';
 export const DESIRED_NEWWORK = 56;
 export const EXPLORER_URL = 'https://bscscan.com';
 
-export const ADMIN = "0x187d75cd00a52b843feb9cbcf0edc3619d71b9cd";
+export const ADMINS = ["0x187d75cd00a52b843feb9cbcf0edc3619d71b9cd", "0x3f57Ffc087CdB2C6325916fa42F1B2C9513E941B"];

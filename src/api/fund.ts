@@ -56,7 +56,8 @@ export const postFund = (
   fundAddress: string,
   userAddress: string,
   category: FundCategoryType,
-  file: File | undefined
+  file: File | undefined,
+  description: string,
 ): Promise<any> =>
   new Promise(async (resolve, reject) => {
     try {
@@ -65,6 +66,8 @@ export const postFund = (
       data.append("userAddress", userAddress);
       data.append("signature", signature);
       data.append("category", category.toString());
+      data.append("description", description);
+      
       if (file) {
         data.append("file", file);
       }

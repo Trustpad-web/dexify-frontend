@@ -35,7 +35,7 @@ export default function Tweets({ manager }: { manager: string }) {
       <h4 className="text-title text-[16px] md:text-[20px] font-bold mb-3">
         Manager Tweets
       </h4>
-      <div className="w-full max-h-screen overflow-y-auto">
+      <div className="w-full max-h-screen overflow-y-auto bg-white rounded-md h-fit min-h-[400px]">
         {loading && <TableRowSkeleton />}
         {!loading && tweets && tweets.length > 0 && (
           <ul className="">

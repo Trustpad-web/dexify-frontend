@@ -150,7 +150,7 @@ export default function FundPortfolio({
   return loading ? (
     <FundSkeleton />
   ) : (
-    <div className="flex gap-2 w-full flex-col md:flex-row">
+    <div className="flex gap-2 w-full flex-col ">
       <div className="flex-1 order-2 md:order-1">
         <div className="relative overflow-x-auto w-full">
           <Table hoverable={true} className="whitespace-nowrap">
@@ -246,11 +246,11 @@ export default function FundPortfolio({
           />
         </div>
       </div>
-      <div className="md:w-[400px] w-full h-[300px] order-1 md:order-2">
+      <div className="w-full h-[300px] order-1 md:order-2">
         <h4 className="text-title text-[18px] md:text-[24px] font-bold">
           Portfolio
         </h4>
-        <div className="rounded-[12px] bg-white w-full h-full">
+        <div className="rounded-[12px] bg-white w-full h-full shadow-md">
           <PortfolioChart
             data={assets.map((asset) => ({
               value: Number(asset.amount.toFixed(2)),

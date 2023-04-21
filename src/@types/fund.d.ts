@@ -44,6 +44,7 @@ export class FundOverview {
   id: string;
   name: string;
   image?: string;
+  description?: string;
   category?: FundCategoryType;
   accessor?: ComptrollerDto;
   creator?: FundUserDto;

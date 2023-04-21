@@ -17,12 +17,16 @@ export default function CreateVaultBasics() {
   const [imageFile, setImageFile] = useState<File | undefined>();
   const [imageUrl, setImageUrl] = useState<string>("");
   const imageFileRef = useRef<HTMLInputElement | null>(null);
-  const [fundType, setFundType] = useState<FundCategoryType>(FundCategoryType.ICON);
+  const [fundType, setFundType] = useState<FundCategoryType>(
+    FundCategoryType.ICON
+  );
+  const [description, setDescription] = useState<string>("");
 
   useEffect(() => {
     setFundName(vaultMeta.name);
     setImageUrl(vaultMeta.image);
     setFundType(vaultMeta.category);
+    setDescription(vaultMeta.description);
   }, [vaultMeta]);
 
   const handleDrag = function (e: React.DragEvent<HTMLDivElement>) {
@@ -86,7 +90,8 @@ export default function CreateVaultBasics() {
       image: imageUrl,
       imageFile,
       name: fundName,
-      category: fundType
+      category: fundType,
+      description: description
     });
     setCurrentStep(currentStep + 1);
   };
@@ -137,6 +142,19 @@ export default function CreateVaultBasics() {
           />
         </div>
       </div>
+      <div className="flex flex-col gap-2 w-full mt-5">
+        <label
+          htmlFor=""
+          className="text-[10px] md:text-[12px] text-description"
+        >
+          Description
+        </label>
+        <input
+          className="text-title font-bold md:text-[16px] text-[14px] focus:border-[#333002] outline-none rounded-[12px] bg-white border-2 py-3 px-5 w-full"
+          value={vaultMeta.description}
+          onChange={(e) => setDescription(e.target.value)}
+        />
+      </div>
       <div className="flex mt-5 gap-5">
         <div className="flex flex-col gap-2 flex-1">
           <label
@@ -145,7 +163,7 @@ export default function CreateVaultBasics() {
           >
             Fund Image
           </label>
-          <div className="account-avatar relative" onDragEnter={handleDrag}>
+          <div className="account-avatar relative bg-white rounded-md" onDragEnter={handleDrag}>
             {imageUrl !== "" && (
               <button
                 className="w-6 h-6 flex items-center justify-center rounded-full absolute right-[-10px] top-[-10px] z-[5] bg-bg-1 dark:bg-bg-1-dark shadow-lg"

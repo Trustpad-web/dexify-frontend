@@ -1,5 +1,5 @@
 import { useState, useEffect, Suspense, lazy } from "react";
-import { Button, Carousel, Spinner } from "flowbite-react";
+import { Button, Spinner } from "flowbite-react";
 import Select, { ItemType } from "../components/Select";
 import ChartSkeleton from "../components/Skeleton/ChartSkeleton";
 import { formatCurrency, formatNumber } from "../helpers";
@@ -9,7 +9,8 @@ import FundInvestedCard from "../components/FundInvestedCard";
 import FundSkeleton from "../components/Skeleton/FundSkeleton";
 import { useNavigate } from "react-router-dom";
 import TableRowSkeleton from "../components/Skeleton/TableRowSkeleton";
-import '../assets/css/home.css';
+import "../assets/css/home.css";
+import CustomCarousel from "../components/Carousel";
 
 const TradeActionTable = lazy(
   async () => import("../components/TradeActionTable")
@@ -135,29 +136,22 @@ export default function Manage() {
       {manager ? (
         <>
           <div className="mt-8">
-            <h5 className="text-title text-[16px] md:text-[20px] font-bold">
+            <h5 className="text-title text-[16px] md:text-[20px] font-bold mb-5">
               Funds Managed
             </h5>
-            <div className="w-[calc(100vw_-_20px)] md:w-[calc(100vw_-_320px_-_60px)] mt-5 md:pl-[20px]">
-              <Carousel
-                slideInterval={5000}
-                indicators={false}
-                className="top-funds-carousel"
-                leftControl={managedFunds.length > 0 ? <LeftControl /> : <></>}
-                rightControl={
-                  managedFunds.length > 0 ? <RightControl /> : <></>
-                }
-              >
-                {fundLoading
-                  ? [1, 2, 3, 4].map((item) => <FundSkeleton key={item} />)
-                  : managedFunds?.map((fund, index) => (
-                      <FundInvestedCard
-                        data={fund}
-                        key={`fund-overview-${index}`}
-                      />
-                    ))}
-              </Carousel>
-            </div>
+            <CustomCarousel
+              isLeftControlShow={managedFunds.length > 0}
+              isRightControlShow={managedFunds.length > 0}
+            >
+              {fundLoading
+                ? [1, 2, 3, 4].map((item) => <FundSkeleton key={item} />)
+                : managedFunds?.map((fund, index) => (
+                    <FundInvestedCard
+                      data={fund}
+                      key={`fund-overview-${index}`}
+                    />
+                  ))}
+            </CustomCarousel>
           </div>
           <div className="mt-8">
             <h5 className="text-title text-[16px] md:text-[20px] font-bold">

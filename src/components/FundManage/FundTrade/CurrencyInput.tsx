@@ -40,8 +40,8 @@ export default function CurrencyInput({
   };
 
   return (
-    <div className="flex flex-col w-full">
-      <div className="relative flex flex-col  mt-0 rounded-[12px] border-2 pt-[8px] pb-[20px] h-[80px] px-2">
+    <div className="flex flex-col w-full bg-white rounded-md">
+      <div className="relative flex flex-col  mt-0 rounded-[12px] shadow-sm pt-[8px] pb-[20px] h-[80px] px-2">
         <input
           type="number"
           className={

@@ -2,7 +2,7 @@ import { useState, useEffect, lazy, Suspense } from "react";
 import Select, { ItemType } from "../components/Select";
 import ChartSkeleton from "../components/Skeleton/ChartSkeleton";
 import { formatCurrency, formatNumber } from "../helpers";
-import { Button, Carousel, Spinner } from "flowbite-react";
+import { Button, Spinner } from "flowbite-react";
 import { HiOutlineChevronLeft, HiOutlineChevronRight } from "react-icons/hi";
 import FundSkeleton from "../components/Skeleton/FundSkeleton";
 import usePortfolio from "../hooks/usePortfolio";
@@ -10,7 +10,8 @@ import { useNavigate } from "react-router-dom";
 import { PerformanceData } from "../components/PerformanceChart";
 import FundInvestedCard from "../components/FundInvestedCard";
 import TableRowSkeleton from "../components/Skeleton/TableRowSkeleton";
-import '../assets/css/home.css';
+import "../assets/css/home.css";
+import CustomCarousel from "../components/Carousel";
 
 const PerformanceChart = lazy(
   async () => import("../components/PerformanceChart")
@@ -97,7 +98,7 @@ export default function Portfolio() {
             </div>
           )}
         </div>
-        <div className="bg-primary text-white p-8 rounded-[12px] flex flex-col gap-8 flex-1 mt-8 order-1 md:order-2 max-h-[300px]">
+        <div className="bg-primary text-white p-8 rounded-[12px] flex flex-col gap-8 flex-1 mt-5 md:mt-14 order-1 md:order-2 max-h-[200px]">
           <div className="flex w-full justify-between items-center">
             <span className="md:text-[16px] text-[14px] font-semibold text-primary_50">
               Total AUM
@@ -124,31 +125,22 @@ export default function Portfolio() {
       {investor ? (
         <>
           <div className="mt-8">
-            <h5 className="text-title text-[16px] md:text-[20px] font-bold">
+            <h5 className="text-title text-[16px] md:text-[20px] font-bold mb-5">
               Funds Invested
             </h5>
-            <div className="w-[calc(100vw_-_20px)] md:w-[calc(100vw_-_320px_-_60px)] mt-5 md:pl-[20px]">
-              <Carousel
-                slideInterval={5000}
-                indicators={false}
-                className="top-funds-carousel"
-                leftControl={
-                  investedFunds?.length > 0 ? <LeftControl /> : <></>
-                }
-                rightControl={
-                  investedFunds?.length > 0 ? <RightControl /> : <></>
-                }
-              >
-                {activityLoading
-                  ? [1, 2, 3, 4].map((item) => <FundSkeleton key={item} />)
-                  : investedFunds?.map((fund, index) => (
-                      <FundInvestedCard
-                        data={fund}
-                        key={`fund-overview-${index}`}
-                      />
-                    ))}
-              </Carousel>
-            </div>
+            <CustomCarousel
+              isLeftControlShow={investedFunds.length > 0}
+              isRightControlShow={investedFunds.length > 0}
+            >
+              {activityLoading
+                ? [1, 2, 3, 4].map((item) => <FundSkeleton key={item} />)
+                : investedFunds?.map((fund, index) => (
+                    <FundInvestedCard
+                      data={fund}
+                      key={`fund-overview-${index}`}
+                    />
+                  ))}
+            </CustomCarousel>
           </div>
           <div className="mt-8">
             <h5 className="text-title text-[16px] md:text-[20px] font-bold">

@@ -48,7 +48,7 @@
   @apply bg-primary text-white;
 }
 .active:hover {
-  @apply bg-primary
+  @apply bg-primary;
 }
 .active.filter-svg svg {
   fill: white;
@@ -72,13 +72,12 @@
 }
 
 [data-testid="flowbite-avatar"] img {
-  @apply ring-0
+  @apply ring-0;
 }
-
 
 /* width */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 0px;
   height: 6px;
 }
 
@@ -103,4 +102,10 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
 }
