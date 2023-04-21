@@ -65,4 +65,5 @@ export class FundMeta {
   address: string;
   image?: string;
   category: number;
+  description?: string;
 }

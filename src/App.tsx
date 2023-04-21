@@ -75,6 +75,9 @@ export default function App() {
               )
             }
             <Route path="/all-funds" element={<AllFunds />} />
+            <Route path="/index-funds" element={<AllFunds />} />
+            <Route path="/institution-funds" element={<AllFunds />} />
+            <Route path="/icon-funds" element={<AllFunds />} />
             <Route path="/fund/:id" element={<Fund />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>

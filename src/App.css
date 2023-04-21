@@ -66,9 +66,13 @@
   font-family: InterRegular;
   src: url("/src/assets/fonts/Inter-Regular.ttf");
 }
+@font-face {
+  font-family: Poppins;
+  src: url("/src/assets/fonts/Poppins-Regular.ttf");
+}
 
 * {
-  font-family: "InterRegular";
+  font-family: "Poppins";
 }
 
 [data-testid="flowbite-avatar"] img {

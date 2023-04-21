@@ -8,7 +8,8 @@ export type InvestedFund = {
   name: string,
   id: string,
   image?: string,
-  category: FundCategoryType
+  category: FundCategoryType,
+  description?: string,
 }
 const FundInvestedCard = ({ data }: { data: InvestedFund }) => {
   const num = Math.ceil(Math.random() * 1000) % 3;
@@ -28,7 +29,7 @@ const FundInvestedCard = ({ data }: { data: InvestedFund }) => {
       <div className="fund-info flex flex-col w-[80%] mt-[-60px] rounded-[12px] bg-white  p-[8px]  min-h-[130px]">
         <h4 className="text-title font-bold text-[16px] mb-0">{data.name}</h4>
         <span className="text-description font-medium text-[12px]">
-          {"The top 10 projects in crypto"}
+        {data.description}
         </span>
         <div className="fund-detail mt-auto flex justify-between items-center">
           <div className="flex flex-col">

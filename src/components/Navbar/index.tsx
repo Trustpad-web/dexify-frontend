@@ -9,6 +9,7 @@ import {
   getMyAccount,
   setMyAccountAsDefault,
 } from "../../store/slices/accountSlice";
+import usePageTitle from "../../hooks/usePageTitle";
 
 export default function CustomNavbar({
   onClickToggle,
@@ -19,6 +20,8 @@ export default function CustomNavbar({
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const myAccount = useAppSelector((state) => state.account.user);
+  const pageTitle = usePageTitle();
+
   // Wallet connection
   const [{ wallet, connecting }, connect, disconnect] = useConnectWallet();
   const handleSignout = () => {
@@ -64,6 +67,10 @@ export default function CustomNavbar({
         />
       </Navbar.Brand>
 
+      <h3 className="text-title font-bold text-[16px] md:text-[20px]">
+        {pageTitle}
+      </h3>
+
       <div className="flex md:order-2 ml-auto mr-3">
         {/* <div className="mr-5 items-center mb-0 flex hidden md:flex">
           <DarkModeSwitch
@@ -96,9 +103,11 @@ export default function CustomNavbar({
             <Dropdown.Header>
               {wallet && (
                 <span className="text-secondary font-bold">
-                  Balance: {formatNumber(
+                  Balance:{" "}
+                  {formatNumber(
                     Number(wallet?.accounts?.[0]?.balance?.BNB) || 0
-                  )} BNB
+                  )}{" "}
+                  BNB
                 </span>
               )}
               {myAccount.name && <span className="text-sm"></span>}

@@ -9,23 +9,17 @@ import TableRowSkeleton from "../components/Skeleton/TableRowSkeleton";
 import { PAGE_SIZE } from "../constants";
 import { FundOverview } from "../@types";
 import { HiChevronDown, HiChevronUp } from "react-icons/hi";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import CustomBreadcrumbs from "../components/Breadcrumbs";
-
-const pathData = [
-  {
-    title: "Home",
-    href: "/",
-  },
-  {
-    title: "All Funds",
-    href: "",
-  },
-];
+import { BreadCrumbPath } from "../components/Breadcrumbs";
+import { FundCategoryType } from "../components/CreateVaultBasics/categories";
 
 export default function AllFunds() {
   const matches = useMediaQuery("(max-width: 768px)");
   const navigate = useNavigate();
+  const location = useLocation();
+  const [pathData, setPathData] = useState<BreadCrumbPath[]>([]);
+  const [category, setCategory] = useState<number>(-1);
 
   const { data: totalFunds, loading } = useAppSelector(
     (state) => state.allFunds
@@ -50,27 +44,53 @@ export default function AllFunds() {
             return sortData.direction === "desc" ? -1 : 1;
           }
         case "aum":
-          return sortData.direction === "desc" ? (b.aum || 0) - (a.aum || 0) : (a.aum || 0) - (b.aum || 0);
+          return sortData.direction === "desc"
+            ? (b.aum || 0) - (a.aum || 0)
+            : (a.aum || 0) - (b.aum || 0);
         case "changes":
           return sortData.direction === "desc"
-            ? calcChanges(b.aum || 0, b.aum1WAgo || 0) - calcChanges(a.aum || 0, a.aum1WAgo || 0)
-            : calcChanges(a.aum || 0, a.aum1WAgo || 0) - calcChanges(b.aum || 0, b.aum1WAgo || 0);
+            ? calcChanges(b.aum || 0, b.aum1WAgo || 0) -
+                calcChanges(a.aum || 0, a.aum1WAgo || 0)
+            : calcChanges(a.aum || 0, a.aum1WAgo || 0) -
+                calcChanges(b.aum || 0, b.aum1WAgo || 0);
         default:
-          return sortData.direction === "desc" ? (b.aum || 0) - (a.aum || 0) : (a.aum || 0) - (b.aum || 0);
+          return sortData.direction === "desc"
+            ? (b.aum || 0) - (a.aum || 0)
+            : (a.aum || 0) - (b.aum || 0);
       }
     },
     [sortData]
   );
 
   useEffect(() => {
+    switch (location.pathname) {
+      case "/all-funds":
+        setCategory(-1);
+        break;
+      case "/index-funds":
+        setCategory(FundCategoryType.INDEX);
+        break;
+      case "/institution-funds":
+        setCategory(FundCategoryType.INSTITUTION);
+        break;
+      case "/icon-funds":
+        setCategory(FundCategoryType.ICON);
+        break;
+    }
+  }, [location.pathname]);
+
+  useEffect(() => {
     if (totalFunds && totalFunds.length > 0 && sortFunction && setFunds) {
-      const _funds = [...totalFunds];
+      const _funds = totalFunds.filter((item) =>
+        category === -1 ? true : item.category === category
+      );
+
       _funds.sort(sortFunction);
       setFunds(
         _funds.slice((pageNumber - 1) * PAGE_SIZE, pageNumber * PAGE_SIZE)
       );
     }
-  }, [pageNumber, totalFunds, sortFunction, setFunds]);
+  }, [pageNumber, totalFunds, sortFunction, setFunds, category]);
 
   const onPageChange = useCallback(
     (page: number) => {
@@ -98,10 +118,41 @@ export default function AllFunds() {
     }
   };
 
+  useEffect(() => {
+    const path = [{ title: "Home", href: "/" }];
+    switch (category) {
+      case -1:
+        path.push({
+          title: "All Funds",
+          href: "",
+        });
+        break;
+      case FundCategoryType.INDEX:
+        path.push({
+          title: "Index Funds",
+          href: "",
+        });
+        break;
+      case FundCategoryType.INSTITUTION:
+        path.push({
+          title: "Institution Funds",
+          href: "",
+        });
+        break;
+      case FundCategoryType.ICON:
+        path.push({
+          title: "Icon Funds",
+          href: "",
+        });
+        break;
+    }
+    setPathData(path);
+  }, [category]);
+
   return (
     <div className="relative overflow-x-auto w-full">
       <CustomBreadcrumbs path={pathData} />
-      <Table hoverable={true} className="whitespace-nowrap">
+      <Table hoverable={true} className="whitespace-nowrap mt-3 md:mt-5">
         <Table.Head>
           {all_fund_table_fields.map((field) => (
             <Table.HeadCell
@@ -164,7 +215,10 @@ export default function AllFunds() {
                         : "text-danger")
                     }
                   >
-                    {formatNumber(calcChanges(fund?.aum|| 0, fund?.aum1WAgo || 0))}%
+                    {formatNumber(
+                      calcChanges(fund?.aum || 0, fund?.aum1WAgo || 0)
+                    )}
+                    %
                   </span>
                 </Table.Cell>
                 <Table.Cell>
