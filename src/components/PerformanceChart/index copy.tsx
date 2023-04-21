@@ -1,6 +1,4 @@
 import {
-  Area,
-  AreaChart,
   Bar,
   BarChart,
   ReferenceLine,
@@ -59,26 +57,10 @@ export default function PerformanceChart({
     return null;
   };
 
-  const gradientOffset = () => {
-    const dataMax = Math.max(...data.map((i) => i.performanceBips));
-    const dataMin = Math.min(...data.map((i) => i.performanceBips));
-
-    if (dataMax <= 0) {
-      return 0;
-    }
-    if (dataMin >= 0) {
-      return 1;
-    }
-    
-    return dataMax / (dataMax - dataMin);
-  };
-
-  const off = gradientOffset();
-
   return (
     <div className="w-full h-[200px] md:h-[300px] overflow-x-auto">
       <ResponsiveContainer width="100%" minWidth={320} height="100%">
-        <AreaChart
+        <BarChart
           width={matches ? 320 : 500}
           height={300}
           data={data}
@@ -90,9 +72,9 @@ export default function PerformanceChart({
           }}
         >
           <defs>
-            <linearGradient id="splitColor" x1="0" y1="0" x2="0" y2="1">
-              <stop offset={off} stopColor="#CB6CE6" stopOpacity={1} />
-              <stop offset={off} stopColor="#8C52FF" stopOpacity={1} />
+            <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="3%" stopColor="#8C52FF" stopOpacity={0.9} />
+              <stop offset="97%" stopColor="#8C52FF" stopOpacity={0.3} />
             </linearGradient>
           </defs>
           <XAxis
@@ -104,13 +86,12 @@ export default function PerformanceChart({
           {/* @ts-ignore */}
           <Tooltip content={<CustomTooltip />} />
           <ReferenceLine y={0} stroke="#8C52FF00" />
-          <Area
-            type="monotone"
+          <Bar
             dataKey="performanceBips"
-            stroke="#8C52FF"
-            fill="url(#splitColor)"
+            fill="url(#colorUv)"
+            barSize={matches ? 10 : 24}
           />
-        </AreaChart>
+        </BarChart>
       </ResponsiveContainer>
     </div>
   );
