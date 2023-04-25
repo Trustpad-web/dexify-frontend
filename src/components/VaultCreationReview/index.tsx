@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { Button, Spinner } from "flowbite-react";
+import { Button, Spinner, TextInput } from "flowbite-react";
 import { NewVaultContext } from "../../pages/CreateVault";
 import { HiOutlineChevronLeft, HiOutlineChevronRight } from "react-icons/hi";
 import { Token } from "../../@types/token";
@@ -16,6 +16,14 @@ import backendAPI from "../../api";
 import { signMessage } from "../../helpers/web3";
 import useProvider from "../../hooks/useProvider";
 import categories, { FundCategoryType } from "../CreateVaultBasics/categories";
+import {
+  EntranceFeeTooltipText,
+  ManagementFeeTooltipText,
+  PerformanceFeeTooltipText,
+  TimeLockTooltipText,
+} from "../../constants";
+import CustomTooltip from "../Tooltip";
+import { getTokenInfo } from "../../helpers";
 
 export default function VaultCreationReview() {
   const { setCurrentStep, setVaultMeta, vaultMeta, currentStep } =
@@ -53,8 +61,8 @@ export default function VaultCreationReview() {
     const { feeArgsData, policyArgsData } = prepareFundData(
       vaultMeta?.entryFee,
       vaultMeta?.performanceFee,
-      vaultMeta?.minDepositAmount,
-      vaultMeta.maxDepositAmount
+      vaultMeta?.managementFee,
+      vaultMeta?.minDepositAmount
     );
     const { newFundAddr, newComptrollerAddr } = await createNewFund(
       wallet?.accounts?.[0]?.address,
@@ -132,11 +140,11 @@ export default function VaultCreationReview() {
             >
               Description
             </label>
-            <input
+            <textarea
               className="text-title font-bold md:text-[16px] text-[14px] focus:border-[#333002] outline-none rounded-[12px] bg-white border-2 py-3 px-5 w-full"
               value={vaultMeta.description}
-              type="text"
               readOnly
+              maxLength={150}
             />
           </div>
           <div className="flex gap-3">
@@ -178,7 +186,7 @@ export default function VaultCreationReview() {
               </label>
               <label
                 htmlFor={`denominationAsset_${asset?.address}`}
-                className="flex flex-1 gap-2 items-center min-w-[80px] w-full shadow-md px-5 py-3 rounded-[12px]"
+                className="flex flex-1 gap-2 items-center bg-white min-w-[80px] w-full shadow-sm px-5 py-3 rounded-[12px]"
               >
                 <img
                   src={asset?.logoURI}
@@ -198,28 +206,52 @@ export default function VaultCreationReview() {
             <div className="flex flex-col gap-2 flex-1">
               <label
                 htmlFor=""
-                className="text-[10px] md:text-[12px] text-description"
+                className="text-[10px] md:text-[12px] text-description flex items-center gap-1"
               >
                 Entry Fee
+                <CustomTooltip title="" content={EntranceFeeTooltipText} />
               </label>
-              <input
-                className="text-title font-bold md:text-[16px] text-[14px] focus:border-[#333002] outline-none rounded-[12px] bg-white border-2 py-3 px-5 w-full"
+              <TextInput
+                id="entryfee"
+                placeholder="0.25"
+                addon="%"
                 value={vaultMeta.entryFee}
-                type="text"
                 readOnly
+                className="text-title font-bold md:text-[16px] text-[14px] focus:border-[#333002] outline-none rounded-[12px] bg-white border-2 w-full shadow-none"
               />
             </div>
             <div className="flex flex-col gap-2 flex-1">
               <label
                 htmlFor=""
-                className="text-[10px] md:text-[12px] text-description"
+                className="text-[10px] md:text-[12px] text-description flex items-center gap-1"
               >
                 Performance Fee
+                <CustomTooltip title="" content={PerformanceFeeTooltipText} />
               </label>
-              <input
-                className="text-title font-bold md:text-[16px] text-[14px] focus:border-[#333002] outline-none rounded-[12px] bg-white border-2 py-3 px-5 w-full"
-                value={vaultMeta.performanceFee}
+              <TextInput
+                id="entryfee"
+                placeholder="0.25"
+                addon="%"
                 readOnly
+                value={vaultMeta.performanceFee}
+                className="text-title font-bold md:text-[16px] text-[14px] focus:border-[#333002] outline-none rounded-[12px] bg-white border-2 w-full shadow-none"
+              />
+            </div>
+            <div className="flex flex-col gap-2 flex-1">
+              <label
+                htmlFor=""
+                className="text-[10px] md:text-[12px] text-description flex items-center gap-1"
+              >
+                Management Fee
+                <CustomTooltip title="" content={ManagementFeeTooltipText} />
+              </label>
+              <TextInput
+                id="entryfee"
+                placeholder="0.25"
+                addon="%"
+                readOnly
+                value={vaultMeta.managementFee}
+                className="text-title font-bold md:text-[16px] text-[14px] focus:border-[#333002] outline-none rounded-[12px] bg-white border-2 w-full shadow-none"
               />
             </div>
           </div>
@@ -231,33 +263,28 @@ export default function VaultCreationReview() {
               >
                 Minimum Deposit
               </label>
-              <input
-                className="text-title font-bold md:text-[16px] text-[14px] focus:border-[#333002] outline-none rounded-[12px] bg-white border-2 py-3 px-5 w-full"
+              <TextInput
+                id="asset-logo"
+                placeholder="1"
+                addon={
+                  <img
+                    className="w-[24px] h-auto"
+                    src={getTokenInfo(vaultMeta.denominationAsset)?.logoURI}
+                  />
+                }
                 value={vaultMeta.minDepositAmount}
-                type="text"
                 readOnly
-              />
-            </div>
-            <div className="flex flex-col gap-2 flex-1">
-              <label
-                htmlFor=""
-                className="text-[10px] md:text-[12px] text-description"
-              >
-                Maximum Deposit
-              </label>
-              <input
-                className="text-title font-bold md:text-[16px] text-[14px] focus:border-[#333002] outline-none rounded-[12px] bg-white border-2 py-3 px-5 w-full"
-                value={vaultMeta.maxDepositAmount}
-                readOnly
+                className="text-title font-bold md:text-[16px] text-[14px] focus:border-[#333002] outline-none rounded-[12px] bg-white border-2 w-full shadow-none"
               />
             </div>
           </div>
           <div className="flex flex-col gap-2 flex-1">
             <label
               htmlFor=""
-              className="text-[10px] md:text-[12px] text-description"
+              className="text-[10px] md:text-[12px] text-description flex items-center gap-1"
             >
               Time lock (s)
+              <CustomTooltip title="" content={TimeLockTooltipText} />
             </label>
             <input
               className="text-title font-bold md:text-[16px] text-[14px] focus:border-[#333002] outline-none rounded-[12px] bg-white border-2 py-3 px-5 w-full"

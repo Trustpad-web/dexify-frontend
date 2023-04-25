@@ -19,8 +19,8 @@ export class FundDto extends FundOverview {
 type Monthly = {
   year: number,
   month: number,
-  aumChangeBips: number,
-  sharePriceChangeBips: number
+  aumChangeBips: number | undefined,
+  sharePriceChangeBips: number | undefined
 }
 
 export class FundOverviewWithHistoryResponse extends FundOverview {

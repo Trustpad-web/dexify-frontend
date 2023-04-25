@@ -16,7 +16,7 @@ export type VaultMetaData = {
   entryFee: number;
   performanceFee: number;
   minDepositAmount: number;
-  maxDepositAmount: number;
+  managementFee: number;
   timelock: number;
   denominationAsset: string;
 };
@@ -28,10 +28,10 @@ const initialVaultMetaData: VaultMetaData = {
   symbol: "DXFY",
   image: "",
   imageFile: undefined,
-  entryFee: 0,
-  performanceFee: 0,
-  minDepositAmount: 0,
-  maxDepositAmount: 0,
+  entryFee: 0.25,
+  performanceFee: 0.25,
+  minDepositAmount: 1,
+  managementFee: 0.25,
   timelock: 0,
   denominationAsset: "0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56",
 };

@@ -1,14 +1,14 @@
 import { resolveArguments } from '@enzymefinance/ethers';
-import { BigNumber } from '@ethersproject/bignumber';
+import { BigNumber, BigNumberish } from '@ethersproject/bignumber';
 import { parseEther, parseUnits } from '@ethersproject/units';
 import { utils } from 'ethers';
-import { entranceRateDirectFee, performanceFee as performanceFeeJSON, minMaxInvestment } from '../web3/abi';
+import { entranceRateDirectFee, performanceFee as performanceFeeJSON, minMaxInvestment, managementFee as managementFeeJSON } from '../web3/abi';
 
 export const prepareFundData = (
   entryFee: number,
   performanceFee: number,
+  managementFee: number,
   minimumInvestment: number,
-  maximumInvestment: number,
   decimals?: number
 ) => {
   const feeManagerSettingsData = []; // value configurations
@@ -19,8 +19,15 @@ export const prepareFundData = (
     feeManagerSettingsData.push(getEntranceRateFeeConfigArgs(entryFee));
   }
 
-  fees.push(performanceFeeJSON.address);
-  feeManagerSettingsData.push(getPerformanceFees(performanceFee));
+  if (performanceFee) {
+    fees.push(performanceFeeJSON.address);
+    feeManagerSettingsData.push(getPerformanceFees(performanceFee));
+  }
+
+  if (managementFee) {
+    fees.push(managementFeeJSON.address);
+    feeManagerSettingsData.push(managementFeeConfigArgs(managementFee))
+  }
 
   /// PREPARE FEE CONFIGURATIONS DATA
   const feeArgsData = getFeesManagerConfigArgsData(
@@ -36,7 +43,7 @@ export const prepareFundData = (
   policyManagerSettingsData.push(
     getMinMaxDepositPolicyArgs(
       parseUnits(minimumInvestment.toString(), decimals),
-      parseUnits(maximumInvestment.toString(), decimals),
+      parseUnits(Number.MAX_SAFE_INTEGER.toString(), decimals),
     ),
   );
   const policyArgsData = getPolicyArgsData(policies, policyManagerSettingsData);
@@ -47,6 +54,10 @@ export const prepareFundData = (
   };
 };
 
+export function managementFeeConfigArgs(rateFee: number) {
+  const rate = parseEther((rateFee / 100).toString());
+  return encodeArgs(['uint256'], [rate]);
+}
 /**
  * Rate is  number representing a 1%
  */

@@ -19,6 +19,7 @@ const PerformanceChart = lazy(
 const UserActionTable = lazy(
   async () => import("../components/UserActionTable")
 );
+const MonthlyPerformance = lazy(async () => import('../components/FundOverview/MonthlyPerformance'));
 
 export default function Portfolio() {
   const {
@@ -40,13 +41,13 @@ export default function Portfolio() {
   );
   const navigate = useNavigate();
 
-  const [chartData, setChartData] = useState<PerformanceData[]>([]);
+  // const [chartData, setChartData] = useState<PerformanceData[]>([]);
 
-  useEffect(() => {
-    setChartData(
-      (roiHistory || [])?.filter((roi) => roi.year === selectedYear)
-    );
-  }, [roiHistory, selectedYear]);
+  // useEffect(() => {
+  //   setChartData(
+  //     (roiHistory || [])?.filter((roi) => roi.year === selectedYear)
+  //   );
+  // }, [roiHistory, selectedYear]);
 
   useEffect(() => {
     const startYear = new Date(investorSince * 1000).getUTCFullYear();
@@ -70,7 +71,7 @@ export default function Portfolio() {
     <div className="">
       <div className="flex w-full gap-8  flex-col md:flex-row">
         <div className="w-full md:w-[55%] order-2 md:order-1">
-          <div className="flex justify-between">
+          {/* <div className="flex justify-between">
             <h5 className="text-title text-[16px] md:text-[20px] font-bold">
               Your Portfolio
             </h5>
@@ -81,17 +82,24 @@ export default function Portfolio() {
                 onChange={handleYearSelected}
               />
             )}
-          </div>
+          </div> */}
           {investor && (
             <div className="w-full mt-5 rounded-[12px] bg-white p-3 ">
               {roiLoading ? (
                 <ChartSkeleton />
               ) : (
                 <Suspense fallback={<ChartSkeleton />}>
-                  <PerformanceChart
+                  {/* <PerformanceChart
                     isPercent={true}
                     tooltipPrefix="ROI"
                     data={chartData}
+                  /> */}
+                  <MonthlyPerformance
+                    data={roiHistory.map((item) => ({
+                        ...item,
+                        aumChangeBips: item.performanceBips / 100,
+                        sharePriceChangeBips: item.performanceBips === 0 ? undefined : item.performanceBips / 100,
+                      }))}
                   />
                 </Suspense>
               )}

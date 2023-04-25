@@ -1,8 +1,11 @@
 import { useContext, useEffect, useState } from "react";
-import { Button } from "flowbite-react";
+import { Button, TextInput } from "flowbite-react";
+import Tooltip from '../Tooltip';
 import { NewVaultContext } from "../../pages/CreateVault";
-import { HiOutlineChevronLeft, HiOutlineChevronRight } from "react-icons/hi";
+import { HiOutlineChevronLeft, HiOutlineChevronRight, HiOutlineInformationCircle } from "react-icons/hi";
 import notification from "../../helpers/notification";
+import { EntranceFeeTooltipText, ManagementFeeTooltipText, PerformanceFeeTooltipText, TimeLockTooltipText } from "../../constants";
+import { getTokenInfo } from "../../helpers";
 
 export default function VaultCreationFinancials() {
   const { setCurrentStep, setVaultMeta, vaultMeta, currentStep } =
@@ -10,25 +13,21 @@ export default function VaultCreationFinancials() {
 
   const [entryFee, setEntryFee] = useState<number>(0);
   const [performanceFee, setPerformanceFee] = useState<number>(0);
+  const [managementFee, setManagementFee] = useState<number>(0);
   const [minDepositAmount, setMinDepositAmount] = useState<number>(0);
-  const [maxDepositAmount, setMaxDepositAmount] = useState<number>(0);
   const [timelock, setTimelock] = useState<number>(0);
 
   useEffect(() => {
     setEntryFee(vaultMeta.entryFee);
     setPerformanceFee(vaultMeta.performanceFee);
     setMinDepositAmount(vaultMeta.minDepositAmount);
-    setMaxDepositAmount(vaultMeta.maxDepositAmount);
+    setManagementFee(vaultMeta.managementFee);
     setTimelock(vaultMeta.timelock);
   }, [vaultMeta]);
 
   const onNextClick = () => {
-    if (!entryFee || !performanceFee) {
-      notification.warning("Validation Error", "Fee should be greater than 0");
-      return;
-    }
-    if (maxDepositAmount < minDepositAmount || !maxDepositAmount) {
-      notification.warning("Validation Error", "MAX value is not correct");
+    if (!minDepositAmount) {
+      notification.warning("Validation Error", "MIN deposit value is not correct");
       return;
     }
     
@@ -36,28 +35,25 @@ export default function VaultCreationFinancials() {
       ...vaultMeta,
       entryFee,
       performanceFee,
+      managementFee,
       minDepositAmount,
-      maxDepositAmount,
       timelock,
     });
     setCurrentStep(currentStep + 1);
   };
 
   const onPrevClick = () => {
-    if (!entryFee || !performanceFee) {
-      notification.warning("Validation Error", "Fee should be greater than 0");
+    if (!minDepositAmount) {
+      notification.warning("Validation Error", "MIN deposit value is not correct");
       return;
     }
-    if (maxDepositAmount < minDepositAmount || !maxDepositAmount) {
-      notification.warning("Validation Error", "MAX value is not correct");
-      return;
-    }
+
     setVaultMeta({
       ...vaultMeta,
       entryFee,
       performanceFee,
+      managementFee,
       minDepositAmount,
-      maxDepositAmount,
       timelock,
     });
     setCurrentStep(currentStep - 1);
@@ -72,31 +68,53 @@ export default function VaultCreationFinancials() {
           <div className="flex flex-col gap-2 flex-1">
             <label
               htmlFor=""
-              className="text-[10px] md:text-[12px] text-description"
+              className="text-[10px] md:text-[12px] text-description flex items-center gap-1"
             >
               Entry Fee
+              <Tooltip title="" content={EntranceFeeTooltipText} />
             </label>
-            <input
-              className="text-title font-bold md:text-[16px] text-[14px] focus:border-[#333002] outline-none rounded-[12px] bg-white border-2 py-3 px-5 w-full"
+            <TextInput
+              id="entryfee"
+              placeholder="0.25"
+              addon="%"
               value={entryFee}
-              type="number"
-              placeholder="0.025%"
-              onChange={(e) => setEntryFee(Number(e.target.value))}
+              onChange={e => setEntryFee(Number(e.target.value))}
+              className="text-title font-bold md:text-[16px] text-[14px] focus:border-[#333002] outline-none rounded-[12px] bg-white border-2 w-full shadow-none"
+            />
+            
+          </div>
+          <div className="flex flex-col gap-2 flex-1">
+            <label
+              htmlFor=""
+              className="text-[10px] md:text-[12px] text-description flex items-center gap-1"
+            >
+              Performance Fee
+              <Tooltip title="" content={PerformanceFeeTooltipText} />
+            </label>
+            <TextInput
+              id="performanceFee"
+              placeholder="0.25"
+              addon="%"
+              value={performanceFee}
+              onChange={e => setPerformanceFee(Number(e.target.value))}
+              className="text-title font-bold md:text-[16px] text-[14px] focus:border-[#333002] outline-none rounded-[12px] bg-white border-2 w-full shadow-none"
             />
           </div>
           <div className="flex flex-col gap-2 flex-1">
             <label
               htmlFor=""
-              className="text-[10px] md:text-[12px] text-description"
+              className="text-[10px] md:text-[12px] text-description flex items-center gap-1"
             >
-              Performance Fee
+              Management Fee
+              <Tooltip title="" content={ManagementFeeTooltipText} />
             </label>
-            <input
-              className="text-title font-bold md:text-[16px] text-[14px] focus:border-[#333002] outline-none rounded-[12px] bg-white border-2 py-3 px-5 w-full"
-              value={performanceFee}
-              type="number"
-              placeholder="0.25%"
-              onChange={(e) => setPerformanceFee(Number(e.target.value))}
+            <TextInput
+              id="managementFee"
+              placeholder="0.25"
+              addon="%"
+              value={managementFee}
+              onChange={e => setManagementFee(Number(e.target.value))}
+              className="text-title font-bold md:text-[16px] text-[14px] focus:border-[#333002] outline-none rounded-[12px] bg-white border-2 w-full shadow-none"
             />
           </div>
         </div>
@@ -108,36 +126,24 @@ export default function VaultCreationFinancials() {
             >
               Mininum Deposit
             </label>
-            <input
-              className="text-title font-bold md:text-[16px] text-[14px] focus:border-[#333002] outline-none rounded-[12px] bg-white border-2 py-3 px-5 w-full"
-              value={minDepositAmount}
-              type="number"
+            <TextInput
+              id="asset-logo"
               placeholder="1"
-              onChange={(e) => setMinDepositAmount(Number(e.target.value))}
+              addon={<img className="w-[24px] h-auto" src={getTokenInfo(vaultMeta.denominationAsset)?.logoURI} />}
+              value={minDepositAmount}
+              onChange={e => setMinDepositAmount(Number(e.target.value))}
+              className="text-title font-bold md:text-[16px] text-[14px] focus:border-[#333002] outline-none rounded-[12px] bg-white border-2 w-full shadow-none"
             />
           </div>
-          <div className="flex flex-col gap-2 flex-1">
-            <label
-              htmlFor=""
-              className="text-[10px] md:text-[12px] text-description"
-            >
-              Maximum Deposit
-            </label>
-            <input
-              className="text-title font-bold md:text-[16px] text-[14px] focus:border-[#333002] outline-none rounded-[12px] bg-white border-2 py-3 px-5 w-full"
-              value={maxDepositAmount}
-              type="number"
-              placeholder="100,000"
-              onChange={(e) => setMaxDepositAmount(Number(e.target.value))}
-            />
-          </div>
+          
         </div>
         <div className="flex flex-col gap-2 flex-1">
           <label
             htmlFor=""
-            className="text-[10px] md:text-[12px] text-description"
+            className="text-[10px] md:text-[12px] text-description flex items-center gap-1"
           >
             Time lock (s)
+            <Tooltip title="" content={TimeLockTooltipText} />
           </label>
           <input
             className="text-title font-bold md:text-[16px] text-[14px] focus:border-[#333002] outline-none rounded-[12px] bg-white border-2 py-3 px-5 w-full"

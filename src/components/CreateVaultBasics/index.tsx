@@ -149,10 +149,11 @@ export default function CreateVaultBasics() {
         >
           Description
         </label>
-        <input
+        <textarea
           className="text-title font-bold md:text-[16px] text-[14px] focus:border-[#333002] outline-none rounded-[12px] bg-white border-2 py-3 px-5 w-full"
-          value={vaultMeta.description}
+          value={description}
           onChange={(e) => setDescription(e.target.value)}
+          maxLength={150}
         />
       </div>
       <div className="flex mt-5 gap-5">

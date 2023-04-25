@@ -21,17 +21,28 @@ export default function useManagements() {
         ) || 0) / totalAUM
       : 0;
 
+  let startSharePrice = 0, initialized = false;
   const startYear = new Date().getUTCFullYear();
   const startMonth = new Date().getUTCMonth();
   const chartData = holdingHistory?.map((item) => {
+    if (item.aum && !initialized) {
+      startSharePrice = item.sharePrice;
+      initialized = true;
+    }
+
     if (startYear === item.year && startMonth === item.month) {
+      const sharePrice = item.aum ? (totalAUM / item.aum) * item.sharePrice : 0;
       return {
         ...item,
         aum: totalAUM,
-        sharePrice: item.aum ? (totalAUM / item.aum) * item.sharePrice : 0,
+        sharePrice: sharePrice,
+        sharePriceBips: startSharePrice ? (sharePrice - startSharePrice) / startSharePrice : undefined
       };
     } else {
-      return item;
+      return {
+        ...item,
+        sharePriceBips: startSharePrice ? (item.sharePrice - startSharePrice) / startSharePrice : undefined
+      };
     }
   }) || [];
 

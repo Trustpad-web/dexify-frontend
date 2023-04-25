@@ -19,6 +19,9 @@ const PerformanceChart = lazy(
   async () => import("../components/PerformanceChart")
 );
 
+const MonthlyPerformance = lazy(async () => import('../components/FundOverview/MonthlyPerformance'));
+
+
 export default function Manage() {
   const {
     managedFunds,
@@ -60,7 +63,7 @@ export default function Manage() {
     <div className="">
       <div className="flex w-full gap-8  flex-col md:flex-row">
         <div className="w-full md:w-[55%] order-2 md:order-1">
-          <div className="flex justify-between">
+          {/* <div className="flex justify-between">
             <h5 className="text-title text-[16px] md:text-[20px] font-bold">
               Your Manager Performance
             </h5>
@@ -71,14 +74,14 @@ export default function Manage() {
                 onChange={handleYearSelected}
               />
             )}
-          </div>
+          </div> */}
           {manager && (
             <div className="w-full mt-5 rounded-[12px] bg-white p-3 ">
               {fundLoading ? (
                 <ChartSkeleton />
               ) : (
                 <Suspense fallback={<ChartSkeleton />}>
-                  <PerformanceChart
+                  {/* <PerformanceChart
                     tooltipPrefix="Share Price"
                     isPercent={false}
                     data={chartData
@@ -87,7 +90,13 @@ export default function Manage() {
                         ...item,
                         performanceBips: item.sharePrice,
                       }))}
-                  />
+                  /> */}
+                  <MonthlyPerformance data={chartData
+                      .map((item) => ({
+                        ...item,
+                        aumChangeBips: item.sharePriceBips,
+                        sharePriceChangeBips: item.sharePriceBips,
+                      }))} />
                 </Suspense>
               )}
             </div>

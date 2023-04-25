@@ -100,7 +100,7 @@ export default function MonthlyPerformance({
   return (
     <div className="w-full">
       <div className="flex justify-between items-center w-full">
-        <h3 className="text-title text-[24px] dark:text-white font-bold">
+        <h3 className="text-title text-[16px] md:text-[20px] dark:text-white font-bold">
           Performance
         </h3>
         <Select
