@@ -247,8 +247,8 @@ export default function FundOverview({
                       {manager?.title || manager?.name}
                     </div>
                   ) : (
-                    <div className="text-title text-[16px] md:text-[20px]">
-                      {manager?.id}
+                    <div className="text-title text-[10px] md:text-[12px]">
+                      {fundDetail?.manager?.id}
                     </div>
                   )}
                   {manager?.bio && (
