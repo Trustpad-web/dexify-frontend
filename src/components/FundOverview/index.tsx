@@ -225,7 +225,7 @@ export default function FundOverview({
       </div>
       <div className="flex gap-10 flex-col md:flex-row mt-5">
         <div className="w-full md:w-[60%] order-2 md:order-1">
-          {/* <Strategy fundDetail={fundDetail} loading={loading} /> */}
+          <Strategy fundDetail={fundDetail} loading={loading} />
         </div>
         <div className="flex flex-col flex-1 gap-6 order-1 md:order-2">
           <div className="my-5 ">

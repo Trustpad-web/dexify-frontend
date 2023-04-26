@@ -37,6 +37,9 @@ export class FundOverviewWithHistoryResponse extends FundOverview {
   timeHistory?: number[];
 
   monthlyStates?: Monthly[];
+
+  sharpeRatio?: number;
+  volatility?: number;
 }
 
 
