@@ -6,6 +6,8 @@ import { Button } from "flowbite-react";
 import notification from "../../helpers/notification";
 import Select from "../Select";
 import categories, { FundCategoryType } from "./categories";
+import CustomTooltip from "../Tooltip";
+import { DescriptionTooltipText, FundImageTooltipText } from "../../constants";
 export default function CreateVaultBasics() {
   const { setCurrentStep, setVaultMeta, vaultMeta, currentStep } =
     useContext(NewVaultContext);
@@ -145,9 +147,10 @@ export default function CreateVaultBasics() {
       <div className="flex flex-col gap-2 w-full mt-5">
         <label
           htmlFor=""
-          className="text-[10px] md:text-[12px] text-description"
+          className="text-[10px] md:text-[12px] text-description flex items-center gap-1"
         >
           Description
+          <CustomTooltip title="" content={DescriptionTooltipText} />
         </label>
         <textarea
           className="text-title font-bold md:text-[16px] text-[14px] focus:border-[#333002] outline-none rounded-[12px] bg-white border-2 py-3 px-5 w-full"
@@ -160,9 +163,10 @@ export default function CreateVaultBasics() {
         <div className="flex flex-col gap-2 flex-1">
           <label
             htmlFor=""
-            className="text-[10px] md:text-[12px] text-description"
+            className="text-[10px] md:text-[12px] text-description flex items-center gap-1"
           >
             Fund Image
+            <CustomTooltip title="" content={FundImageTooltipText} />
           </label>
           <div className="account-avatar relative bg-white rounded-md" onDragEnter={handleDrag}>
             {imageUrl !== "" && (

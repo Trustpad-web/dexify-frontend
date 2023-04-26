@@ -14,7 +14,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
     setCollapsed(!collapsed);
   };
   return (
-    <div className="flex justify-center w-full bg-[#f2e9f5bf] md:py-2">
+    <div className="flex justify-center w-full bg-[#f2e9f5bf] md:py-2 h-screen">
       <div className="flex w-full max-w-[1536px] md:gap-[20px] rounded-md h-fit">
         <CustomSidebar collapsed={collapsed} hide={() => setCollapsed(true)} />
         <div className="app-layout border-2 flex flex-col flex-1 border-none dark:bg-gray-800 overflow-y-auto  overflow-x-hidden h-screen">

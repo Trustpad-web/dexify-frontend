@@ -17,8 +17,10 @@ import { signMessage } from "../../helpers/web3";
 import useProvider from "../../hooks/useProvider";
 import categories, { FundCategoryType } from "../CreateVaultBasics/categories";
 import {
+  DescriptionTooltipText,
   EntranceFeeTooltipText,
   ManagementFeeTooltipText,
+  MinInvestmentTooltipText,
   PerformanceFeeTooltipText,
   TimeLockTooltipText,
 } from "../../constants";
@@ -136,9 +138,10 @@ export default function VaultCreationReview() {
           <div className="flex flex-col gap-2 flex-1">
             <label
               htmlFor=""
-              className="text-[10px] md:text-[12px] text-description"
+              className="text-[10px] md:text-[12px] text-description flex items-center gap-1"
             >
               Description
+              <CustomTooltip title="" content={DescriptionTooltipText} />
             </label>
             <textarea
               className="text-title font-bold md:text-[16px] text-[14px] focus:border-[#333002] outline-none rounded-[12px] bg-white border-2 py-3 px-5 w-full"
@@ -259,9 +262,10 @@ export default function VaultCreationReview() {
             <div className="flex flex-col gap-2 flex-1">
               <label
                 htmlFor=""
-                className="text-[10px] md:text-[12px] text-description"
+                className="text-[10px] md:text-[12px] text-description flex items-center gap-1"
               >
                 Minimum Deposit
+                <CustomTooltip title="" content={MinInvestmentTooltipText} />
               </label>
               <TextInput
                 id="asset-logo"

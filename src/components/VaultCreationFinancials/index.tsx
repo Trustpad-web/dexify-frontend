@@ -4,7 +4,7 @@ import Tooltip from '../Tooltip';
 import { NewVaultContext } from "../../pages/CreateVault";
 import { HiOutlineChevronLeft, HiOutlineChevronRight, HiOutlineInformationCircle } from "react-icons/hi";
 import notification from "../../helpers/notification";
-import { EntranceFeeTooltipText, ManagementFeeTooltipText, PerformanceFeeTooltipText, TimeLockTooltipText } from "../../constants";
+import { EntranceFeeTooltipText, ManagementFeeTooltipText, MinInvestmentTooltipText, PerformanceFeeTooltipText, TimeLockTooltipText } from "../../constants";
 import { getTokenInfo } from "../../helpers";
 
 export default function VaultCreationFinancials() {
@@ -77,6 +77,7 @@ export default function VaultCreationFinancials() {
               id="entryfee"
               placeholder="0.25"
               addon="%"
+              type="number"
               value={entryFee}
               onChange={e => setEntryFee(Number(e.target.value))}
               className="text-title font-bold md:text-[16px] text-[14px] focus:border-[#333002] outline-none rounded-[12px] bg-white border-2 w-full shadow-none"
@@ -95,6 +96,7 @@ export default function VaultCreationFinancials() {
               id="performanceFee"
               placeholder="0.25"
               addon="%"
+              type="number"
               value={performanceFee}
               onChange={e => setPerformanceFee(Number(e.target.value))}
               className="text-title font-bold md:text-[16px] text-[14px] focus:border-[#333002] outline-none rounded-[12px] bg-white border-2 w-full shadow-none"
@@ -111,6 +113,7 @@ export default function VaultCreationFinancials() {
             <TextInput
               id="managementFee"
               placeholder="0.25"
+              type="number"
               addon="%"
               value={managementFee}
               onChange={e => setManagementFee(Number(e.target.value))}
@@ -122,9 +125,10 @@ export default function VaultCreationFinancials() {
           <div className="flex flex-col gap-2 flex-1">
             <label
               htmlFor=""
-              className="text-[10px] md:text-[12px] text-description"
+              className="text-[10px] md:text-[12px] text-description flex items-center gap-1"
             >
               Mininum Deposit
+              <Tooltip title="" content={MinInvestmentTooltipText} />
             </label>
             <TextInput
               id="asset-logo"
