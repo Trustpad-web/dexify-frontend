@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+import { BigNumber, ethers } from "ethers";
 
 export const decodePolicyConfigData = (configData: string) => {
   const abiCoder = ethers.utils.defaultAbiCoder;
@@ -17,13 +17,33 @@ export const decodeFeeConfigData = (configData: string) => {
     configData
   );
 
+  let entryFeeArg, performanceFeeArg;
 
-  const entryFeeArg = feeArgs[0];
-  const performanceFeeArg = feeArgs[1];
+  if (feeArgs[0].length > feeArgs[1].length) {
+    entryFeeArg = feeArgs[1];
+    performanceFeeArg = feeArgs[0];
+  } else {
+    entryFeeArg = feeArgs[0];
+    performanceFeeArg = feeArgs[1];
+  }
+  
+  console.log("FeeArg: ", entryFeeArg, performanceFeeArg, feeArgs)
 
-  const [entryFee] = abiCoder.decode(["uint256"], entryFeeArg);
-
-  const [performanceFee, period] = abiCoder.decode(["uint256", "uint256"], performanceFeeArg);
+  let entryFee, performanceFee;
+  try {
+    const [_entryFee] = abiCoder.decode(["uint256"], entryFeeArg);
+    console.log("entryFee: ", _entryFee, _entryFee.toString())
+    entryFee = _entryFee;
+  } catch {
+    entryFee = BigNumber.from(0);
+  }
+  try {
+    const [_performanceFee, period] = abiCoder.decode(["uint256", "uint256"], performanceFeeArg);
+    console.log("performanceFee: ", _performanceFee);
+    performanceFee = _performanceFee;
+  } catch {
+    performanceFee = BigNumber.from(0);
+  }
 
   return {entryFee, performanceFee};
 }

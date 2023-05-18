@@ -61,6 +61,8 @@ export const useInvest = (fundAddr: string) => {
 
         const comptrollerLabContract = getComptrollerLibContract(accessorAddr);
         if (!comptrollerLabContract) throw new Error("Not found Fund");
+
+        console.log("buy shares: ", amount, typeof amount === 'number');
         const buySharesTx = await comptrollerLabContract.buyShares(
           [account],
           typeof amount === "number" ? [parseEther(String(amount))] : [amount],
