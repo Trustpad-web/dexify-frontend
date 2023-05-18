@@ -17,19 +17,21 @@ export const decodeFeeConfigData = (configData: string) => {
     configData
   );
 
-  let entryFeeArg, performanceFeeArg;
+  let entryFeeArg, performanceFeeArg, managementFeeArg;
 
-  if (feeArgs[0].length > feeArgs[1].length) {
-    entryFeeArg = feeArgs[1];
-    performanceFeeArg = feeArgs[0];
+  if (feeArgs?.[0]?.length > feeArgs?.[1]?.length) {
+    entryFeeArg = feeArgs?.[1];
+    performanceFeeArg = feeArgs?.[0];
+    managementFeeArg = feeArgs?.[2];
   } else {
-    entryFeeArg = feeArgs[0];
-    performanceFeeArg = feeArgs[1];
+    entryFeeArg = feeArgs?.[0];
+    performanceFeeArg = feeArgs?.[1];
+    managementFeeArg = feeArgs?.[2];
   }
-  
-  console.log("FeeArg: ", entryFeeArg, performanceFeeArg, feeArgs)
 
-  let entryFee, performanceFee;
+  console.log("FeeArg: ", entryFeeArg, performanceFeeArg, managementFeeArg)
+
+  let entryFee, performanceFee, managementFee;
   try {
     const [_entryFee] = abiCoder.decode(["uint256"], entryFeeArg);
     console.log("entryFee: ", _entryFee, _entryFee.toString())
@@ -45,7 +47,20 @@ export const decodeFeeConfigData = (configData: string) => {
     performanceFee = BigNumber.from(0);
   }
 
-  return {entryFee, performanceFee};
+  if (managementFeeArg) {
+    try {
+      const [_managementFee] = abiCoder.decode(["uint256"], managementFeeArg);
+      console.log("managementFee: ", _managementFee);
+      managementFee = _managementFee;
+    } catch {
+      managementFee = BigNumber.from(0);
+    }
+  } else {
+    managementFee = BigNumber.from(0);
+  }
+  
+
+  return {entryFee, performanceFee, managementFee};
 }
 
 export const isValidAddress = (addr: string | undefined | null) => {

@@ -18,6 +18,9 @@ export default function FundFee({ id }: { id: string }) {
   const [performanceFee, setPerformanceFee] = useState<BigNumber>(
     BigNumber.from(0)
   );
+  const [managementFee, setManagementFee] = useState<BigNumber>(
+    BigNumber.from(0)
+  );
   const [minInvestAmount, setMinInvestAmount] = useState<BigNumber>(
     BigNumber.from(0)
   );
@@ -44,11 +47,12 @@ export default function FundFee({ id }: { id: string }) {
         setMinInvestAmount(min);
         setMaxInvestAmount(max);
         // Decode fee config data
-        const { entryFee, performanceFee } =
+        const { entryFee, performanceFee, managementFee } =
           decodeFeeConfigData(feeManagerConfigData);
 
         setEntryFee(entryFee);
         setPerformanceFee(performanceFee);
+        setManagementFee(managementFee);
         } catch (err) {
           console.log("fund fee parse error: ", err);
         }
@@ -98,6 +102,22 @@ export default function FundFee({ id }: { id: string }) {
                 %
               </span>
             </div>
+            {/* <div className="flex w-full  p-3 justify-between items-center">
+              <span className="text-description text-[14px] md:text-[16px] font-medium">
+                Management Fee
+              </span>
+              <span className="text-primary text-[16px] md:text-[20px] font-bold">
+                {formatNumber(
+                  Number(
+                    utils.formatUnits(
+                      managementFee.mul(100),
+                      Number(denominationAsset?.decimals || 18)
+                    )
+                  )
+                )}
+                %
+              </span>
+            </div> */}
           </div>
           <h4 className="my-5 text-title text-[18px] md:text-[24px] font-bold">
             Policies
